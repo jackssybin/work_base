@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <meta charset="utf-8">
+    <title>空白页--uv统计平台</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta http-equiv="Access-Control-Allow-Origin" content="*">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+
+</head>
+<body class="main_body">
+<form class="layui-form" style="width:80%;margin-top: 2%;">
+    <input type="text" th:value="${phoneNum}"  id="phoneNum">
+    <input type="text" th:value="${productId}"  id="productId">
+    <input type="text" th:value="${productUrl}"  id="productUrl">
+</form>
+<script type="text/javascript" th:src="@{/static/admin/js/mobile-detect.min.js}"></script>
+<script>
+    var md = new MobileDetect(window.navigator.userAgent);
+    console.log( md.mobile() );          // 'Sony'   手机型号
+    console.log( md.phone() );           // 'Sony'
+    console.log( md.tablet() );          // null
+    console.log( md.userAgent() );       // 'Safari'    浏览器型号
+    console.log( md.os() );              // 'AndroidOS'  操作系统
+    console.log( md.is('iPhone') );      // false
+    console.log( md.is('bot') );         // false
+    console.log( md.version('Webkit') );         // 534.3
+    console.log( md.versionStr('Build') );       // '4.1.A.0.562'
+    console.log( md.match('playstation|xbox') ); // false
+
+
+</script>
+</body>
+</html>
