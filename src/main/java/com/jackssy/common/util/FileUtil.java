@@ -1,5 +1,8 @@
 package com.jackssy.common.util;
 
+import com.jackssy.admin.excel.config.ExcelException;
+
+import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
@@ -112,7 +115,7 @@ public class FileUtil {
             try (FileWriter writer = new FileWriter(writeName);
                  BufferedWriter out = new BufferedWriter(writer)
             ) {
-                for(int i= 0;i<1000000;i++){
+                for(int i= 0;i<400000;i++){
                     out.write(getPhoneLen(String.valueOf(i))); // \r\n即为换行
                 }
                 out.flush(); // 把缓存区内容压入文件
@@ -131,6 +134,22 @@ public class FileUtil {
         sb.append(num);
         sb.append("\r\n");
         return sb.toString();
+    }
+
+    public static OutputStream getOutputStream(String fileName, HttpServletResponse response) {
+        //创建本地文件
+        String filePath = fileName + ".txt";
+        File dbfFile = new File(filePath);
+        try {
+            if (!dbfFile.exists() || dbfFile.isDirectory()) {
+                dbfFile.createNewFile();
+            }
+            fileName = new String(filePath.getBytes(), "ISO-8859-1");
+            response.addHeader("Content-Disposition", "filename=" + fileName);
+            return response.getOutputStream();
+        } catch (IOException e) {
+            throw new ExcelException("创建文件失败！");
+        }
     }
 
     public static void main(String args[]) {

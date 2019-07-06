@@ -10,6 +10,8 @@ public interface BzProductShortService extends IService<BzProductShort> {
 
     String getProductName(Integer productId);
 
+    Integer getProductCount(Integer productId);
+
 
 //    void batchShortUrl();
 }

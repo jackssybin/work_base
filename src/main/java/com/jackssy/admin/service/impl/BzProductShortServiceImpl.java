@@ -4,12 +4,13 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.jackssy.admin.entity.BzProductMobile;
 import com.jackssy.admin.entity.BzProductShort;
+import com.jackssy.admin.enumtype.ProductStatusEnum;
 import com.jackssy.admin.mapper.BzProductShortMapper;
 import com.jackssy.admin.service.BzProductMobileService;
 import com.jackssy.admin.service.BzProductShortService;
 import com.jackssy.admin.thread.BatchGetShortUrlThread;
 import com.jackssy.admin.thread.BatchInsertThread;
-import com.jackssy.admin.thread.JdbcUtilThread;
+import com.jackssy.admin.thread.JdbcInsertUtilThread;
 import com.jackssy.common.util.FileUtil;
 import com.jackssy.common.util.ShortenUrl;
 import org.slf4j.Logger;
@@ -56,13 +57,15 @@ public class BzProductShortServiceImpl extends
 
     private static int THREAD_COUNT=40;
     private static int THREAD_SHORT_URL_COUNT=100;
-    private static ExecutorService threadPool = Executors.newFixedThreadPool(40);
+    private static ExecutorService threadPool = Executors.newFixedThreadPool(20);
 
     @Override
     public void batchTest(BzProductShort bzProductShort) {
         logger.info("异步线程开始执行");
         List<String> phoneList = FileUtil.readPhoneList("");
         CountDownLatch countDownLatch = new CountDownLatch(THREAD_COUNT);
+        bzProductShort.setStatus(ProductStatusEnum.RUNNING.getCode());
+        saveOrUpdate(bzProductShort);
         int countAll =phoneList.size();
         if(countAll>THREAD_COUNT){
             logger.info("线程池执行");
@@ -71,11 +74,13 @@ public class BzProductShortServiceImpl extends
             logger.info("单线程执行");
             singleThreadRun(bzProductShort,  phoneList);
         }
+        bzProductShort.setStatus(ProductStatusEnum.DONE.getCode());
+        saveOrUpdate(bzProductShort);
     }
 
     @Override
     public String getProductUrl(Integer productId) {
-        if(productUrlMap.contains(productId)){
+        if(productUrlMap.containsKey(productId)){
             return productUrlMap.get(productId).getProductUrl();
         }
         BzProductShort bzProductShort =getProductByProductId(productId);
@@ -88,7 +93,7 @@ public class BzProductShortServiceImpl extends
 
     @Override
     public String getProductName(Integer productId) {
-        if(productUrlMap.contains(productId)){
+        if(productUrlMap.containsKey(productId)){
             return productUrlMap.get(productId).getProdctName();
         }
         BzProductShort bzProductShort =getProductByProductId(productId);
@@ -99,6 +104,22 @@ public class BzProductShortServiceImpl extends
 
         return "产品名称";
     }
+
+    @Override
+    public Integer getProductCount(Integer productId) {
+        if(productUrlMap.containsKey(productId)){
+            return productUrlMap.get(productId).getPhoneCount();
+        }
+        BzProductShort bzProductShort =getProductByProductId(productId);
+        if(null!=bzProductShort){
+            productUrlMap.put(productId,bzProductShort);
+            return bzProductShort.getPhoneCount();
+        }
+
+        return 0;
+    }
+
+
     public BzProductShort getProductByProductId(Integer productId){
         QueryWrapper<BzProductShort> queryWrapper =new QueryWrapper();
         BzProductShort bzProductShort = new BzProductShort();
@@ -138,7 +159,7 @@ public class BzProductShortServiceImpl extends
             logger.info("组合数据用时：" + (timeEnd - timeStart) / 1000 + " 秒");
             for (List<BzProductMobile> listdetail : productMap.values()) {
 //                threadPool.execute(new BatchInsertThread(countDownLatch, productMobileService,  listdetail));
-                threadPool.execute(new JdbcUtilThread(countDownLatch,   listdetail,url,user,password));
+                threadPool.execute(new JdbcInsertUtilThread(countDownLatch,   listdetail,url,user,password));
             }
             countDownLatch.await();
             long endTime = System.currentTimeMillis();

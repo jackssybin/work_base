@@ -18,15 +18,23 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
 
     @Override
     public void insertFill(MetaObject metaObject) {
-        setFieldValByName("createDate", new Date(), metaObject);
-        setFieldValByName("createId", MySysUser.id(), metaObject);
-        setFieldValByName("updateDate", new Date(), metaObject);
-        setFieldValByName("updateId", MySysUser.id(), metaObject);
+        try {
+            setFieldValByName("createDate", new Date(), metaObject);
+            setFieldValByName("createId", MySysUser.id(), metaObject);
+            setFieldValByName("updateDate", new Date(), metaObject);
+            setFieldValByName("updateId", MySysUser.id(), metaObject);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void updateFill(MetaObject metaObject) {
-        setFieldValByName("updateDate", new Date(), metaObject);
-        setFieldValByName("updateId", MySysUser.id(), metaObject);
+        try {
+            setFieldValByName("updateDate", new Date(), metaObject);
+            setFieldValByName("updateId", MySysUser.id(), metaObject);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

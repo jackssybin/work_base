@@ -1,4 +1,4 @@
-package com.jackssy.admin.entity.vo;
+package com.jackssy.admin.enumtype;
 
 public enum ProductStatusEnum {
     CREATED(0,"已创建"),

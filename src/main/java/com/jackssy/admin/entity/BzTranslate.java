@@ -6,7 +6,6 @@ public class BzTranslate {
 
     private Integer productId;
     private String phoneNumber;
-    private Double pvNumber;
     private Integer clickNumber;
     private String mobileSystem;
     private String mobileVersion;
@@ -27,14 +26,6 @@ public class BzTranslate {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
-    }
-
-    public Double getPvNumber() {
-        return pvNumber;
-    }
-
-    public void setPvNumber(Double pvNumber) {
-        this.pvNumber = pvNumber;
     }
 
     public Integer getClickNumber() {
@@ -82,7 +73,6 @@ public class BzTranslate {
         return "BzTranslate{" +
                 "productId=" + productId +
                 ", phoneNumber='" + phoneNumber + '\'' +
-                ", pvNumber=" + pvNumber +
                 ", clickNumber=" + clickNumber +
                 ", mobileSystem='" + mobileSystem + '\'' +
                 ", mobileVersion='" + mobileVersion + '\'' +

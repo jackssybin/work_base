@@ -20,8 +20,8 @@ import java.util.concurrent.atomic.LongAdder;
 /**
  */
 //@Component
-public class JdbcUtilThread  implements Runnable{
-    private final static Logger logger = LoggerFactory.getLogger(JdbcUtilThread.class);
+public class JdbcInsertUtilThread implements Runnable{
+    private final static Logger logger = LoggerFactory.getLogger(JdbcInsertUtilThread.class);
 
     //"jdbc:mysql://localhost:3306/statics_base?serverTimezone=GMT%2B8&characterEncoding=UTF-8&useSSL=false";
     @Value("${spring.datasource.url}")
@@ -42,8 +42,8 @@ public class JdbcUtilThread  implements Runnable{
     List<BzProductMobile> list=new ArrayList<>();
     CountDownLatch latch ;
 
-    public JdbcUtilThread(CountDownLatch latch,
-                          List<BzProductMobile> list,String url,String user,String password) {
+    public JdbcInsertUtilThread(CountDownLatch latch,
+                                List<BzProductMobile> list, String url, String user, String password) {
         this.list = list;
         this.latch = latch;
         this.url=url;
@@ -90,9 +90,9 @@ public class JdbcUtilThread  implements Runnable{
                     ps.setDate(4,new java.sql.Date(System.currentTimeMillis()));
                     ps.addBatch();
                 }
-                ps.executeBatch();
-                conn.commit();
             }
+            ps.executeBatch();
+            conn.commit();
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -121,7 +121,7 @@ public class JdbcUtilThread  implements Runnable{
         for (int i = 0; i < threadNum; i++) {
             threadPool.execute(() -> {
                 try {
-//                    JdbcUtilThread.executeBatch();
+//                    JdbcInsertUtilThread.executeBatch();
                 } catch (Exception e) {
                     System.out.println("插入数据异常");
                 } finally {

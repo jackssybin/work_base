@@ -15,24 +15,14 @@
 </head>
 <body class="main_body">
 <form class="layui-form" style="width:80%;margin-top: 2%;">
-    <input type="text" th:value="${phoneNum}"  id="phoneNum">
+    <input type="text" th:value="${phoneNumber}"  id="phoneNumber">
     <input type="text" th:value="${productId}"  id="productId">
     <input type="text" th:value="${productUrl}"  id="productUrl">
 </form>
+<script type="text/javascript" th:src="@{/static/layui/layui.js}"></script>
 <script type="text/javascript" th:src="@{/static/admin/js/mobile-detect.min.js}"></script>
+<script type="text/javascript" th:src="@{/static/admin/js/blank.js}"></script>
 <script>
-    var md = new MobileDetect(window.navigator.userAgent);
-    console.log( md.mobile() );          // 'Sony'   手机型号
-    console.log( md.phone() );           // 'Sony'
-    console.log( md.tablet() );          // null
-    console.log( md.userAgent() );       // 'Safari'    浏览器型号
-    console.log( md.os() );              // 'AndroidOS'  操作系统
-    console.log( md.is('iPhone') );      // false
-    console.log( md.is('bot') );         // false
-    console.log( md.version('Webkit') );         // 534.3
-    console.log( md.versionStr('Build') );       // '4.1.A.0.562'
-    console.log( md.match('playstation|xbox') ); // false
-
 
 </script>
 </body>

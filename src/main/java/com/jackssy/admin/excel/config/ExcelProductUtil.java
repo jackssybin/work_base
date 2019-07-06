@@ -48,11 +48,11 @@ public class ExcelProductUtil {
         List<List<Object>> object = new ArrayList<List<Object>>();
         for (int i = 0; i < 1000; i++) {
             List<Object> da = new ArrayList<Object>();
-            da.add("字符串"+i);
-            da.add(Long.valueOf(187837834L+i));
-            da.add(Integer.valueOf(2233+i));
-            da.add(Double.valueOf(2233.00+i));
-            da.add(Float.valueOf(2233.0f+i));
+            da.add("158"+i);
+            da.add("http://www.baidu.com/"+i);
+            da.add("http://www.baidu.com/"+i);
+            da.add("http://www.baidu.com/"+i);
+            da.add("http://www.baidu.com/"+i);
             object.add(da);
         }
 

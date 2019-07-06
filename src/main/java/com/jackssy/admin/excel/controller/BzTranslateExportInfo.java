@@ -12,16 +12,14 @@ public class BzTranslateExportInfo extends BaseRowModel {
     @ExcelProperty(value = "手机号" ,index = 1)
     private String phoneNumber;
     @ExcelProperty(value = "pv" ,index = 2)
-    private Double pvNumber;
-    @ExcelProperty(value = "点击次数" ,index = 3)
     private Integer clickNumber;
-    @ExcelProperty(value = "手机系统" ,index = 4)
+    @ExcelProperty(value = "手机系统" ,index = 3)
     private String mobileSystem;
-    @ExcelProperty(value = "手机浏览器版本" ,index = 5)
+    @ExcelProperty(value = "手机浏览器版本" ,index = 4)
     private String mobileVersion;
-    @ExcelProperty(value = "手机品牌" ,index = 6)
+    @ExcelProperty(value = "手机品牌" ,index = 5)
     private String mobileBrand;
-    @ExcelProperty(value = "点击时间" ,index = 7)
+    @ExcelProperty(value = "点击时间" ,index = 6)
     private Date gmtCreate;
 
     public String getProductName() {
@@ -40,13 +38,6 @@ public class BzTranslateExportInfo extends BaseRowModel {
         this.phoneNumber = phoneNumber;
     }
 
-    public Double getPvNumber() {
-        return pvNumber;
-    }
-
-    public void setPvNumber(Double pvNumber) {
-        this.pvNumber = pvNumber;
-    }
 
     public Integer getClickNumber() {
         return clickNumber;
@@ -93,7 +84,6 @@ public class BzTranslateExportInfo extends BaseRowModel {
         return "BzTranslateExportInfo{" +
                 "productName=" + productName +
                 ", phoneNumber='" + phoneNumber + '\'' +
-                ", pvNumber=" + pvNumber +
                 ", clickNumber=" + clickNumber +
                 ", mobileSystem='" + mobileSystem + '\'' +
                 ", mobileVersion='" + mobileVersion + '\'' +
