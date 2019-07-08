@@ -24,8 +24,17 @@ layui.use(['form','jquery','layer'],function(){
             cache:false,
             processData:false,
             contentType:false,
-            success:function(data){
-               alert(data)
+            success:function(res){
+                layer.close(loadIndex);
+                if(res.success){
+                    parent.layer.msg("用户添加成功!",{time:1500},function(){
+                        //刷新父页面
+                        parent.location.reload();
+                    });
+                }else{
+                    layer.msg(res.message);
+                }
+
             }
         });
 
