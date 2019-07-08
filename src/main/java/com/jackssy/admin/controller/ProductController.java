@@ -62,6 +62,14 @@ public class ProductController {
         Map map = WebUtils.getParametersStartingWith(request, "s_");
         PageData<BzProductShort> userPageData = new PageData<>();
         QueryWrapper<BzProductShort> userWrapper = new QueryWrapper<>();
+        if(!map.isEmpty()){
+            String keys = (String) map.get("key");
+            if(StringUtils.isNotBlank(keys)) {
+                userWrapper.and(wrapper ->
+                        wrapper.like("prodct_name", keys)
+                );
+            }
+        }
 
         IPage<BzProductShort> userPage = productShortService.page(new Page<>(page,limit),userWrapper);
         userPageData.setCount(userPage.getTotal());

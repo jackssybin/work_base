@@ -19,14 +19,16 @@ layui.use(['layer','form','table'], function() {
         },
         width: $(parent.window).width()-223,
         cols: [[
+            {type:'checkbox'},
             {field:'productId', title: '产品id', width:'10%'},
             {field:'prodctName',  title: '产品名称',    width:'10%'},
             {field:'productUrl',     title: '静态链接',    width:'16%' },
+            {field:'phoneCount',  title: '手机号数量',    width:'10%'},
             {field:'status',       title: '状态',    width:'12%',templet:function (d) {
                     if(0==d.status){
                        return "已创建";
                     }else if(1==d.status){
-                        return "已创建";
+                        return "跑批中";
                     }else{
                         return "已完成"
                     }
@@ -81,9 +83,44 @@ layui.use(['layer','form','table'], function() {
             layer.full(addIndex);
         },
         exportProductTxt : function(){
-            var productIds=$("#productIds").val()
-            var url ="/uv/writeProductTxt?productIds="+productIds;
-            $('<form method="get" action="' + url + '"></form>').appendTo('body').submit().remove();
+            var checkStatus = table.checkStatus('userTable'),
+                data = checkStatus.data;
+            if(data.length > 0){
+                console.log(data)
+                var productIds=$("#productIds").val()
+                if(!productIds){
+                    productIds="";
+                    var phoneCount=0;
+                    for(var i=0 ;i<data.length ;i++){
+                        productIds+=data[i].productId+","
+                        if(i==0){
+                            phoneCount=data[i].phoneCount
+                        }
+                        if(0==phoneCount){
+                            layer.msg("传入的产品手机号数量为空，无法导出",{time:1000});
+                            return;
+                        }
+                        if(phoneCount!=data[i].phoneCount){
+                            layer.msg("传入的产品手机号数量不匹配，无法导出",{time:1000});
+                            return;
+                        }
+
+                    }
+                    productIds=productIds.substr(0,productIds.length-1);
+                    console.log("productIds:"+productIds)
+                }
+
+                var url ="/uv/writeProductTxt?productIds="+productIds;
+                // $('<form method="get" action="' + url + '"></form>').appendTo('body').submit().remove();
+                // window.location.href=url;
+                var dom=document.getElementById('ifile');
+                dom.src=url;
+
+            }else{
+                layer.msg("请选择需要导出的产品",{time:1000});
+            }
+
+
         },
     };
 

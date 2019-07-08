@@ -84,17 +84,6 @@ public class BzProductMobileServiceImpl extends
         }
         try {
             latch.await();
-            int phoneNumCount=productMap.get(productIdArray[0]).size();
-            if(productMap.size()>1){
-                for(List<BzProductMobile> list:productMap.values()){
-                    if(list.size()!=phoneNumCount){
-                        logger.info("传入的产品手机号数量不匹配，无法导出");
-                        response.setCharacterEncoding("utf-8");
-                        response.getWriter().write("<script>传入的产品手机号数量不匹配，无法导出</script>");
-                        return null;
-                    }
-                }
-            }
 
             for(Integer productId:productIdArray){
                 logger.info("productId,list:{}",productId,productMap.get(productId).size());

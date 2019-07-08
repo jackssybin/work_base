@@ -56,10 +56,10 @@ public class StaticsController {
 
     @RequestMapping(value="/{phoneNumber}/{productId}",method= RequestMethod.GET)
     public String toBrowser(ModelMap map,
-                            @PathVariable("phoneNumber") String  phoneNum,
+                            @PathVariable("phoneNumber") String  phoneNumber,
                             @PathVariable("productId") Integer productId){
-        logger.info("phoneNumber:{},productId:{}",phoneNum,productId);
-        map.put("phoneNumber",phoneNum);
+        logger.info("phoneNumber:{},productId:{}",phoneNumber,productId);
+        map.put("phoneNumber",phoneNumber);
         map.put("productId",productId);
         map.put("productUrl",productShortService.getProductUrl(productId));
         return "admin/blank";
@@ -112,7 +112,7 @@ public class StaticsController {
         String productIds=request.getParameter("productIds");
         if(StringUtils.isEmpty(productIds)){
             response.setCharacterEncoding("utf-8");
-            response.getWriter().write("<script>产品信息不能为空</script>");
+            response.getWriter().write("<script>alert('产品信息不能为空')</script>");
             return ;
         }
         logger.info("downloadTxt param:{}",productIds);
@@ -121,12 +121,34 @@ public class StaticsController {
         for(int i=0 ;i<productIdTemp.length ;i++){
             productIdArray[i]=Integer.parseInt(productIdTemp[i]);
         }
+
+        int phoneNumCount=productShortService.getProductCount(productIdArray[0]);
+        if(phoneNumCount==0){
+            logger.info("传入的产品手机号数量为空，无法导出");
+            response.setCharacterEncoding("utf-8");
+            response.getWriter().write("<script>alert('传入的产品手机号数量为空，无法导出')</script>");
+            return ;
+        }
+        if(productIdArray.length>1){
+            for(int j =1; j<productIdArray.length ;j++){
+                if(phoneNumCount!=productShortService.getProductCount(productIdArray[j])){
+                    logger.info("传入的产品手机号数量不匹配，无法导出");
+                    response.setCharacterEncoding("utf-8");
+                    response.getWriter().write("<script>alert('传入的产品手机号数量不匹配，无法导出')</script>");
+                    return ;
+                }
+            }
+        }
+
 //        productIdArray=new Integer[]{999,111};
         long beginTime =System.currentTimeMillis();
         Map<String,String> productExtMap= productMobileService.getProductExtMap(response, productIdArray);
-        productMobileService.exportProductExtTxt(response, productIds,  productExtMap);
-        long endTime =System.currentTimeMillis();
-        logger.info("下载数据:{},用时：{} 秒 ",productIds, (endTime - beginTime) / 1000);
+        if(null!=productExtMap){
+            productMobileService.exportProductExtTxt(response, productIds,  productExtMap);
+            long endTime =System.currentTimeMillis();
+            logger.info("下载数据:{},用时：{} 秒 ",productIds, (endTime - beginTime) / 1000);
+        }
+
     }
 
     @RequestMapping(value = "testTranslate", method = RequestMethod.GET)

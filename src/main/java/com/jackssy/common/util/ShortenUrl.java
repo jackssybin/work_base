@@ -71,11 +71,11 @@ public class ShortenUrl {
         return test(longUrl);
     }
 
-    public static String getFixShortUrl(String longUrl,String productId,String phoneNum){
+    public static String getFixShortUrl(String longUrl,String productId,String phoneNumber){
         if(StringUtils.isEmpty(longUrl)){
-            longUrl="https://qap.qdingnet.com/account/login?extid="+productId+phoneNum;
+            longUrl="https://localhost:8088/uv/{phoneNumber}/{productId}";
         }
-        longUrl=longUrl.replace("{phoneNum}",phoneNum);
+        longUrl=longUrl.replace("{phoneNumber}",phoneNumber);
         longUrl=longUrl.replace("{productId}",productId);
         return test(longUrl);
     }

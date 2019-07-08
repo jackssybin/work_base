@@ -1,7 +1,4 @@
-layui.use(['form','element','layer','jquery'],function(){
-    var form = layui.form,
-        layer = parent.layer === undefined ? layui.layer : parent.layer,
-        element = layui.element,
+layui.use(['jquery'],function(){
         $ = layui.jquery;
 
     var md = new MobileDetect(window.navigator.userAgent);
@@ -18,13 +15,6 @@ layui.use(['form','element','layer','jquery'],function(){
     console.log("===")
     console.log(window.navigator.userAgent)
     console.log($("#productUrl").val())
-    // private Integer productId;
-    // private String phoneNumber;
-    // private Double pvNumber;
-    // private Integer clickNumber;
-    // private String mobileSystem;
-    // private String mobileVersion;
-    // private String mobileBrand;
     var dataJson={};
     dataJson.productId=$("#productId").val();
     dataJson.phoneNumber=$("#phoneNumber").val();
@@ -49,11 +39,10 @@ layui.use(['form','element','layer','jquery'],function(){
         contentType:"application/json",
         data:JSON.stringify(dataJson),
         success:function(res){
-
-                alert(res)
+            console.log(res)
         }
     });
-    // window.location.href=$("#productUrl").val();
+     window.location.href=$("#productUrl").val();
 
 
 });

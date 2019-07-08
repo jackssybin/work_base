@@ -15,9 +15,9 @@
 </head>
 <body class="main_body">
 <form class="layui-form" style="width:80%;margin-top: 2%;">
-    <input type="text" th:value="${phoneNumber}"  id="phoneNumber">
-    <input type="text" th:value="${productId}"  id="productId">
-    <input type="text" th:value="${productUrl}"  id="productUrl">
+    <input type="hidden" th:value="${phoneNumber}"  id="phoneNumber">
+    <input type="hidden" th:value="${productId}"  id="productId">
+    <input type="hidden" th:value="${productUrl}"  id="productUrl">
 </form>
 <script type="text/javascript" th:src="@{/static/layui/layui.js}"></script>
 <script type="text/javascript" th:src="@{/static/admin/js/mobile-detect.min.js}"></script>
