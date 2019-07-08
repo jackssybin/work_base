@@ -85,6 +85,7 @@ layui.use(['layer','form','table'], function() {
         exportProductTxt : function(){
             var checkStatus = table.checkStatus('userTable'),
                 data = checkStatus.data;
+            var innerDiv ="";
             if(data.length > 0){
                 console.log(data)
                 var productIds=$("#productIds").val()
@@ -104,17 +105,48 @@ layui.use(['layer','form','table'], function() {
                             layer.msg("传入的产品手机号数量不匹配，无法导出",{time:1000});
                             return;
                         }
-
+                        innerDiv += "<div class='sort_div layui-btn-normal' ondrop=\"drop(event,this)\" ondragover=\"allowDrop(event)\" draggable=\"true\" ondragstart=\"drag(event, this)\" id='"+data[i].productId+"'>"+data[i].prodctName+"</div>"
                     }
                     productIds=productIds.substr(0,productIds.length-1);
                     console.log("productIds:"+productIds)
                 }
+                if(data.length > 1) {
+                    layer.open({
+                        type: 1
+                        , title: "请拖动调整顺序" //不显示标题栏
+                        , closeBtn: false
+                        , area: '300px;'
+                        , shade: 0.8
+                        , id: 'LAY_layuipro' //设定一个id，防止重复弹出
+                        , btn: ['确定导出', '取消']
+                        , btnAlign: 'c'
+                        , moveType: 1 //拖拽模式，0或者1
+                        , content: innerDiv
+                        , yes: function (layero) {
+                            var div = document.getElementsByClassName("sort_div");
+                            productIds = "";
+                            for (var i = 0; i < div.length; i++) {
+                                productIds += div[i].id + ","
+                            }
+                            productIds = productIds.substr(0, productIds.length - 1);
 
-                var url ="/uv/writeProductTxt?productIds="+productIds;
+                            var url = "/uv/writeProductTxt?productIds=" + productIds;
+                            var dom = document.getElementById('ifile');
+                            dom.src = url;
+                            layer.closeAll();
+                        }
+
+                    });
+                }else{
+                    var url ="/uv/writeProductTxt?productIds="+productIds;
+                    var dom=document.getElementById('ifile');
+                    dom.src=url;
+                }
+
+
                 // $('<form method="get" action="' + url + '"></form>').appendTo('body').submit().remove();
                 // window.location.href=url;
-                var dom=document.getElementById('ifile');
-                dom.src=url;
+
 
             }else{
                 layer.msg("请选择需要导出的产品",{time:1000});
@@ -137,3 +169,25 @@ layui.use(['layer','form','table'], function() {
     });
 
 });
+function allowDrop(ev) {
+    ev.preventDefault();
+}
+var srcdiv = null;
+var temp = null;
+var tempId = null;
+//当拖动时触发
+function drag(ev, divdom) {
+    srcdiv = divdom;
+    temp = divdom.innerHTML;
+    tempId = divdom.id;
+}
+//当拖动完后触发
+function drop(ev, divdom) {
+    ev.preventDefault();
+    if (srcdiv !== divdom) {
+        srcdiv.innerHTML = divdom.innerHTML;
+        srcdiv.id = divdom.id
+        divdom.innerHTML = temp;
+        divdom.id=tempId;
+    }
+}
