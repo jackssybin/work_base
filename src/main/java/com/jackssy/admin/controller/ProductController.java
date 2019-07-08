@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.jackssy.admin.entity.BzProductMobile;
 import com.jackssy.admin.entity.BzProductShort;
 import com.jackssy.admin.entity.BzTranslate;
+import com.jackssy.admin.entity.vo.BzProductShortVo;
 import com.jackssy.admin.entity.vo.BzTranslateVo;
 import com.jackssy.admin.enumtype.ProductStatusEnum;
 import com.jackssy.admin.service.BzProductMobileService;
@@ -28,6 +29,7 @@ import javax.servlet.ServletRequest;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Controller
@@ -110,13 +112,17 @@ public class ProductController {
 
     @PostMapping("add")
     @ResponseBody
-    @SysLog("保存新增系统用户数据")
-    public ResponseEntity add(@RequestBody BzProductShort bzProductShort){
+    @SysLog("保存新增产品任务数据")
+    public ResponseEntity add( BzProductShortVo bzProductShort){
         bzProductShort.setGmtCreate(new Date());
         bzProductShort.setGmtModified(new Date());
         bzProductShort.setStatus(ProductStatusEnum.CREATED.getCode());
         String userId = MySysUser.id();
         bzProductShort.setOperateUser(userId);
+        if(!bzProductShort.getPhoneFile().isEmpty()){
+            bzProductShort.setPhonePath(productShortService.savePhoneFile(bzProductShort.getPhoneFile()));
+        }
+
         productShortService.save(bzProductShort);
         if(bzProductShort.getProductId()!=0){
             new Thread(() ->
@@ -125,6 +131,7 @@ public class ProductController {
 
         return ResponseEntity.success("操作成功");
     }
+
 
     @PostMapping("delete")
     @ResponseBody

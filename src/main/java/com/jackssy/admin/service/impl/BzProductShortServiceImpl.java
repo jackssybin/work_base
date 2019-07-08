@@ -19,7 +19,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -51,6 +54,9 @@ public class BzProductShortServiceImpl extends
     @Value("${uvstatics.url.default}")
     private String defaultUrl;
 
+    @Value("${uvstatics.url.savePhoneFilePath}")
+    private String uploadDir;
+
     private ConcurrentHashMap<Integer,BzProductShort> productUrlMap=new ConcurrentHashMap<>();
 
     private final static Logger logger = LoggerFactory.getLogger(BzProductShortServiceImpl.class);
@@ -62,7 +68,7 @@ public class BzProductShortServiceImpl extends
     @Override
     public void batchTest(BzProductShort bzProductShort) {
         logger.info("异步线程开始执行");
-        List<String> phoneList = FileUtil.readPhoneList("");
+        List<String> phoneList = FileUtil.readPhoneList(uploadDir+bzProductShort.getPhonePath());
         CountDownLatch countDownLatch = new CountDownLatch(THREAD_COUNT);
         bzProductShort.setStatus(ProductStatusEnum.RUNNING.getCode());
         saveOrUpdate(bzProductShort);
@@ -117,6 +123,40 @@ public class BzProductShortServiceImpl extends
         }
 
         return 0;
+    }
+
+    @Override
+    public String savePhoneFile( MultipartFile file) {
+        try {
+            //文件后缀名
+            String suffix = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
+            //上传文件名
+        String filename = UUID.randomUUID() + suffix;
+            //如果目录不存在，自动创建文件夹
+            File dir = new File(uploadDir);
+            if (!dir.exists()) {
+                dir.mkdir();
+            }
+            //服务器端保存的文件对象
+            File serverFile = new File(uploadDir + filename);
+
+            if(!serverFile.exists()) {
+                //先得到文件的上级目录，并创建上级目录，在创建文件
+                serverFile.getParentFile().mkdir();
+                try {
+                    //创建文件
+                    serverFile.createNewFile();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            //将上传的文件写入到服务器端文件内
+            file.transferTo(serverFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return filename;
     }
 
 

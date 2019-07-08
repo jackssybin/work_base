@@ -33,7 +33,6 @@ layui.use(['layer','form','table'], function() {
     //功能按钮
     var active={
         exportTranslateExcel : function(){
-           alert("导出")
             var url ="/uv/writeTranslateExcel";
             $('<form method="get" action="' + url + '"></form>').appendTo('body').submit().remove();
         },

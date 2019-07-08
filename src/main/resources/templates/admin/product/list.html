@@ -25,22 +25,16 @@
                 <a class="layui-btn" lay-submit="" lay-filter="searchForm">查询</a>
             </div>
             <div class="layui-inline">
-                <a class="layui-btn layui-btn-normal" data-type="addUser">添加用户</a>
+                <a class="layui-btn layui-btn-normal" data-type="addUser">添加产品任务</a>
+            </div>
+            <div class="layui-inline">
+                <a class="layui-btn layui-btn-normal" data-type="exportProductTxt">导出</a>
             </div>
         </form>
     </div>
 </fieldset>
 <div class="layui-form users_list">
     <table class="layui-table" id="userTable" lay-filter="userList"></table>
-    <script type="text/html" id="productStatus">
-        {{#  if(d.status=='0'){ }}
-        <span class="layui-badge layui-bg-gray">已创建</span>
-        {{#  if(d.status=='1'){ }}
-        <span class="layui-badge layui-bg-green">跑批中</span>
-        {{#  } else { }}
-        <span class="layui-badge layui-bg-green">已完成</span>
-        {{#  } }}
-    </script>
 
     <script type="text/html" id="userBar">
         <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>

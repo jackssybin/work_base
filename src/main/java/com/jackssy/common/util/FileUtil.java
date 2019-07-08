@@ -1,12 +1,14 @@
 package com.jackssy.common.util;
 
 import com.jackssy.admin.excel.config.ExcelException;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import static org.apache.commons.codec.digest.DigestUtils.sha1;
 
@@ -67,6 +69,36 @@ public class FileUtil {
         out.close();
     }
 
+    public String executeUpload(String uploadDir, MultipartFile file,String filename) throws Exception {
+        //文件后缀名
+        String suffix = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
+        //上传文件名
+//        String filename = UUID.randomUUID() + suffix;
+        //如果目录不存在，自动创建文件夹
+        File dir = new File(uploadDir);
+        if (!dir.exists()) {
+            dir.mkdir();
+        }
+        //服务器端保存的文件对象
+        File serverFile = new File(uploadDir + filename);
+
+        if(!serverFile.exists()) {
+            //先得到文件的上级目录，并创建上级目录，在创建文件
+            serverFile.getParentFile().mkdir();
+            try {
+                //创建文件
+                serverFile.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        //将上传的文件写入到服务器端文件内
+        file.transferTo(serverFile);
+
+        return filename;
+    }
+
+
     /**
      * 读入TXT文件
      */
@@ -91,7 +123,12 @@ public class FileUtil {
 
     public static List<String> readPhoneList(String fileName){
         List<String> phoneList = new ArrayList<>();
-        String pathname = "d:/output.txt"; // 绝对路径或相对路径都可以，写入文件时演示相对路径,读取以上路径的input.txt文件
+        String pathname ="";
+        if("".equalsIgnoreCase(fileName)||null==fileName){
+            pathname = "d:/output.txt";
+        }else{
+            pathname=fileName;
+        }
         try (FileReader reader = new FileReader(pathname);
              BufferedReader br = new BufferedReader(reader)
         ) {
@@ -105,6 +142,8 @@ public class FileUtil {
         return phoneList;
     }
 
+
+
     /**
      * 写入TXT文件
      */
@@ -115,7 +154,7 @@ public class FileUtil {
             try (FileWriter writer = new FileWriter(writeName);
                  BufferedWriter out = new BufferedWriter(writer)
             ) {
-                for(int i= 0;i<400000;i++){
+                for(int i= 0;i<1000;i++){
                     out.write(getPhoneLen(String.valueOf(i))); // \r\n即为换行
                 }
                 out.flush(); // 把缓存区内容压入文件

@@ -8,13 +8,10 @@ spring:
     #激活哪一个环境的配置文件
     profiles:
       active: dev
-#    http:
-#      multipart:
-#        max-file-size: 100MB
-#        max-request-size: 100MB
-#        maxFileSize: 100MB
-#        maxRequestSize: 100MB
-
+    servlet:
+      multipart:
+        maxFileSize: 100Mb
+        maxRequestSize: 100Mb
 #mybatisPlu
 mybatis-plus:
   mapper-locations: classpath:/mapper/**/*Mapper.xml
@@ -46,6 +43,7 @@ uvstatics:
             prefix: http://localhost:8088/uv/{phoneNumber}/{productId}
             default : http://www.baidu.com
             exportSmsName: 导出手机短信模板
+            savePhoneFilePath: d://data//product//
 
 ---
 #开发环境配置

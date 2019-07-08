@@ -108,7 +108,7 @@ public class StaticsController {
     }
 
     @RequestMapping(value = "writeProductTxt", method = RequestMethod.GET)
-    public void downloadTXT(HttpServletRequest request,HttpServletResponse response) throws Exception{
+    public void writeProductTxt(HttpServletRequest request,HttpServletResponse response) throws Exception{
         String productIds=request.getParameter("productIds");
         if(StringUtils.isEmpty(productIds)){
             response.setCharacterEncoding("utf-8");
@@ -116,7 +116,12 @@ public class StaticsController {
             return ;
         }
         logger.info("downloadTxt param:{}",productIds);
-        Integer[] productIdArray =new Integer[]{999,1021};
+        String[] productIdTemp=productIds.split(",");
+        Integer[] productIdArray =new Integer[productIdTemp.length];
+        for(int i=0 ;i<productIdTemp.length ;i++){
+            productIdArray[i]=Integer.parseInt(productIdTemp[i]);
+        }
+//        productIdArray=new Integer[]{999,111};
         long beginTime =System.currentTimeMillis();
         Map<String,String> productExtMap= productMobileService.getProductExtMap(response, productIdArray);
         productMobileService.exportProductExtTxt(response, productIds,  productExtMap);
@@ -133,7 +138,6 @@ public class StaticsController {
         IPage<BzProductMobile> userPage = productMobileService.page(new Page<>(1,1000),queryWrapper);
         userPage.getRecords().stream().forEach(xx->{
             logger.info(xx.getShortUrl());
-//            ResponseEntity<String> responseEntity = restTemplate.getForEntity(xx.getShortUrl(), String.class);
             org.springframework.http.ResponseEntity<String> responseEntity= restTemplate.getForEntity(xx.getShortUrl(),String.class);
             logger.info(responseEntity.getBody());
         });

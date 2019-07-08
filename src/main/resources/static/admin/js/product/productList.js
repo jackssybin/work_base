@@ -63,7 +63,7 @@ layui.use(['layer','form','table'], function() {
     var active={
         addUser : function(){
             var addIndex = layer.open({
-                title : "添加用户",
+                title : "添加产品任务",
                 type : 2,
                 content : "/admin/product/add",
                 success : function(layero, addIndex){
@@ -79,6 +79,11 @@ layui.use(['layer','form','table'], function() {
                 layer.full(addIndex);
             });
             layer.full(addIndex);
+        },
+        exportProductTxt : function(){
+            var productIds=$("#productIds").val()
+            var url ="/uv/writeProductTxt?productIds="+productIds;
+            $('<form method="get" action="' + url + '"></form>').appendTo('body').submit().remove();
         },
     };
 
