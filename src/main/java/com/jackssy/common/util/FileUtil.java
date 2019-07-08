@@ -154,7 +154,7 @@ public class FileUtil {
             try (FileWriter writer = new FileWriter(writeName);
                  BufferedWriter out = new BufferedWriter(writer)
             ) {
-                for(int i= 0;i<1000;i++){
+                for(int i= 0;i<200000;i++){
                     out.write(getPhoneLen(String.valueOf(i))); // \r\n即为换行
                 }
                 out.flush(); // 把缓存区内容压入文件

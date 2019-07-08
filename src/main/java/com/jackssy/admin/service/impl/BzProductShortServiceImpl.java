@@ -127,11 +127,12 @@ public class BzProductShortServiceImpl extends
 
     @Override
     public String savePhoneFile( MultipartFile file) {
+        String filename="";
         try {
             //文件后缀名
             String suffix = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
             //上传文件名
-        String filename = UUID.randomUUID() + suffix;
+             filename = UUID.randomUUID() + suffix;
             //如果目录不存在，自动创建文件夹
             File dir = new File(uploadDir);
             if (!dir.exists()) {
