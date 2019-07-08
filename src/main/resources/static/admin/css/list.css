@@ -20,6 +20,7 @@ form input.layui-input[disabled]{ background:#f2f2f2; color:#595963!important; }
 
 .sort_div{
     margin: 5px 25%;
+    background: rgb(0,150,136)!important;
     text-align: center;
     color:#ffffff;
     border-radius:5px;
