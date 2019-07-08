@@ -33,7 +33,6 @@ import java.util.stream.Collectors;
 
 
 @Service
-@Transactional(rollbackFor = Exception.class)
 public class BzProductShortServiceImpl extends
         ServiceImpl<BzProductShortMapper, BzProductShort>
         implements BzProductShortService {
@@ -71,6 +70,7 @@ public class BzProductShortServiceImpl extends
         List<String> phoneList = FileUtil.readPhoneList(uploadDir+bzProductShort.getPhonePath());
         CountDownLatch countDownLatch = new CountDownLatch(THREAD_COUNT);
         bzProductShort.setStatus(ProductStatusEnum.RUNNING.getCode());
+        bzProductShort.setPhoneCount(phoneList.size());
         saveOrUpdate(bzProductShort);
         int countAll =phoneList.size();
         if(countAll>THREAD_COUNT){
