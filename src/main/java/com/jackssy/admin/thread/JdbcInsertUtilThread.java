@@ -73,7 +73,7 @@ public class JdbcInsertUtilThread implements Runnable{
                     ps.setString(2, list.get(i).getPhoneNumber());
 //                ps.setString(3,ShortenUrl.getFixShortUrl(""+random.nextInt(1000)));
                     ps.setString(3,list.get(i).getShortUrl());
-                    ps.setDate(4,new java.sql.Date(System.currentTimeMillis()));
+                    ps.setTimestamp(4,new java.sql.Timestamp(System.currentTimeMillis()));
                     ps.addBatch();
 
                     if(i+1%singBatchNum==0){
