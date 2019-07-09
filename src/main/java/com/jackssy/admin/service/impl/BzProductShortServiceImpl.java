@@ -62,7 +62,7 @@ public class BzProductShortServiceImpl extends
 
     private static int THREAD_COUNT=40;
     private static int THREAD_SHORT_URL_COUNT=100;
-    private static ExecutorService threadPool = Executors.newFixedThreadPool(20);
+    private static ExecutorService threadPool = Executors.newFixedThreadPool(10);
 
     @Override
     public void batchTest(BzProductShort bzProductShort) {
@@ -185,26 +185,9 @@ public class BzProductShortServiceImpl extends
 
             long timeStart =System.currentTimeMillis();
             productMap=getProductShortUrlMap(phoneList,bzProductShort.getProductId(),THREAD_COUNT);
-//            for(int i = 0;i<phoneList.size() ;i++){
-//                productNumber=i%THREAD_COUNT ;
-//                if(productMap.containsKey(productNumber)){
-//                    list=productMap.get(productNumber);
-//                }else{
-//                    list=new ArrayList<>();
-//                }
-//                bb =new BzProductMobile();
-//                bb.setGmtCreate(new Date());
-//                bb.setPhoneNumber(phoneList.get(i));
-//                bb.setProductId(bzProductShort.getProductId());
-////				bb.setShortUrl(ShortenUrl.getFixShortUrl(urlPrefix,""+bzProductShort.getProductId(),phoneList.get(i)));
-//                logger.info("thread:{} ,current:{},bb:{}",Thread.currentThread().getName(),i,bb);
-//                list.add(bb);
-//                productMap.put(productNumber,list);
-//            }
             long timeEnd =System.currentTimeMillis();
             logger.info("组合数据用时：" + (timeEnd - timeStart) / 1000 + " 秒");
             for (List<BzProductMobile> listdetail : productMap.values()) {
-//                threadPool.execute(new BatchInsertThread(countDownLatch, productMobileService,  listdetail));
                 threadPool.execute(new JdbcInsertUtilThread(countDownLatch,   listdetail,url,user,password));
             }
             countDownLatch.await();

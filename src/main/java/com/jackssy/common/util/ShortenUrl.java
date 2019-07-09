@@ -73,10 +73,17 @@ public class ShortenUrl {
 
     public static String getFixShortUrl(String longUrl,String productId,String phoneNumber){
         if(StringUtils.isEmpty(longUrl)){
-            longUrl="https://localhost:8088/uv/{phoneNumber}/{productId}";
+            longUrl="https://localhost:8088/uv/{encryStr}";
         }
-        longUrl=longUrl.replace("{phoneNumber}",phoneNumber);
-        longUrl=longUrl.replace("{productId}",productId);
+        longUrl=longUrl.replace("{encryStr}",phoneNumber+","+productId);
+        return test(longUrl);
+    }
+
+    public static String getFixShortUrl(String longUrl,String encryStr){
+        if(StringUtils.isEmpty(longUrl)){
+            longUrl="https://localhost:8088/uv/{encryStr}";
+        }
+        longUrl=longUrl.replace("{encryStr}",encryStr);
         return test(longUrl);
     }
 

@@ -12,6 +12,7 @@ import com.jackssy.admin.service.BzProductMobileService;
 import com.jackssy.admin.service.BzProductShortService;
 import com.jackssy.admin.service.BzTranslateService;
 
+import com.jackssy.common.util.DESUtil;
 import com.jackssy.common.util.ResponseEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -58,10 +59,29 @@ public class StaticsController {
     public String toBrowser(ModelMap map,
                             @PathVariable("phoneNumber") String  phoneNumber,
                             @PathVariable("productId") Integer productId){
-        logger.info("phoneNumber:{},productId:{}",phoneNumber,productId);
+        logger.info("toBrowser phoneNumber:{},productId:{}",phoneNumber,productId);
         map.put("phoneNumber",phoneNumber);
         map.put("productId",productId);
         map.put("productUrl",productShortService.getProductUrl(productId));
+        return "admin/blank";
+    }
+
+    @RequestMapping(value="/{encryStr}",method= RequestMethod.GET)
+    public String toBrowserHide(ModelMap map,
+                            @PathVariable("encryStr") String  encryStr){
+        try {
+            String decryStr= DESUtil.decryptor(encryStr);
+            String[] darray=decryStr.split(",");
+            String  phoneNumber=darray[0];
+            Integer productId=Integer.parseInt(darray[1]);
+            logger.info("toBrowserHide phoneNumber:{},productId:{}",phoneNumber,productId);
+            map.put("phoneNumber",phoneNumber);
+            map.put("productId",productId);
+            map.put("productUrl",productShortService.getProductUrl(productId));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         return "admin/blank";
     }
 
@@ -89,9 +109,18 @@ public class StaticsController {
 
 
     @RequestMapping(value = "writeTranslateExcel", method = RequestMethod.GET)
-    public void writeTranslateExcel(HttpServletResponse response) throws IOException {
+    public void writeTranslateExcel(HttpServletRequest request,HttpServletResponse response) throws IOException {
+        String productId=request.getParameter("productId");
+        if(StringUtils.isEmpty(productId)){
+            response.setCharacterEncoding("utf-8");
+            response.getWriter().write("<script>alert('产品信息不能为空')</script>");
+            return ;
+        }
+
+
         QueryWrapper<BzTranslate> queryWrapper = new QueryWrapper<>();
         BzTranslate bzTranslate = new BzTranslate();
+        bzTranslate.setProductId(Integer.parseInt(productId));
         queryWrapper.setEntity(bzTranslate);
 
         List<BzTranslate> bzTranslateList = translateService.list(queryWrapper);

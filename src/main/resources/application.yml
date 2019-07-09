@@ -67,7 +67,7 @@ logging:
   path: D:\logs\uvstatics_base
 uvstatics:
   url:
-    prefix: http://localhost:8088/uv/{phoneNumber}/{productId}
+    prefix: http://localhost:8088/uv/{encryStr}
     default : http://www.baidu.com
     exportSmsName: 导出手机短信模板
     savePhoneFilePath: d://data//product//
@@ -105,7 +105,7 @@ logging:
   path: /root/data/uvstatics_base/logs
 uvstatics:
   url:
-    prefix: http://59.110.240.154:8090/uv/{phoneNumber}/{productId}
+    prefix: http://59.110.240.154:8090/uv/{encryStr}
     default : http://www.baidu.com
     exportSmsName: 导出手机短信模板
     savePhoneFilePath: /root/data/uvstatics_base/data/product/

@@ -24,7 +24,6 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
             setFieldValByName("updateDate", new Date(), metaObject);
             setFieldValByName("updateId", MySysUser.id(), metaObject);
         } catch (Exception e) {
-            e.printStackTrace();
         }
     }
 
@@ -34,7 +33,6 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
             setFieldValByName("updateDate", new Date(), metaObject);
             setFieldValByName("updateId", MySysUser.id(), metaObject);
         } catch (Exception e) {
-            e.printStackTrace();
         }
     }
 }
