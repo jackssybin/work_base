@@ -20,10 +20,10 @@ layui.use(['layer','form','table'], function() {
         width: $(parent.window).width()-223,
         cols: [[
             {type:'checkbox'},
-            {field:'productId', title: '产品id', width:'10%'},
+            {field:'productId', title: '产品id', width:'5%'},
             {field:'prodctName',  title: '产品名称',    width:'10%'},
             {field:'productUrl',     title: '静态链接',    width:'16%' },
-            {field:'phoneCount',  title: '手机号数量',    width:'10%'},
+            {field:'phoneCount',  title: '手机号数量',    width:'5%'},
             {field:'status',       title: '状态',    width:'12%',templet:function (d) {
                     if(0==d.status){
                        return "已创建";
@@ -34,8 +34,8 @@ layui.use(['layer','form','table'], function() {
                     }
                 }},
             {field:'remark', title: '备注', width:'20%'},
-            {field:'gmtCreate',  title: '创建时间',width:'14%', templet:'<span>{{ layui.laytpl.toDateString(d.gmtCreate) }}</span>'}, //单元格内容水平居中
-            {field:'gmtModified',  title: '更新时间',width:'14%', templet:'<span>{{ layui.laytpl.toDateString(d.gmtModified) }}</span>'}, //单元格内容水平居中
+            {field:'gmtCreate',  title: '创建时间',width:'10%', templet:'<span>{{ layui.laytpl.toDateString(d.gmtCreate) }}</span>'}, //单元格内容水平居中
+            {field:'gmtModified',  title: '更新时间',width:'10%', templet:'<span>{{ layui.laytpl.toDateString(d.gmtModified) }}</span>'}, //单元格内容水平居中
             {fixed: 'right', align: 'center', toolbar: '#userBar'}
         ]]
     };
