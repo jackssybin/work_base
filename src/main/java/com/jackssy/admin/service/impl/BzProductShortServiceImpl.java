@@ -73,6 +73,11 @@ public class BzProductShortServiceImpl extends
         bzProductShort.setPhoneCount(phoneList.size());
         saveOrUpdate(bzProductShort);
         int countAll =phoneList.size();
+        if(0==countAll){
+            logger.info("数据为空,不能跑批,直接结束");
+            bzProductShort.setStatus(ProductStatusEnum.DONE.getCode());
+            return;
+        }
         if(countAll>THREAD_COUNT){
             logger.info("线程池执行");
             batchThreadRun(bzProductShort,  phoneList, countDownLatch);
