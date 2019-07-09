@@ -8,6 +8,7 @@ import com.jackssy.admin.entity.BzProductShort;
 import com.jackssy.admin.entity.BzTranslate;
 import com.jackssy.admin.entity.vo.BzProductShortVo;
 import com.jackssy.admin.entity.vo.BzTranslateVo;
+import com.jackssy.admin.entity.vo.ProductTranslateVo;
 import com.jackssy.admin.enumtype.ProductStatusEnum;
 import com.jackssy.admin.service.BzProductMobileService;
 import com.jackssy.admin.service.BzProductShortService;
@@ -85,7 +86,20 @@ public class ProductController {
 
     @PostMapping("translateList")
     @ResponseBody
-    public PageData<BzTranslateVo> translateList(@RequestParam(value = "page",defaultValue = "1")Integer page,
+    public PageData<ProductTranslateVo> translateList(@RequestParam(value = "page",defaultValue = "1")Integer page,
+                                                 @RequestParam(value = "limit",defaultValue = "10")Integer limit,
+                                                 ServletRequest request){
+        Map map = WebUtils.getParametersStartingWith(request, "s_");
+        PageData<ProductTranslateVo> userPageData = new PageData<>();
+        IPage<ProductTranslateVo> userPage =translateService.queryTranslateList(new Page<>(page,limit));
+        userPageData.setData(userPage.getRecords());
+        userPageData.setCount(userPage.getTotal());
+        return userPageData;
+    }
+
+    @PostMapping("translateListDetail")
+    @ResponseBody
+    public PageData<BzTranslateVo> translateListDetail(@RequestParam(value = "page",defaultValue = "1")Integer page,
                                          @RequestParam(value = "limit",defaultValue = "10")Integer limit,
                                          ServletRequest request){
         Map map = WebUtils.getParametersStartingWith(request, "s_");
@@ -133,8 +147,9 @@ public class ProductController {
 
         productShortService.save(bzProductShort);
         if(bzProductShort.getProductId()!=0){
-            new Thread(() ->
-                    productShortService.batchTest(bzProductShort)).start();
+//            new Thread(() ->
+//                    productShortService.batchTest(bzProductShort)).start();
+            productShortService.produceQueue(bzProductShort);
         }
 
         return ResponseEntity.success("操作成功");
@@ -157,6 +172,12 @@ public class ProductController {
         QueryWrapper<BzProductMobile> userWrapper = new QueryWrapper<>();
         userWrapper.eq("product_id", productId);
         productMobileService.remove(userWrapper);
+
+        QueryWrapper<BzTranslate> translateWrapper = new QueryWrapper<>();
+        BzTranslate bzTranslate =new BzTranslate();
+        bzTranslate.setProductId(productId);
+        translateWrapper.setEntity(bzTranslate);
+        translateService.remove(translateWrapper);
         return ResponseEntity.success("操作成功");
     }
 

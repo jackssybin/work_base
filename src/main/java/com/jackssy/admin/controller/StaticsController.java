@@ -13,6 +13,7 @@ import com.jackssy.admin.service.BzProductShortService;
 import com.jackssy.admin.service.BzTranslateService;
 
 import com.jackssy.common.util.DESUtil;
+import com.jackssy.common.util.PhoneUtil;
 import com.jackssy.common.util.ResponseEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -59,29 +60,11 @@ public class StaticsController {
     public String toBrowser(ModelMap map,
                             @PathVariable("phoneNumber") String  phoneNumber,
                             @PathVariable("productId") Integer productId){
+        phoneNumber= PhoneUtil.decryptPhone(phoneNumber);
         logger.info("toBrowser phoneNumber:{},productId:{}",phoneNumber,productId);
         map.put("phoneNumber",phoneNumber);
         map.put("productId",productId);
         map.put("productUrl",productShortService.getProductUrl(productId));
-        return "admin/blank";
-    }
-
-    @RequestMapping(value="/{encryStr}",method= RequestMethod.GET)
-    public String toBrowserHide(ModelMap map,
-                            @PathVariable("encryStr") String  encryStr){
-        try {
-            String decryStr= DESUtil.decryptor(encryStr);
-            String[] darray=decryStr.split(",");
-            String  phoneNumber=darray[0];
-            Integer productId=Integer.parseInt(darray[1]);
-            logger.info("toBrowserHide phoneNumber:{},productId:{}",phoneNumber,productId);
-            map.put("phoneNumber",phoneNumber);
-            map.put("productId",productId);
-            map.put("productUrl",productShortService.getProductUrl(productId));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
         return "admin/blank";
     }
 

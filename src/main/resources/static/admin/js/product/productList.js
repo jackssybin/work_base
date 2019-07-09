@@ -35,6 +35,7 @@ layui.use(['layer','form','table'], function() {
                 }},
             {field:'remark', title: '备注', width:'20%'},
             {field:'gmtCreate',  title: '创建时间',width:'14%', templet:'<span>{{ layui.laytpl.toDateString(d.gmtCreate) }}</span>'}, //单元格内容水平居中
+            {field:'gmtModified',  title: '更新时间',width:'14%', templet:'<span>{{ layui.laytpl.toDateString(d.gmtModified) }}</span>'}, //单元格内容水平居中
             {fixed: 'right', align: 'center', toolbar: '#userBar'}
         ]]
     };

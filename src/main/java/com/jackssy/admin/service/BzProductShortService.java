@@ -15,6 +15,10 @@ public interface BzProductShortService extends IService<BzProductShort> {
 
     String savePhoneFile(MultipartFile file);
 
+    void produceQueue(BzProductShort bzProductShort);
+
+    void consumerQueue();
+
 
 
 

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jackssy.admin.mapper.BzTranslateMapper">
+
+
+    <select id="queryTranslateList" resultType="com.jackssy.admin.entity.vo.ProductTranslateVo">
+
+      select bt.product_id productId,sum(click_number) pvNumber,bps.prodct_name productName from bz_translate bt
+      left join bz_product_short bps on bt.product_id =bps.product_id
+      group by bt.product_id
+
+    </select>
+</mapper>

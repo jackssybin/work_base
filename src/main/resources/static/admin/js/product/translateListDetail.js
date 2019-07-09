@@ -19,38 +19,22 @@ layui.use(['layer','form','table'], function() {
         },
         width: $(parent.window).width()-223,
         cols: [[
-            {type:'checkbox'},
             {field:'productId', title: '产品id', width:'10%'},
-            {field:'productName',  title: '产品名称',    width:'40%'},
-            {field:'pvNumber',     title: 'pv',    width:'40%' },
+            {field:'productName',  title: '产品名称',    width:'10%'},
+            {field:'phoneNumber',     title: '手机号',    width:'16%' },
+            {field:'clickNumber',     title: 'pv',    width:'16%' },
+            {field:'mobileSystem',       title: '操作系统',    width:'12%'},
+            {field:'mobileVersion', title: '浏览器内核', width:'8%'},
+            {field:'mobileBrand', title: '手机品牌', width:'8%'},
+            {field:'gmtCreate',  title: '创建时间',width:'14%', templet:'<span>{{ layui.laytpl.toDateString(d.gmtCreate) }}</span>'}
         ]]
     };
     table.render(t);
     //功能按钮
     var active={
         exportTranslateExcel : function(){
-
-            var checkStatus = table.checkStatus('userTable'),
-                data = checkStatus.data;
-            console.log(data)
-            if(data.length > 0){
-                if(data.length > 1){
-                    layer.msg("只能导出一个产品得转化率详情",{time:1000});
-                    return ;
-                }
-                var productId=data[0].productId;
-
-                // var url ="/uv/writeTranslateExcel?productId="+productId;
-                // $('<form method="get" action="' + url + '"></form>').appendTo('body').submit().remove();
-
-                var url = "/uv/writeTranslateExcel?productId=" + productId;
-                var dom = document.getElementById('ifile');
-                dom.src = url;
-            }else{
-                layer.msg("请选择需要导出的产品",{time:1000});
-            }
-
-
+            var url ="/uv/writeTranslateExcel";
+            $('<form method="get" action="' + url + '"></form>').appendTo('body').submit().remove();
         },
 
     };

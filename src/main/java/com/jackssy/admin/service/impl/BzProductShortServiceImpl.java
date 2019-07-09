@@ -25,10 +25,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.concurrent.*;
 import java.util.stream.Collectors;
 
 
@@ -36,6 +33,10 @@ import java.util.stream.Collectors;
 public class BzProductShortServiceImpl extends
         ServiceImpl<BzProductShortMapper, BzProductShort>
         implements BzProductShortService {
+
+    private static BlockingQueue<BzProductShort> queue = new ArrayBlockingQueue<BzProductShort>(10);
+
+    private static volatile boolean isRunningStatus =false;
 
     @Autowired
     private BzProductMobileService productMobileService;
@@ -62,7 +63,30 @@ public class BzProductShortServiceImpl extends
 
     private static int THREAD_COUNT=40;
     private static int THREAD_SHORT_URL_COUNT=100;
-    private static ExecutorService threadPool = Executors.newFixedThreadPool(10);
+    private static ExecutorService threadPool = Executors.newFixedThreadPool(20);
+
+
+    @Override
+    public void produceQueue(BzProductShort bzProductShort) {
+        queue.add(bzProductShort);
+    }
+
+    @Override
+    public void consumerQueue() {
+        while(true){
+            logger.info("正从队列获取数据...");
+            try {
+                    BzProductShort bzProductShort = queue.take();//
+                    batchTest(bzProductShort);
+                    logger.info("执行完成等待下一个");
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+
+        }
+
+    }
 
     @Override
     public void batchTest(BzProductShort bzProductShort) {
@@ -71,6 +95,7 @@ public class BzProductShortServiceImpl extends
         CountDownLatch countDownLatch = new CountDownLatch(THREAD_COUNT);
         bzProductShort.setStatus(ProductStatusEnum.RUNNING.getCode());
         bzProductShort.setPhoneCount(phoneList.size());
+        bzProductShort.setGmtModified(new Date());
         saveOrUpdate(bzProductShort);
         int countAll =phoneList.size();
         if(0==countAll){
@@ -86,6 +111,7 @@ public class BzProductShortServiceImpl extends
             singleThreadRun(bzProductShort,  phoneList);
         }
         bzProductShort.setStatus(ProductStatusEnum.DONE.getCode());
+        bzProductShort.setGmtModified(new Date());
         saveOrUpdate(bzProductShort);
     }
 
@@ -164,6 +190,8 @@ public class BzProductShortServiceImpl extends
 
         return filename;
     }
+
+
 
 
     public BzProductShort getProductByProductId(Integer productId){

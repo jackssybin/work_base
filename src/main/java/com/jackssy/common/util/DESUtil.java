@@ -6,6 +6,7 @@ import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.DESKeySpec;
+import java.io.UnsupportedEncodingException;
 import java.security.SecureRandom;
 
 public class DESUtil {
@@ -14,7 +15,12 @@ public class DESUtil {
     public static String encrypt(String data) {  //对string进行BASE64Encoder转换
         byte[] bt = encryptByKey(data.getBytes(), password);
         BASE64Encoder base64en = new BASE64Encoder();
-        String strs = new String(base64en.encode(bt));
+        String strs = null;
+        try {
+            strs = java.net.URLEncoder.encode(new String(base64en.encode(bt)),"UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
         return strs;
     }
     /**
@@ -27,6 +33,7 @@ public class DESUtil {
      * @date 2016年7月26日
      */
     public static String decryptor(String data) throws Exception {  //对string进行BASE64Encoder转换
+        data =java.net.URLDecoder.decode(data,"UTF-8");
         sun.misc.BASE64Decoder base64en = new sun.misc.BASE64Decoder();
         byte[] bt = decrypt(base64en.decodeBuffer(data), password);
         String strs = new String(bt);
@@ -94,6 +101,7 @@ public class DESUtil {
         System.out.println("加密后："+result);
         //直接将如上内容解密
         try {
+            result="+e3XJd47lJwwXhVZ7jeI6w==";
             String decryResult = DESUtil.decryptor(result);
             System.out.println("解密后："+decryResult);
             System.out.println("解密后："+new String(decryResult));
