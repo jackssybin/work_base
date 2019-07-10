@@ -20,9 +20,13 @@ layui.use(['layer','form','table'], function() {
         width: $(parent.window).width()-223,
         cols: [[
             {type:'checkbox'},
-            {field:'productId', title: '产品id', width:'10%'},
-            {field:'productName',  title: '产品名称',    width:'40%'},
-            {field:'pvNumber',     title: 'pv',    width:'40%' },
+            {field:'productId', title: '产品id', width:'8%'},
+            {field:'productName',  title: '产品名称',    width:'20%'},
+            {field:'phoneCount',  title: '发送量',    width:'18%'},
+            {field:'pvNumber',     title: 'pv',    width:'15%' },
+            {field:'uvNumber',     title: 'uv',    width:'15%' },
+            {field:'uvPercent',     title: 'uv转化率',    width:'24%' },
+
         ]]
     };
     table.render(t);

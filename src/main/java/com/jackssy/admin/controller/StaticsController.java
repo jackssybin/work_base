@@ -163,19 +163,19 @@ public class StaticsController {
 
     }
 
-    @RequestMapping(value = "testTranslate", method = RequestMethod.GET)
-    public void testTranslate(HttpServletRequest request,HttpServletResponse response) throws Exception{
-        QueryWrapper<BzProductMobile> queryWrapper = new QueryWrapper<>();
-        BzProductMobile bzProductMobile = new BzProductMobile();
-        queryWrapper.setEntity(bzProductMobile);
-
-        IPage<BzProductMobile> userPage = productMobileService.page(new Page<>(1,1000),queryWrapper);
-        userPage.getRecords().stream().forEach(xx->{
-            logger.info(xx.getShortUrl());
-            org.springframework.http.ResponseEntity<String> responseEntity= restTemplate.getForEntity(xx.getShortUrl(),String.class);
-            logger.info(responseEntity.getBody());
-        });
-    }
+//    @RequestMapping(value = "testTranslate", method = RequestMethod.GET)
+//    public void testTranslate(HttpServletRequest request,HttpServletResponse response) throws Exception{
+//        QueryWrapper<BzProductMobile> queryWrapper = new QueryWrapper<>();
+//        BzProductMobile bzProductMobile = new BzProductMobile();
+//        queryWrapper.setEntity(bzProductMobile);
+//
+//        IPage<BzProductMobile> userPage = productMobileService.page(new Page<>(1,1000),queryWrapper);
+//        userPage.getRecords().stream().forEach(xx->{
+//            logger.info(xx.getShortUrl());
+//            org.springframework.http.ResponseEntity<String> responseEntity= restTemplate.getForEntity(xx.getShortUrl(),String.class);
+//            logger.info(responseEntity.getBody());
+//        });
+//    }
 
 
 

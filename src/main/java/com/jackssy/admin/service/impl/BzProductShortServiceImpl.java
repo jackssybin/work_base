@@ -90,7 +90,7 @@ public class BzProductShortServiceImpl extends
 
     @Override
     public void batchTest(BzProductShort bzProductShort) {
-        logger.info("异步线程开始执行");
+        logger.info("jackssyRun:异步线程开始执行");
         List<String> phoneList = FileUtil.readPhoneList(uploadDir+bzProductShort.getPhonePath());
         CountDownLatch countDownLatch = new CountDownLatch(THREAD_COUNT);
         bzProductShort.setStatus(ProductStatusEnum.RUNNING.getCode());
@@ -104,10 +104,10 @@ public class BzProductShortServiceImpl extends
             return;
         }
         if(countAll>THREAD_COUNT){
-            logger.info("线程池执行");
+            logger.info("jackssyRun:线程池执行");
             batchThreadRun(bzProductShort,  phoneList, countDownLatch);
         }else{
-            logger.info("单线程执行");
+            logger.info("jackssyRun:单线程执行");
             singleThreadRun(bzProductShort,  phoneList);
         }
         bzProductShort.setStatus(ProductStatusEnum.DONE.getCode());
@@ -214,13 +214,13 @@ public class BzProductShortServiceImpl extends
             long timeStart =System.currentTimeMillis();
             productMap=getProductShortUrlMap(phoneList,bzProductShort.getProductId(),THREAD_COUNT);
             long timeEnd =System.currentTimeMillis();
-            logger.info("组合数据用时：" + (timeEnd - timeStart) / 1000 + " 秒");
+            logger.info("jackssyRun:产品:{},插入数量:{},组合数据用时:{} 秒",bzProductShort.getProductId(),phoneList.size(),(timeEnd - timeStart) / 1000);
             for (List<BzProductMobile> listdetail : productMap.values()) {
                 threadPool.execute(new JdbcInsertUtilThread(countDownLatch,   listdetail,url,user,password));
             }
             countDownLatch.await();
             long endTime = System.currentTimeMillis();
-            logger.info("插入数据用时：" + (endTime - beginTime) / 1000 + " 秒");
+            logger.info("jackssyRun:产品:{},插入数量:{},插入数据用时:{} 秒",bzProductShort.getProductId(),phoneList.size(),(endTime - beginTime) / 1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -258,8 +258,6 @@ public class BzProductShortServiceImpl extends
             bb.setGmtCreate(new Date());
             bb.setPhoneNumber(phoneList.get(i));
             bb.setProductId(productId);
-//				bb.setShortUrl(ShortenUrl.getFixShortUrl(urlPrefix,""+bzProductShort.getProductId(),phoneList.get(i)));
-            logger.info("thread:{} ,current:{},bb:{}",Thread.currentThread().getName(),i,bb);
             list.add(bb);
             productMap.put(productNumber,list);
         }
