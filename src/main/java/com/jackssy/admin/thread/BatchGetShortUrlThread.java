@@ -24,6 +24,7 @@ public class BatchGetShortUrlThread implements Runnable {
     public void run() {
         for(BzProductMobile  bzProductMobile : productMobileList){
             bzProductMobile.setShortUrl(ShortenUrl.getFixShortUrl(urlPrefix,String.valueOf(bzProductMobile.getProductId()),bzProductMobile.getPhoneNumber()));
+            logger.info("bzProductMobile:{}",bzProductMobile);
         }
         countDownLatch.countDown();
     }

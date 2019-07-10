@@ -178,8 +178,12 @@ public class StaticsController {
 //    }
 
 
-
-
-
+    @PostMapping("refreshQueue")
+    @ResponseBody
+    public ResponseEntity refreshQueue(){
+        logger.info("手动调用队列执行任务");
+        productShortService.refreshQueue();
+        return new ResponseEntity();
+    }
 
 }

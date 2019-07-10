@@ -23,12 +23,6 @@ public class CommandLineAppStartupRunner implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
             logger.info("启动线程");
-        QueryWrapper<BzProductShort> queryWrapper =new QueryWrapper();
-        BzProductShort bzProductShort = new BzProductShort();
-        bzProductShort.setStatus(ProductStatusEnum.CREATED.getCode());
-        queryWrapper.setEntity(bzProductShort);
-        List<BzProductShort> list=productShortService.list(queryWrapper);
-        list.stream().forEach(xx->productShortService.produceQueue(xx));
-        productShortService.consumerQueue();
+        productShortService.refreshQueue();
     }
 }

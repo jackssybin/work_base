@@ -19,6 +19,8 @@ public interface BzProductShortService extends IService<BzProductShort> {
 
     void consumerQueue();
 
+    void refreshQueue();
+
 
 
 

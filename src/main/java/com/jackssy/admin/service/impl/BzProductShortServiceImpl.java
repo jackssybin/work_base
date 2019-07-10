@@ -34,7 +34,7 @@ public class BzProductShortServiceImpl extends
         ServiceImpl<BzProductShortMapper, BzProductShort>
         implements BzProductShortService {
 
-    private static BlockingQueue<BzProductShort> queue = new ArrayBlockingQueue<BzProductShort>(10);
+    private  BlockingQueue<BzProductShort> queue = new ArrayBlockingQueue<BzProductShort>(20);
 
     private static volatile boolean isRunningStatus =false;
 
@@ -89,8 +89,19 @@ public class BzProductShortServiceImpl extends
     }
 
     @Override
+    public void refreshQueue() {
+        QueryWrapper<BzProductShort> queryWrapper =new QueryWrapper();
+        BzProductShort bzProductShort = new BzProductShort();
+        bzProductShort.setStatus(ProductStatusEnum.CREATED.getCode());
+        queryWrapper.setEntity(bzProductShort);
+        List<BzProductShort> list=list(queryWrapper);
+        list.stream().forEach(xx->produceQueue(xx));
+        consumerQueue();
+    }
+
+    @Override
     public void batchTest(BzProductShort bzProductShort) {
-        logger.info("jackssyRun:异步线程开始执行");
+        logger.info("jackssyRun:异步线程开始执行",bzProductShort);
         List<String> phoneList = FileUtil.readPhoneList(uploadDir+bzProductShort.getPhonePath());
         CountDownLatch countDownLatch = new CountDownLatch(THREAD_COUNT);
         bzProductShort.setStatus(ProductStatusEnum.RUNNING.getCode());

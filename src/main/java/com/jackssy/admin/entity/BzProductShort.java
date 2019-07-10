@@ -167,4 +167,20 @@ public class BzProductShort implements Serializable {
     public void setOperateUser(String operateUser) {
         this.operateUser = operateUser;
     }
+
+    @Override
+    public String toString() {
+        return "BzProductShort{" +
+                "productId=" + productId +
+                ", prodctName='" + prodctName + '\'' +
+                ", productUrl='" + productUrl + '\'' +
+                ", phonePath='" + phonePath + '\'' +
+                ", phoneCount=" + phoneCount +
+                ", status=" + status +
+                ", remark='" + remark + '\'' +
+                ", operateUser='" + operateUser + '\'' +
+                ", gmtCreate=" + gmtCreate +
+                ", gmtModified=" + gmtModified +
+                '}';
+    }
 }
