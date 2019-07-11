@@ -131,7 +131,7 @@ layui.use(['layer','form','table'], function() {
                             }
                             productIds = productIds.substr(0, productIds.length - 1);
 
-                            var url = "/uv/writeProductTxt?productIds=" + productIds;
+                            var url = "/admin/product/writeProductTxt?productIds=" + productIds;
                             var dom = document.getElementById('ifile');
                             dom.src = url;
                             layer.closeAll();
@@ -139,7 +139,7 @@ layui.use(['layer','form','table'], function() {
 
                     });
                 }else{
-                    var url ="/uv/writeProductTxt?productIds="+productIds;
+                    var url ="/admin/product/writeProductTxt?productIds="+productIds;
                     var dom=document.getElementById('ifile');
                     dom.src=url;
                 }

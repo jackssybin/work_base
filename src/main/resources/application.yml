@@ -12,6 +12,8 @@ spring:
       multipart:
         maxFileSize: 100Mb
         maxRequestSize: 100Mb
+    validSign: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqYWNrc3N5dXYiLCJqdGkiOiIyNjVmN2VlOC0xNWFjLTQ1YzctODcyOC1hNzBmMjQ3OGZjZjgiLCJpYXQiOjE1NjI4MzgxMzQsImV4cCI6MTU2MzcwMjEzNH0.U93-73saAo_-MEQ23Cj6AbNklZoYmvRULOPxRlvyJN0
+
 #mybatisPlu
 mybatis-plus:
   mapper-locations: classpath:/mapper/**/*Mapper.xml

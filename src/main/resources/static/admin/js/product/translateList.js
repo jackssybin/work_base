@@ -47,7 +47,7 @@ layui.use(['layer','form','table'], function() {
                 // var url ="/uv/writeTranslateExcel?productId="+productId;
                 // $('<form method="get" action="' + url + '"></form>').appendTo('body').submit().remove();
 
-                var url = "/uv/writeTranslateExcel?productId=" + productId;
+                var url = "/admin/product/writeTranslateExcel?productId=" + productId;
                 var dom = document.getElementById('ifile');
                 dom.src = url;
             }else{

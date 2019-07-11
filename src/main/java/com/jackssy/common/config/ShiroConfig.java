@@ -18,6 +18,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.context.annotation.Bean;
 
@@ -31,6 +32,9 @@ public class ShiroConfig {
 
     private Logger logger = LoggerFactory.getLogger(ShiroConfig.class);
 
+    @Value("${spring.validSign}")
+    private String validSign;
+
     @Bean(name = "shiroFilter")
     public ShiroFilterFactoryBean shiroFilterFactoryBean(@Qualifier("authRealm")AuthRealm authRealm){
         ShiroFilterFactoryBean bean = new ShiroFilterFactoryBean();
@@ -39,6 +43,7 @@ public class ShiroConfig {
         bean.setLoginUrl("/admin/login");
         Map<String,Filter> map = new HashMap();
         map.put("authc",new FormAuthenticationFilter());
+        map.put("validFilter",new ValidFilter(validSign));
         bean.setFilters(map);
         //配置访问权限
         LinkedHashMap<String, String> filterChainDefinitionMap = new LinkedHashMap();
@@ -54,13 +59,13 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/sysRole/test","anon");
         filterChainDefinitionMap.put("/systemLogout","authc");
         filterChainDefinitionMap.put("/**","authc");
+        filterChainDefinitionMap.put("/**","validFilter");
         bean.setFilterChainDefinitionMap(filterChainDefinitionMap);
         return bean;
     }
 
     @Bean
     public SecurityManager securityManager(@Qualifier("authRealm")AuthRealm authRealm){
-        logger.info("- - - - - - -shiro开始加载- - - - - - ");
         DefaultWebSecurityManager defaultWebSecurityManager = new DefaultWebSecurityManager();
         defaultWebSecurityManager.setRealm(authRealm);
         defaultWebSecurityManager.setRememberMeManager(rememberMeManager());

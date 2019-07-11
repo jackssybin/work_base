@@ -10,6 +10,8 @@ import com.jackssy.admin.entity.vo.BzProductShortVo;
 import com.jackssy.admin.entity.vo.BzTranslateVo;
 import com.jackssy.admin.entity.vo.ProductTranslateVo;
 import com.jackssy.admin.enumtype.ProductStatusEnum;
+import com.jackssy.admin.excel.config.ExcelUtil;
+import com.jackssy.admin.excel.controller.BzTranslateExportInfo;
 import com.jackssy.admin.service.BzProductMobileService;
 import com.jackssy.admin.service.BzProductShortService;
 import com.jackssy.admin.service.BzTranslateService;
@@ -19,6 +21,8 @@ import com.jackssy.common.base.PageData;
 import com.jackssy.common.config.MySysUser;
 import com.jackssy.common.util.ResponseEntity;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -27,6 +31,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.WebUtils;
 
 import javax.servlet.ServletRequest;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -36,6 +43,9 @@ import java.util.stream.Collectors;
 @Controller
 @RequestMapping("admin/product")
 public class ProductController {
+
+    private final static Logger logger = LoggerFactory.getLogger(ProductController.class);
+
     @Autowired
     private BzProductShortService productShortService;
 
@@ -87,7 +97,7 @@ public class ProductController {
     @PostMapping("translateList")
     @ResponseBody
     public PageData<ProductTranslateVo> translateList(@RequestParam(value = "page",defaultValue = "1")Integer page,
-                                                 @RequestParam(value = "limit",defaultValue = "10")Integer limit,
+                                                 @RequestParam(value = "limit",defaultValue = "20")Integer limit,
                                                  ServletRequest request){
         Map map = WebUtils.getParametersStartingWith(request, "s_");
         PageData<ProductTranslateVo> userPageData = new PageData<>();
@@ -181,5 +191,76 @@ public class ProductController {
         return ResponseEntity.success("操作成功");
     }
 
+    @RequestMapping(value = "writeTranslateExcel", method = RequestMethod.GET)
+    public void writeTranslateExcel(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String productId=request.getParameter("productId");
+        if(com.alibaba.excel.util.StringUtils.isEmpty(productId)){
+            response.setCharacterEncoding("utf-8");
+            response.getWriter().write("<script>alert('产品信息不能为空')</script>");
+            return ;
+        }
+
+
+        QueryWrapper<BzTranslate> queryWrapper = new QueryWrapper<>();
+        BzTranslate bzTranslate = new BzTranslate();
+        bzTranslate.setProductId(Integer.parseInt(productId));
+        queryWrapper.setEntity(bzTranslate);
+
+        List<BzTranslate> bzTranslateList = translateService.list(queryWrapper);
+        List<BzTranslateExportInfo> list=bzTranslateList.stream().map(xx ->{
+            BzTranslateExportInfo bbb =new BzTranslateExportInfo();
+            BeanUtils.copyProperties(xx,bbb);
+            bbb.setProductName(productShortService.getProductName(xx.getProductId()));
+            return bbb;
+        }).collect(Collectors.toList());
+
+        String fileName = "产品转化报表详情";
+        String sheetName = "sheet";
+        ExcelUtil.writeExcel(response, list, fileName, sheetName, new BzTranslateExportInfo());
+    }
+
+    @RequestMapping(value = "writeProductTxt", method = RequestMethod.GET)
+    public void writeProductTxt(HttpServletRequest request,HttpServletResponse response) throws Exception{
+        String productIds=request.getParameter("productIds");
+        if(com.alibaba.excel.util.StringUtils.isEmpty(productIds)){
+            response.setCharacterEncoding("utf-8");
+            response.getWriter().write("<script>alert('产品信息不能为空')</script>");
+            return ;
+        }
+        logger.info("downloadTxt param:{}",productIds);
+        String[] productIdTemp=productIds.split(",");
+        Integer[] productIdArray =new Integer[productIdTemp.length];
+        for(int i=0 ;i<productIdTemp.length ;i++){
+            productIdArray[i]=Integer.parseInt(productIdTemp[i]);
+        }
+
+        int phoneNumCount=productShortService.getProductCount(productIdArray[0]);
+        if(phoneNumCount==0){
+            logger.info("传入的产品手机号数量为空，无法导出");
+            response.setCharacterEncoding("utf-8");
+            response.getWriter().write("<script>alert('传入的产品手机号数量为空，无法导出')</script>");
+            return ;
+        }
+        if(productIdArray.length>1){
+            for(int j =1; j<productIdArray.length ;j++){
+                if(phoneNumCount!=productShortService.getProductCount(productIdArray[j])){
+                    logger.info("传入的产品手机号数量不匹配，无法导出");
+                    response.setCharacterEncoding("utf-8");
+                    response.getWriter().write("<script>alert('传入的产品手机号数量不匹配，无法导出')</script>");
+                    return ;
+                }
+            }
+        }
+
+//        productIdArray=new Integer[]{999,111};
+        long beginTime =System.currentTimeMillis();
+        Map<String,String> productExtMap= productMobileService.getProductExtMap(response, productIdArray);
+        if(null!=productExtMap){
+            productMobileService.exportProductExtTxt(response, productIds,  productExtMap);
+            long endTime =System.currentTimeMillis();
+            logger.info("下载数据:{},用时：{} 秒 ",productIds, (endTime - beginTime) / 1000);
+        }
+
+    }
 
 }

@@ -34,6 +34,8 @@ public class BzProductShortServiceImpl extends
         ServiceImpl<BzProductShortMapper, BzProductShort>
         implements BzProductShortService {
 
+    private final static Logger logger = LoggerFactory.getLogger(BzProductShortServiceImpl.class);
+
     private  BlockingQueue<BzProductShort> queue = new ArrayBlockingQueue<BzProductShort>(20);
 
     private static volatile boolean isRunningStatus =false;
@@ -59,7 +61,7 @@ public class BzProductShortServiceImpl extends
 
     private ConcurrentHashMap<Integer,BzProductShort> productUrlMap=new ConcurrentHashMap<>();
 
-    private final static Logger logger = LoggerFactory.getLogger(BzProductShortServiceImpl.class);
+
 
     private static int THREAD_COUNT=40;
     private static int THREAD_SHORT_URL_COUNT=100;
