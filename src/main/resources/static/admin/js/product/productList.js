@@ -23,8 +23,8 @@ layui.use(['layer','form','table'], function() {
             {field:'productId', title: '产品id', width:'5%'},
             {field:'prodctName',  title: '产品名称',    width:'10%'},
             {field:'productUrl',     title: '静态链接',    width:'16%' },
-            {field:'phoneCount',  title: '手机号数量',    width:'5%'},
-            {field:'status',       title: '状态',    width:'12%',templet:function (d) {
+            {field:'phoneCount',  title: '手机号数量',    width:'9%'},
+            {field:'status',       title: '状态',    width:'8%',templet:function (d) {
                     if(0==d.status){
                        return "已创建";
                     }else if(1==d.status){

@@ -114,3 +114,43 @@ uvstatics:
 
 
 
+---
+#开发环境配置
+spring:
+  profiles: aliyun
+  #自定义配置属性
+  #视图配置
+  mvc:
+    static-path-pattern: /static/**
+  aop:
+    proxy-target-class: true
+  datasource:
+    url: jdbc:mysql://rm-2ze0576n0n4p76379.mysql.rds.aliyuncs.com:3306/bigdata?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false
+    username: bigdata
+    password: aboattech@66688
+    driver-class-name: com.mysql.jdbc.Driver
+    maximum-pool-size: 50
+    max-idle: 10
+    max-wait: 10000
+    min-idle: 5
+    initial-size: 5
+    validation-query: SELECT 1
+    test-on-borrow: false
+    test-while-idle: true
+    time-between-eviction-runs-millis: 18800
+server:
+  #端口
+  port: 8090
+#日志
+logging:
+  config: classpath:logback.xml
+  path: /home/bigdata/uv_statics/logs
+uvstatics:
+  url:
+    prefix: http://39.97.182.220:8090/uv/{phoneNumber}/{productId}
+    default : http://www.baidu.com
+    exportSmsName: 导出手机短信模板
+    savePhoneFilePath: /home/bigdata/uv_statics/data/product/
+
+
+
