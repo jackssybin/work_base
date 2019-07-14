@@ -33,11 +33,11 @@ public class ValidFilter implements Filter {
         System.out.println("ValidFilter execute");
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         if(request.getRequestURI().startsWith("/admin/product/")){
-//            if(JwtUtil.checkJWT(validSgin)){
-//                filterChain.doFilter(servletRequest, servletResponse);
-//            }else{
-//                return ;
-//            }
+            if(JwtUtil.checkJWT(validSgin)){
+                filterChain.doFilter(servletRequest, servletResponse);
+            }else{
+                return ;
+            }
 
         }else{
             System.out.println("this is MyFilter,url :"+request.getRequestURI());

@@ -4,6 +4,7 @@ package com.jackssy.admin.service.impl;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.jackssy.admin.controller.StaticsController;
 import com.jackssy.admin.entity.BzProductMobile;
+import com.jackssy.admin.enumtype.ProductCommon;
 import com.jackssy.admin.mapper.BzProductMobileMapper;
 import com.jackssy.admin.service.BzProductMobileService;
 import com.jackssy.admin.thread.JdbcQueryUtilThread;
@@ -60,7 +61,7 @@ public class BzProductMobileServiceImpl extends
             logger.info("输出最终文本txt结果");
             String wxStr="";
             for(String phoneNum:productExtMap.keySet()){
-                wxStr=phoneNum+","+productExtMap.get(phoneNum)+"\r\n";
+                wxStr=phoneNum+ProductCommon.WRITE_TXT_SPLIT_STR+productExtMap.get(phoneNum)+"\r\n";
                 buffer.write(wxStr.getBytes("UTF-8"));
             }
             productExtMap.clear();
@@ -91,10 +92,10 @@ public class BzProductMobileServiceImpl extends
                     String val ="";
                     String back4Number="";
                     if(productExtMap.containsKey(xx.getPhoneNumber())){
-                        val=productExtMap.get(xx.getPhoneNumber())+","+xx.getShortUrl();
+                        val=productExtMap.get(xx.getPhoneNumber())+ProductCommon.WRITE_TXT_SPLIT_STR+xx.getShortUrl();
                     }else{
                         back4Number=xx.getPhoneNumber().substring(7,11);
-                        val=back4Number+","+xx.getShortUrl();
+                        val=back4Number+ ProductCommon.WRITE_TXT_SPLIT_STR+xx.getShortUrl();
                     }
                     productExtMap.put(xx.getPhoneNumber(),val);
                 });

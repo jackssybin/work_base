@@ -32,8 +32,8 @@ public class ShiroConfig {
 
     private Logger logger = LoggerFactory.getLogger(ShiroConfig.class);
 
-//    @Value("${spring.validSign}")
-//    private String validSign;
+    @Value("${spring.validSign}")
+    private String validSign;
 
     @Bean(name = "shiroFilter")
     public ShiroFilterFactoryBean shiroFilterFactoryBean(@Qualifier("authRealm")AuthRealm authRealm){
@@ -43,7 +43,7 @@ public class ShiroConfig {
         bean.setLoginUrl("/admin/login");
         Map<String,Filter> map = new HashMap();
         map.put("authc",new FormAuthenticationFilter());
-//        map.put("validFilter",new ValidFilter(validSign));
+        map.put("validFilter",new ValidFilter(validSign));
         bean.setFilters(map);
         //配置访问权限
         LinkedHashMap<String, String> filterChainDefinitionMap = new LinkedHashMap();
@@ -59,7 +59,7 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/sysRole/test","anon");
         filterChainDefinitionMap.put("/systemLogout","authc");
         filterChainDefinitionMap.put("/**","authc");
-//        filterChainDefinitionMap.put("/**","validFilter");
+        filterChainDefinitionMap.put("/**","validFilter");
         bean.setFilterChainDefinitionMap(filterChainDefinitionMap);
         return bean;
     }
