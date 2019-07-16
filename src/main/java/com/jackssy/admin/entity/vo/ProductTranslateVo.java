@@ -13,10 +13,10 @@ public class ProductTranslateVo {
     private String uvPercent;
 
     public String getUvPercent() {
-        if(uvNumber==0||phoneCount==0){
+        if(null==uvNumber||uvNumber==0||phoneCount==null ||phoneCount==0){
             return "0‰";
         }
-        if(uvNumber>0&&phoneCount>0){
+        if(null!=phoneCount&&uvNumber!=null&&uvNumber>0&&phoneCount>0){
             return ArithUtil.mul(Double.valueOf(1000),ArithUtil.div(Double.valueOf(uvNumber),Double.valueOf(phoneCount),6))+"‰";
         }
 

@@ -46,7 +46,7 @@ public class StaticsController {
                             @PathVariable("phoneNumber") String  phoneNumber,
                             @PathVariable("productId") Integer productId){
         phoneNumber= PhoneUtil.decryptPhone(phoneNumber);
-        logger.info("toBrowser phoneNumber:{},productId:{}",phoneNumber,productId);
+//        logger.info("toBrowser phoneNumber:{},productId:{}",phoneNumber,productId);
         map.put("phoneNumber",phoneNumber);
         map.put("productId",productId);
         map.put("productUrl",productShortService.getProductUrl(productId));
@@ -56,6 +56,7 @@ public class StaticsController {
     @PostMapping("saveTranslate")
     @ResponseBody
     public ResponseEntity saveTranslate(@RequestBody BzTranslate bzTranslate){
+        logger.info("saveTranslate:{}",bzTranslate);
 
         QueryWrapper<BzTranslate> queryWrapper = new QueryWrapper<>();
         BzTranslate bzTemp = new BzTranslate();

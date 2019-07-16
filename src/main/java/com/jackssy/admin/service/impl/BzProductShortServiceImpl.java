@@ -79,7 +79,16 @@ public class BzProductShortServiceImpl extends
             logger.info("正从队列获取数据...");
             try {
                     BzProductShort bzProductShort = queue.take();//
-                    batchTest(bzProductShort);
+                    if(null!=bzProductShort&&bzProductShort.getProductId()!=0){
+                        BzProductShort bzreal=this.getById(bzProductShort.getProductId());
+                        if(bzreal!=null){
+                            batchTest(bzreal);
+                        }else{
+                            logger.info("二次校验，发现已经被删除的任务。跳过");
+                        }
+
+                    }
+
                     logger.info("执行完成等待下一个");
             } catch (InterruptedException e) {
                 e.printStackTrace();
