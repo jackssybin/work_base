@@ -161,7 +161,7 @@ public class BzProductShortServiceImpl extends
             return bzProductShort.getProdctName();
         }
 
-        return "产品名称";
+        return null;
     }
 
     @Override
@@ -176,6 +176,13 @@ public class BzProductShortServiceImpl extends
         }
 
         return 0;
+    }
+
+    @Override
+    public void removeProduct(Integer productId) {
+        if(productUrlMap.containsKey(productId)){
+             productUrlMap.remove(productId);
+        }
     }
 
     @Override

@@ -8,6 +8,7 @@
       select bt.product_id productId,count(phone_number) uvNumber,
       sum(click_number) pvNumber,bps.prodct_name productName ,bps.phone_count phoneCount from bz_translate bt
       left join bz_product_short bps on bt.product_id =bps.product_id
+      where bps.prodct_name is not null
       group by bt.product_id
 
     </select>

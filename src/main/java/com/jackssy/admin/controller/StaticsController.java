@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
+import org.thymeleaf.util.StringUtils;
 
 import java.util.Date;
 
@@ -57,7 +58,11 @@ public class StaticsController {
     @ResponseBody
     public ResponseEntity saveTranslate(@RequestBody BzTranslate bzTranslate){
         logger.info("saveTranslate:{}",bzTranslate);
-
+        String productName=this.productShortService.getProductName(bzTranslate.getProductId());
+        if(StringUtils.isEmpty(productName)){
+            logger.info("查找不到对应的产品，不需要保存");
+            return ResponseEntity.success("查找不到对应的产品，不需要保存");
+        }
         QueryWrapper<BzTranslate> queryWrapper = new QueryWrapper<>();
         BzTranslate bzTemp = new BzTranslate();
         bzTemp.setPhoneNumber(bzTranslate.getPhoneNumber());

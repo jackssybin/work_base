@@ -13,6 +13,8 @@ public interface BzProductShortService extends IService<BzProductShort> {
 
     Integer getProductCount(Integer productId);
 
+    void removeProduct(Integer productId);
+
     String savePhoneFile(MultipartFile file);
 
     void produceQueue(BzProductShort bzProductShort);
