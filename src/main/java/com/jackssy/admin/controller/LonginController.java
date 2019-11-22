@@ -20,7 +20,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 
@@ -60,6 +62,10 @@ public class LonginController {
         PAGE,ADMIN;
     }
 
+    @Value("${work_base.show_system_name}")
+    public String showSystemName;
+
+
     @GetMapping(value = "")
     public String welcome() {
         return "redirect:admin";
@@ -69,19 +75,21 @@ public class LonginController {
     public String adminIndex(RedirectAttributes attributes, ModelMap map) {
         Subject s = SecurityUtils.getSubject();
         attributes.addFlashAttribute(LOGIN_TYPE, LoginTypeEnum.ADMIN);
+        map.put("showSystemName", showSystemName);
         if(s.isAuthenticated()) {
             return "redirect:index";
         }
         return "redirect:toLogin";
     }
 
+
     @GetMapping(value = "toLogin")
-    public String adminToLogin(HttpSession session, @ModelAttribute(LOGIN_TYPE) String loginType) {
+    public String adminToLogin(HttpSession session, @ModelAttribute(LOGIN_TYPE) String loginType, Model model) {
         if(StringUtils.isBlank(loginType)) {
             LoginTypeEnum attribute = (LoginTypeEnum) session.getAttribute(LOGIN_TYPE);
             loginType = attribute == null ? loginType : attribute.name();
         }
-
+        model.addAttribute("showSystemName", showSystemName);
         if(LoginTypeEnum.ADMIN.name().equals(loginType)) {
             session.setAttribute(LOGIN_TYPE,LoginTypeEnum.ADMIN);
             return "admin/login";
@@ -92,11 +100,12 @@ public class LonginController {
     }
 
     @GetMapping(value = "index")
-    public String index(HttpSession session, @ModelAttribute(LOGIN_TYPE) String loginType) {
+    public String index(HttpSession session, @ModelAttribute(LOGIN_TYPE) String loginType,Model model) {
         if(StringUtils.isBlank(loginType)) {
             LoginTypeEnum attribute = (LoginTypeEnum) session.getAttribute(LOGIN_TYPE);
             loginType = attribute == null ? loginType : attribute.name();
         }
+        model.addAttribute("showSystemName", showSystemName);
         if(LoginTypeEnum.ADMIN.name().equals(loginType)) {
             AuthRealm.ShiroUser principal = (AuthRealm.ShiroUser) SecurityUtils.getSubject().getPrincipal();
             session.setAttribute("icon",StringUtils.isBlank(principal.getIcon()) ? "/static/admin/img/face.jpg" : principal.getIcon());

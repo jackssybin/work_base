@@ -13,21 +13,25 @@ import java.util.*;
 
 public class MysqlGenerator {
 
-    private static String packageName="admin";    //文件路径
-    private static String authorName="cusn-cmh";     //作者
-    private static String[] table = {"sys_role","sys_user"};             //table名字
+    private static String packageName="weibo";    //文件路径
+    private static String authorName="jackssy";     //作者
+    private static String[] table = {"bz_account"};             //table名字
     private static String prefix="";                     //table前缀
-    private static File file = new File("");
-    private static String path = file.getAbsolutePath();
+    private static String username="root";
+    private static String userpwd="root1234";
+    private static String url="jdbc:mysql://59.110.240.154:3306/weibo_info?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false";
 
 
     public static void main(String[] args) {
         // 自定义需要填充的字段
         List<TableFill> tableFillList = new ArrayList<>();
-        tableFillList.add(new TableFill("ASDD_SS", FieldFill.INSERT_UPDATE));
+        File file =new File("");
+        String path = file.getAbsolutePath();
+//        tableFillList.add(new TableFill("ASDD_SS", FieldFill.INSERT_UPDATE));
         // 代码生成器
         AutoGenerator mpg = new AutoGenerator().setGlobalConfig(
                 // 全局配置
+
                 new GlobalConfig()
                         .setOutputDir(path+"/src/main/java")//输出目录
                         .setFileOverride(true)// 是否覆盖文件
@@ -49,9 +53,9 @@ public class MysqlGenerator {
                         .setDbType(DbType.MYSQL)// 数据库类型
                         .setTypeConvert(new MySqlTypeConvert())
                         .setDriverName("com.mysql.jdbc.Driver")
-                        .setUsername("root")
-                        .setPassword("xqx1234")
-                        .setUrl("jdbc:mysql://127.0.0.1:3306/comadmin?characterEncoding=utf8")
+                        .setUsername(username)
+                        .setPassword(userpwd)
+                        .setUrl(url)
         ).setStrategy(
                 // 策略配置
                 new StrategyConfig()
@@ -130,6 +134,7 @@ public class MysqlGenerator {
         try{
             // 执行生成
             mpg.execute();
+            System.out.println("生成文件路径:"+path+"/src/main/java");
         } catch (Exception e) {
             e.printStackTrace();
         }
