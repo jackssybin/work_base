@@ -7,7 +7,7 @@ import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.context.annotation.Bean;
 
 @SpringBootConfiguration
-@MapperScan("com.jackssy.admin.mapper*")
+@MapperScan("com.jackssy.*.mapper*")
 public class MybatisPlusConfig {
 
     /***

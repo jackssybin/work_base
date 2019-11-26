@@ -15,7 +15,7 @@ public class MysqlGenerator {
 
     private static String packageName="weibo";    //文件路径
     private static String authorName="jackssy";     //作者
-    private static String[] table = {"bz_account"};             //table名字
+    private static String[] table = {"bz_tags"};             //table名字
     private static String prefix="";                     //table前缀
     private static String username="root";
     private static String userpwd="root1234";

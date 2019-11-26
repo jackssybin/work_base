@@ -1,6 +1,6 @@
 package com.jackssy.weibo.service;
 
-import com.jackssy.weibo.entity.BzAccount;
+import com.jackssy.weibo.entity.BzLog;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
@@ -11,6 +11,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @author jackssy
  * @since 2019-11-26
  */
-public interface BzAccountService extends IService<BzAccount> {
+public interface BzLogService extends IService<BzLog> {
 
 }

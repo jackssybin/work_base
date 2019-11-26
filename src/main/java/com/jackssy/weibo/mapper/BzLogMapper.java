@@ -1,6 +1,6 @@
 package com.jackssy.weibo.mapper;
 
-import com.jackssy.weibo.entity.BzAccount;
+import com.jackssy.weibo.entity.BzLog;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
@@ -11,6 +11,6 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @author jackssy
  * @since 2019-11-26
  */
-public interface BzAccountMapper extends BaseMapper<BzAccount> {
+public interface BzLogMapper extends BaseMapper<BzLog> {
 
 }
