@@ -9,7 +9,10 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 /**
  * @author zhoubin
@@ -47,9 +50,9 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(value = HttpRequestMethodNotSupportedException.class)
-    public void exceptionNotSupportHandler(HttpServletRequest req, NullPointerException e){
+    public ResultBody exceptionNotSupportHandler(HttpServletRequest request, NullPointerException e){
         logger.error("发生空指针异常！原因是:",e);
-
+        return ResultBody.error(CommonEnum.BODY_NOT_MATCH);
     }
 
 

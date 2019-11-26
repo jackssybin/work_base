@@ -80,6 +80,10 @@ public class BzLog extends Model<BzLog> {
     private Integer collect;
 
     /**
+     */
+    private String remark;
+
+    /**
      * 创建时间
      */
     @TableField("create_date")
@@ -206,6 +210,14 @@ public class BzLog extends Model<BzLog> {
 
     public static final String CREATE_DATE = "create_date";
 
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
+
     @Override
     protected Serializable pkVal() {
         return this.id;
@@ -214,18 +226,19 @@ public class BzLog extends Model<BzLog> {
     @Override
     public String toString() {
         return "BzLog{" +
-        ", id=" + id +
-        ", taskId=" + taskId +
-        ", accountId=" + accountId +
-        ", accountUser=" + accountUser +
-        ", loginSystem=" + loginSystem +
-        ", comment=" + comment +
-        ", focus=" + focus +
-        ", raises=" + raises +
-        ", forward=" + forward +
-        ", forwardComment=" + forwardComment +
-        ", collect=" + collect +
-        ", createDate=" + createDate +
-        "}";
+                "id=" + id +
+                ", taskId=" + taskId +
+                ", accountId=" + accountId +
+                ", accountUser=" + accountUser +
+                ", loginSystem=" + loginSystem +
+                ", comment=" + comment +
+                ", focus=" + focus +
+                ", raises=" + raises +
+                ", forward=" + forward +
+                ", forwardComment=" + forwardComment +
+                ", collect=" + collect +
+                ", remark='" + remark + '\'' +
+                ", createDate=" + createDate +
+                '}';
     }
 }

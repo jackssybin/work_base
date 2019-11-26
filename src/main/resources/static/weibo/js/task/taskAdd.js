@@ -1,9 +1,10 @@
-layui.use(['form','jquery','layer'],function(){
+layui.use(['form','jquery','layer','laydate'],function(){
     var form = layui.form,
         $    = layui.jquery,
         layer = layui.layer;   //默认启用用户
+    var laydate = layui.laydate;
 
-    form.on("submit(addUser)",function(data){
+        form.on("submit(addTask)",function(data){
         var loadIndex = layer.load(2, {
             shade: [0.3, '#333']
         });
@@ -31,14 +32,14 @@ layui.use(['form','jquery','layer'],function(){
 
         $.ajax({
             type:"POST",
-            url:"/admin/system/user/add",
+            url:"/bzTask/add",
             dataType:"json",
             contentType:"application/json",
             data:JSON.stringify(data.field),
             success:function(res){
                 layer.close(loadIndex);
                 if(res.success){
-                    parent.layer.msg("用户添加成功!",{time:1500},function(){
+                    parent.layer.msg("任务添加成功!",{time:1500},function(){
                         //刷新父页面
                         parent.location.reload();
                     });
@@ -50,12 +51,23 @@ layui.use(['form','jquery','layer'],function(){
         return false;
     });
 
-    form.on('switch(adminUser)', function(data){
-        $("#adminUser").val(data.elem.checked);
+    form.on('switch(commentType)', function(data){
+        $("#commentType").val(data.elem.checked);
+    });
+
+    form.on('switch(comment)', function(data){
+        $("#comment").val(data.elem.checked);
     });
 
     form.on('switch(locked)', function(data){
         $("#locked").val(data.elem.checked);
+    });
+
+    //日期时间范围
+    laydate.render({
+        elem: '#test10'
+        ,type: 'datetime'
+        ,range: true
     });
 
 });
