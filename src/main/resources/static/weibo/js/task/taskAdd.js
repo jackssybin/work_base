@@ -8,27 +8,10 @@ layui.use(['form','jquery','layer','laydate'],function(){
         var loadIndex = layer.load(2, {
             shade: [0.3, '#333']
         });
-        //给角色赋值
-        delete data.field["roles"];
-        var selectRole = [];
-        $('input[name="roles"]:checked').each(function(){
-            selectRole.push({"id":$(this).val()});
-        });
-        data.field.roleLists = selectRole;
 
-        //判断用户是否后台用户
-        if(undefined !== data.field.adminUser && null != data.field.adminUser){
-            data.field.adminUser = true;
-        }else{
-            data.field.adminUser = false;
-        }
 
         //判断用户是否启用
-        if(undefined !== data.field.locked && null != data.field.locked){
-            data.field.locked = false;
-        }else{
-            data.field.locked = true;
-        }
+
 
         $.ajax({
             type:"POST",
@@ -51,17 +34,82 @@ layui.use(['form','jquery','layer','laydate'],function(){
         return false;
     });
 
-    form.on('switch(commentType)', function(data){
-        $("#commentType").val(data.elem.checked);
+    form.on('switch(taskSpeed)', function(data){
+        if(data.elem.checked){
+            $("#taskSpeed").val(1);
+        }else{
+            $("#taskSpeed").val(2);
+        }
     });
 
     form.on('switch(comment)', function(data){
-        $("#comment").val(data.elem.checked);
+        console.log("comment:{}"+data)
+        if(data.elem.checked){
+            $("#comment").val(1);
+        }else{
+            $("#comment").val(0);
+        }
     });
 
-    form.on('switch(locked)', function(data){
-        $("#locked").val(data.elem.checked);
+    form.on('switch(commentType)', function(data){
+        console.log("commentType:{}"+data)
+        if(data.elem.checked){//万能
+            $("#commentType").val(1);
+        }else{
+            $("#commentType").val(2);
+        }
     });
+
+    form.on('switch(focus)', function(data){
+        console.log("focus:{}"+data)
+        if(data.elem.checked){
+            $("#focus").val(1);
+        }else{
+            $("#focus").val(0);
+        }
+    });
+
+    form.on('switch(raises)', function(data){
+        console.log("raises:{}"+data)
+        if(data.elem.checked){
+            $("#raises").val(1);
+        }else{
+            $("#raises").val(0);
+        }
+    });
+
+    form.on('switch(forward)', function(data){
+        console.log("forward:{}"+data)
+        if(data.elem.checked){
+            $("#forward").val(1);
+        }else{
+            $("#forward").val(0);
+        }
+    });
+
+    form.on('switch(forwardComment)', function(data){
+        console.log("forwardComment:{}"+data)
+        if(data.elem.checked){
+            $("#forwardComment").val(1);
+        }else{
+            $("#forwardComment").val(0);
+        }
+    });
+
+    form.on('switch(collect)', function(data){
+        console.log("collect:{}"+data)
+        if(data.elem.checked){
+            $("#collect").val(1);
+        }else{
+            $("#collect").val(0);
+        }
+    });
+
+
+
+
+
+
 
     //日期时间范围
     laydate.render({

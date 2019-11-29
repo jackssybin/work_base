@@ -49,11 +49,7 @@ public class GlobalExceptionHandler {
         return ResultBody.error(CommonEnum.BODY_NOT_MATCH);
     }
 
-    @ExceptionHandler(value = HttpRequestMethodNotSupportedException.class)
-    public ResultBody exceptionNotSupportHandler(HttpServletRequest request, NullPointerException e){
-        logger.error("发生空指针异常！原因是:",e);
-        return ResultBody.error(CommonEnum.BODY_NOT_MATCH);
-    }
+
 
 
     /**

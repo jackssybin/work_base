@@ -41,18 +41,14 @@
 <div class="layui-form users_list">
     <table class="layui-table" id="taskTable" lay-filter="taskList"></table>
 
-    <script type="text/html" id="userStatus">
-        {{#  if(d.delFlag == false){ }}
-        <span class="layui-badge layui-bg-green">正常</span>
+    <script type="text/html" id="taskStatus">
+        <!--0:待执行,1:执行中2:暂停 3:终止-->
+        {{#  if(d.status == 0){ }}
+        <span class="layui-badge layui-bg-green">待执行</span>
         {{#  } else { }}
         <span class="layui-badge layui-bg-gray">无效</span>
         {{#  } }}
 
-        {{#  if(d.locked == false){ }}
-        <span class="layui-badge layui-bg-green">启用</span>
-        {{#  } else { }}
-        <span class="layui-badge layui-bg-gray">锁定</span>
-        {{#  } }}
     </script>
 
 

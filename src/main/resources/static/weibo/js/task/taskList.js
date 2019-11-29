@@ -20,12 +20,12 @@ layui.use(['layer','form','table'], function() {
         width: $(parent.window).width()-223,
         cols: [[
             {type:'checkbox'},
-            {field:'loginName', title: '登录名称', width:'10%'},
-            {field:'nickName',  title: '昵称',    width:'10%'},
-            {field:'email',     title: '邮箱',    width:'16%' },
-            {field:'tel',       title: '电话',    width:'12%'},
-            {field:'adminUser', title: '用户类型', width:'8%',templet:'#userType'},
-            {field:'locked',    title: '状态',width:'8%',templet:'#userStatus'},
+            {field:'taskName', title: '任务名称', width:'10%'},
+            {field:'taskCount',  title: '任务数量',    width:'10%'},
+            {field:'targetUrl',     title: '任务url',    width:'16%' },
+            {field:'commentTypeName',       title: '评论类型',    width:'12%'},
+            {field:'tagsTypeName', title: '任务标签', width:'8%'},
+            {field:'statusName',    title: '状态',width:'8%'},
             {field:'createDate',  title: '创建时间',width:'14%', templet:'<span>{{ layui.laytpl.toDateString(d.createDate) }}</span>'}, //单元格内容水平居中
             {fixed: 'right', align: 'center', toolbar: '#userBar'}
         ]]

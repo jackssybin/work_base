@@ -1,7 +1,10 @@
 package com.jackssy.weibo.service;
 
+import com.jackssy.admin.entity.Role;
 import com.jackssy.weibo.entity.BzTags;
 import com.baomidou.mybatisplus.extension.service.IService;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,4 +16,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface BzTagsService extends IService<BzTags> {
 
+    String getTagsNameByTagsCode(String tagsCode);
 }

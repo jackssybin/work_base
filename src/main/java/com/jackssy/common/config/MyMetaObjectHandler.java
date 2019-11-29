@@ -18,15 +18,25 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
 
     @Override
     public void insertFill(MetaObject metaObject) {
-        setFieldValByName("createDate", new Date(), metaObject);
-        setFieldValByName("createId", MySysUser.id(), metaObject);
-        setFieldValByName("updateDate", new Date(), metaObject);
-        setFieldValByName("updateId", MySysUser.id(), metaObject);
+        Object fieldValue = getFieldValByName("createDate", metaObject);
+        if(null==fieldValue){
+            System.out.println("*******插入操作 满足填充条件*********");
+            setFieldValByName("createDate", new Date(), metaObject);
+            setFieldValByName("createId", MySysUser.id(), metaObject);
+            setFieldValByName("updateDate", new Date(), metaObject);
+            setFieldValByName("updateId", MySysUser.id(), metaObject);
+        }
+
     }
 
     @Override
     public void updateFill(MetaObject metaObject) {
-        setFieldValByName("updateDate", new Date(), metaObject);
-        setFieldValByName("updateId", MySysUser.id(), metaObject);
+        Object fieldValue = getFieldValByName("updateDate", metaObject);
+        if(fieldValue == null) {
+            System.out.println("*******修改操作 满足填充条件*********");
+            setFieldValByName("updateDate", new Date(), metaObject);
+            setFieldValByName("updateId", MySysUser.id(), metaObject);
+        }
+
     }
 }

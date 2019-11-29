@@ -65,6 +65,16 @@ spring:
       password: root1234
       driver-class-name: com.mysql.jdbc.Driver
       maximum-pool-size: 30
+jedis :
+  pool :
+    host : 127.0.0.1
+    port : 6379
+    password: jackssy
+    timeout: 2000
+    config :
+      maxTotal: 100
+      maxIdle: 10
+      maxWaitMillis : 100000
 server:
   #端口
   port: 8088
@@ -85,6 +95,16 @@ spring:
     password: root1234
     driver-class-name: com.mysql.jdbc.Driver
     maximum-pool-size: 30
+jedis :
+  pool :
+    host : 127.0.0.1
+    port : 6379
+    password: jackssy
+    timeout: 2000
+    config :
+      maxTotal: 100
+      maxIdle: 10
+      maxWaitMillis : 100000
 server:
   #端口
   port: 8090

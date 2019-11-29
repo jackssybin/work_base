@@ -6,7 +6,10 @@ import com.baomidou.mybatisplus.extension.activerecord.Model;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.time.LocalDateTime;
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * <p>
@@ -78,7 +81,7 @@ public class BzTask extends Model<BzTask> {
     /**
      * 备注
      */
-    private String remarks;
+    private String remark;
 
     /**
      * 0:待执行,1:执行中2:暂停 3:终止
@@ -131,7 +134,8 @@ public class BzTask extends Model<BzTask> {
      * 创建时间
      */
     @TableField("create_date")
-    private LocalDateTime createDate;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    private Date createDate;
 
 
     public Integer getId() {
@@ -214,12 +218,12 @@ public class BzTask extends Model<BzTask> {
         this.tagsType = tagsType;
     }
 
-    public String getRemarks() {
-        return remarks;
+    public String getRemark() {
+        return remark;
     }
 
-    public void setRemarks(String remarks) {
-        this.remarks = remarks;
+    public void setRemark(String remark) {
+        this.remark = remark;
     }
 
     public Integer getStatus() {
@@ -294,11 +298,11 @@ public class BzTask extends Model<BzTask> {
         this.endTime = endTime;
     }
 
-    public LocalDateTime getCreateDate() {
+    public Date getCreateDate() {
         return createDate;
     }
 
-    public void setCreateDate(LocalDateTime createDate) {
+    public void setCreateDate(Date createDate) {
         this.createDate = createDate;
     }
 
@@ -362,7 +366,7 @@ public class BzTask extends Model<BzTask> {
         ", commentType=" + commentType +
         ", commentContent=" + commentContent +
         ", tagsType=" + tagsType +
-        ", remarks=" + remarks +
+        ", remark=" + remark +
         ", status=" + status +
         ", comment=" + comment +
         ", focus=" + focus +
