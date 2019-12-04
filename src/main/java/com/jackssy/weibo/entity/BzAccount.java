@@ -66,11 +66,6 @@ public class BzAccount extends Model<BzAccount> {
      */
     private Integer status;
 
-//    /**
-//     * 启用/暂停
-//     */
-//    @TableField("use_flag")
-//    private Integer useFlag;
 
     /**
      * 使用次数
@@ -103,6 +98,9 @@ public class BzAccount extends Model<BzAccount> {
 
     @TableField("update_date")
     private LocalDateTime updateDate;
+
+    @TableField("invalid_date")
+    private LocalDateTime invalidDate;
 
 
     public Integer getId() {
@@ -256,6 +254,14 @@ public class BzAccount extends Model<BzAccount> {
         this.userAgent = userAgent;
     }
 
+    public LocalDateTime getInvalidDate() {
+        return invalidDate;
+    }
+
+    public void setInvalidDate(LocalDateTime invalidDate) {
+        this.invalidDate = invalidDate;
+    }
+
     @Override
     protected Serializable pkVal() {
         return this.id;
@@ -264,21 +270,22 @@ public class BzAccount extends Model<BzAccount> {
     @Override
     public String toString() {
         return "BzAccount{" +
-        ", id=" + id +
-        ", accountUser=" + accountUser +
-        ", accountPwd=" + accountPwd +
-        ", nickName=" + nickName +
-        ", sex=" + sex +
-        ", regionId=" + regionId +
-        ", regionName=" + regionName +
-        ", remarks=" + remarks +
-        ", status=" + status +
-        ", userAgent=" + userAgent +
-                ", userSource=" + userSource +
-        ", useNumber=" + useNumber +
-        ", tagGroup=" + tagGroup +
-        ", createDate=" + createDate +
-        ", updateDate=" + updateDate +
-        "}";
+                "id=" + id +
+                ", accountUser='" + accountUser + '\'' +
+                ", accountPwd='" + accountPwd + '\'' +
+                ", nickName='" + nickName + '\'' +
+                ", sex=" + sex +
+                ", regionId='" + regionId + '\'' +
+                ", regionName='" + regionName + '\'' +
+                ", remarks='" + remarks + '\'' +
+                ", status=" + status +
+                ", useNumber=" + useNumber +
+                ", tagGroup='" + tagGroup + '\'' +
+                ", userSource='" + userSource + '\'' +
+                ", userAgent='" + userAgent + '\'' +
+                ", createDate=" + createDate +
+                ", updateDate=" + updateDate +
+                ", invalidDate=" + invalidDate +
+                '}';
     }
 }
