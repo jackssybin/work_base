@@ -51,8 +51,6 @@ public class BzAccountController extends BaseController {
     @Autowired
     BzAccountService bzAccountService;
 
-    @Autowired
-    private RedisClient redisClient;
 
     @GetMapping("list")
     @SysLog("跳转账号列表页面")

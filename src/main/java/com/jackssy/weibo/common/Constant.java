@@ -10,4 +10,6 @@ public class Constant {
     public static String TASK_PREX="task_";
 
     public static String ACCOUNT_PREX = "ac_";
+
+    public static String LOG_PREX ="log_";
 }

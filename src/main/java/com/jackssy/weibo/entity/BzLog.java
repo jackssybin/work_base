@@ -42,6 +42,27 @@ public class BzLog extends Model<BzLog> {
     @TableField("account_user")
     private Integer accountUser;
 
+
+    /**
+     * 城市ID
+     */
+    @TableField("region_id")
+    private String regionId;
+
+    /**
+     * 代理地址
+     */
+    @TableField("proxy_ip")
+    private String proxyIp;
+
+    /**
+     * 评论内容
+     */
+    @TableField("comment_content")
+    private String commentContent;
+
+
+
     /**
      * 是否登录系统
      */
@@ -89,6 +110,29 @@ public class BzLog extends Model<BzLog> {
     @TableField("create_date")
     private LocalDateTime createDate;
 
+    public String getRegionId() {
+        return regionId;
+    }
+
+    public void setRegionId(String regionId) {
+        this.regionId = regionId;
+    }
+
+    public String getProxyIp() {
+        return proxyIp;
+    }
+
+    public void setProxyIp(String proxyIp) {
+        this.proxyIp = proxyIp;
+    }
+
+    public String getCommentContent() {
+        return commentContent;
+    }
+
+    public void setCommentContent(String commentContent) {
+        this.commentContent = commentContent;
+    }
 
     public Integer getId() {
         return id;
