@@ -66,11 +66,11 @@ public class BzAccount extends Model<BzAccount> {
      */
     private Integer status;
 
-    /**
-     * 启用/暂停
-     */
-    @TableField("use_flag")
-    private Integer useFlag;
+//    /**
+//     * 启用/暂停
+//     */
+//    @TableField("use_flag")
+//    private Integer useFlag;
 
     /**
      * 使用次数
@@ -84,6 +84,17 @@ public class BzAccount extends Model<BzAccount> {
     @TableField("tag_group")
     private String tagGroup;
 
+    /**
+     * 用户来源
+     */
+    @TableField("user_source")
+    private String userSource;
+
+    /**
+     * 用户浏览器头
+     */
+    @TableField("user_agent")
+    private String userAgent;
     /**
      * 创建时间
      */
@@ -166,13 +177,6 @@ public class BzAccount extends Model<BzAccount> {
         this.status = status;
     }
 
-    public Integer getUseFlag() {
-        return useFlag;
-    }
-
-    public void setUseFlag(Integer useFlag) {
-        this.useFlag = useFlag;
-    }
 
     public Integer getUseNumber() {
         return useNumber;
@@ -224,7 +228,9 @@ public class BzAccount extends Model<BzAccount> {
 
     public static final String STATUS = "status";
 
-    public static final String USE_FLAG = "use_flag";
+    public static final String USER_SOURCE = "user_source";
+
+    public static final String USER_AGENT = "user_agent";
 
     public static final String USE_NUMBER = "use_number";
 
@@ -233,6 +239,22 @@ public class BzAccount extends Model<BzAccount> {
     public static final String CREATE_DATE = "create_date";
 
     public static final String UPDATE_DATE = "update_date";
+
+    public String getUserSource() {
+        return userSource;
+    }
+
+    public void setUserSource(String userSource) {
+        this.userSource = userSource;
+    }
+
+    public String getUserAgent() {
+        return userAgent;
+    }
+
+    public void setUserAgent(String userAgent) {
+        this.userAgent = userAgent;
+    }
 
     @Override
     protected Serializable pkVal() {
@@ -251,7 +273,8 @@ public class BzAccount extends Model<BzAccount> {
         ", regionName=" + regionName +
         ", remarks=" + remarks +
         ", status=" + status +
-        ", useFlag=" + useFlag +
+        ", userAgent=" + userAgent +
+                ", userSource=" + userSource +
         ", useNumber=" + useNumber +
         ", tagGroup=" + tagGroup +
         ", createDate=" + createDate +

@@ -8,4 +8,6 @@ package com.jackssy.weibo.common;
 public class Constant {
 
     public static String TASK_PREX="task_";
+
+    public static String ACCOUNT_PREX = "ac_";
 }
