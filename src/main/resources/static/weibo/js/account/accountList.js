@@ -55,10 +55,7 @@ layui.use(['layer','form','table'], function() {
         }
     });
 
-    $('.layui-inline .layui-btn').on('click', function(){
-        var type = $(this).data('type');
-        active[type] ? active[type].call(this) : '';
-    });
+
 
     //搜索
     form.on("submit(searchForm)",function(data){

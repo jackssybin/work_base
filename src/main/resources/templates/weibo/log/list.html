@@ -20,7 +20,7 @@
     <div class="layui-field-box">
         <form class="layui-form">
             <div class="layui-inline" style="width: 15%">
-                <input type="text" value="" status="log_key" placeholder="账号或人物名称" class="layui-input search_input">
+                <input type="text" value="" name="log_key" placeholder="关联账号或任务ID" class="layui-input search_input">
             </div>
             <div class="layui-inline">
                 <a class="layui-btn" lay-submit="" lay-filter="searchForm">查询</a>
@@ -28,6 +28,7 @@
         </form>
     </div>
 </fieldset>
+
 <div class="layui-form users_list">
     <table class="layui-table" id="logTable" lay-filter="logList"></table>
 

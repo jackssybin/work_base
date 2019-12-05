@@ -73,7 +73,7 @@ public class BzLogController {
             if(StringUtils.isNotBlank(keys)) {
                 logWapper.and(wrapper ->
                         wrapper.like("account_id", keys)
-                                .or().like("task_id",keys));
+                                .or().like("account_user",keys));
             }
         }
         logWapper.orderByDesc("task_id","create_date");
