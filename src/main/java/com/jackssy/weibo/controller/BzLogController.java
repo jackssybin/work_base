@@ -76,6 +76,7 @@ public class BzLogController {
                                 .or().like("task_id",keys));
             }
         }
+        logWapper.orderByDesc("task_id","create_date");
         IPage<BzLog> logIPage = bzLogService.page(new Page<>(page,limit),logWapper);
 
         logPageData.setCount(logIPage.getTotal());

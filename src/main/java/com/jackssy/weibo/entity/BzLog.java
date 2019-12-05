@@ -40,7 +40,7 @@ public class BzLog extends Model<BzLog> {
      * 关联账号
      */
     @TableField("account_user")
-    private Integer accountUser;
+    private String accountUser;
 
 
     /**
@@ -158,11 +158,11 @@ public class BzLog extends Model<BzLog> {
         this.accountId = accountId;
     }
 
-    public Integer getAccountUser() {
+    public String getAccountUser() {
         return accountUser;
     }
 
-    public void setAccountUser(Integer accountUser) {
+    public void setAccountUser(String accountUser) {
         this.accountUser = accountUser;
     }
 
