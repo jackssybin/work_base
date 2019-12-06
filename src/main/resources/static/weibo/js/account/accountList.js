@@ -57,6 +57,34 @@ layui.use(['layer','form','table'], function() {
 
 
 
+
+    var active = {
+        importAccount: function(){
+            var that = this;
+            layer.open({
+                type: 2 //此处以iframe举例
+                ,title: '导入设置'
+                ,area: ['390px', '260px']
+                ,shade: 0
+                ,maxmin: true
+                ,content: '/bzAccount/importSet'
+                ,btn: ['确认导入', '取消'] //只是为了演示
+                ,yes: function(){
+                    $(that).click();
+                }
+                ,btn2: function(){
+                    layer.closeAll();
+                }
+
+                ,zIndex: layer.zIndex //重点1
+                ,success: function(layero){
+                    layer.setTop(layero); //重点2
+                }
+            });
+        }
+    }
+
+
     //搜索
     form.on("submit(searchForm)",function(data){
         t.where = data.field;

@@ -59,6 +59,12 @@ public class BzAccountController extends BaseController {
     }
 
 
+    @GetMapping("importSet")
+    @SysLog("跳转导入设置页面")
+    public String importSet(){
+        return "weibo/account/importSet";
+    }
+
     /**
      * 账号列表
      * @param page 页数
