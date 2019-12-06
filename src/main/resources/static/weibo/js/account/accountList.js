@@ -60,6 +60,7 @@ layui.use(['layer','form','table'], function() {
 
     var active = {
         importAccount: function(){
+            console.log("gogog")
             var that = this;
             layer.open({
                 type: 2 //此处以iframe举例
@@ -69,8 +70,9 @@ layui.use(['layer','form','table'], function() {
                 ,maxmin: true
                 ,content: '/bzAccount/importSet'
                 ,btn: ['确认导入', '取消'] //只是为了演示
-                ,yes: function(){
-                    $(that).click();
+                ,yes: function(layero){
+                    console.log("1")
+                    layero.find("#confirmUpload").click();
                 }
                 ,btn2: function(){
                     layer.closeAll();
@@ -78,13 +80,18 @@ layui.use(['layer','form','table'], function() {
 
                 ,zIndex: layer.zIndex //重点1
                 ,success: function(layero){
-                    layer.setTop(layero); //重点2
+                    layer.setTop(layero);
+
+                    // layero.find('.layui-layer-btn0').attr("id","confirmUpload");
                 }
             });
         }
     }
 
-
+    $('.layui-inline .layui-btn').on('click', function(){
+        var type = $(this).data('type');
+        active[type] ? active[type].call(this) : '';
+    });
     //搜索
     form.on("submit(searchForm)",function(data){
         t.where = data.field;

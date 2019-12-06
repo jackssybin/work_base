@@ -12,6 +12,7 @@ import com.jackssy.common.util.Constants;
 import com.jackssy.common.util.ResponseEntity;
 import com.jackssy.weibo.common.Constant;
 import com.jackssy.weibo.entity.BzAccount;
+import com.jackssy.weibo.entity.BzTags;
 import com.jackssy.weibo.entity.BzTask;
 import com.jackssy.weibo.entity.dto.BzAccountDto;
 import com.jackssy.weibo.entity.dto.BzTaskDto;
@@ -26,10 +27,14 @@ import org.apache.shiro.authc.Account;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.util.WebUtils;
 
 import javax.servlet.ServletRequest;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collector;
@@ -51,6 +56,8 @@ public class BzAccountController extends BaseController {
     @Autowired
     BzAccountService bzAccountService;
 
+    @Autowired
+    BzTagsService bzTagsService;
 
     @GetMapping("list")
     @SysLog("跳转账号列表页面")
@@ -61,7 +68,10 @@ public class BzAccountController extends BaseController {
 
     @GetMapping("importSet")
     @SysLog("跳转导入设置页面")
-    public String importSet(){
+    public String importSet(ModelMap map){
+        QueryWrapper<BzTags> tagsQueryWrapper = new QueryWrapper<>();
+        List<BzTags> tagsList =bzTagsService.list(tagsQueryWrapper);
+        map.put("tagsList",tagsList);
         return "weibo/account/importSet";
     }
 
@@ -118,6 +128,16 @@ public class BzAccountController extends BaseController {
         }
         bzAccountService.removeById(id);
         return ResponseEntity.success("操作成功");
+    }
+
+    @PostMapping("uploadExcel")
+    @ResponseBody
+    @SysLog("导入账号")
+    public String uploadExcel(ServletRequest request){
+        MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+        // 获取上传的文件
+        MultipartFile multiFile = multipartRequest.getFile("file");
+        return "{code:success}";
     }
 
 }
