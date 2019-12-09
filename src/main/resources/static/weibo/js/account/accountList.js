@@ -70,9 +70,13 @@ layui.use(['layer','form','table'], function() {
                 ,maxmin: true
                 ,content: '/bzAccount/importSet'
                 ,btn: ['确认导入', '取消'] //只是为了演示
-                ,yes: function(layero){
-                    console.log("1")
-                    layero.find("#confirmUpload").click();
+                ,yes: function(index, layero){
+                    $(layero).find("#confirmUpload").click();
+                    var btn = $(layero).find("#confirmUpload1")
+                    $(btn).click();
+                    $(layero).find("#confirmUpload1").click();
+                    console.log("1");
+
                 }
                 ,btn2: function(){
                     layer.closeAll();

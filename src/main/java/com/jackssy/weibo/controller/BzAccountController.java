@@ -1,16 +1,19 @@
 package com.jackssy.weibo.controller;
 
 
+import com.alibaba.excel.metadata.BaseRowModel;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.jackssy.admin.controller.BaseController;
+import com.jackssy.admin.excel.config.ExcelUtil;
 import com.jackssy.common.annotation.SysLog;
 import com.jackssy.common.base.PageData;
 import com.jackssy.common.config.RedisClient;
 import com.jackssy.common.util.Constants;
 import com.jackssy.common.util.ResponseEntity;
 import com.jackssy.weibo.common.Constant;
+import com.jackssy.weibo.entity.AccountExcel;
 import com.jackssy.weibo.entity.BzAccount;
 import com.jackssy.weibo.entity.BzTags;
 import com.jackssy.weibo.entity.BzTask;
@@ -34,6 +37,11 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.util.WebUtils;
 
 import javax.servlet.ServletRequest;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -133,11 +141,25 @@ public class BzAccountController extends BaseController {
     @PostMapping("uploadExcel")
     @ResponseBody
     @SysLog("导入账号")
-    public String uploadExcel(ServletRequest request){
+    public ResponseEntity uploadExcel(ServletRequest request){
         MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
-        // 获取上传的文件
+        Map map = WebUtils.getParametersStartingWith(request, Constant.ACCOUNT_PREX);
+        try {
         MultipartFile multiFile = multipartRequest.getFile("file");
-        return "{code:success}";
+        if(multiFile.isEmpty()){
+            return ResponseEntity.failure("文件为空");
+        }
+            bzAccountService.importExcel(multiFile,map);
+
+        } catch (IOException e) {
+            logger.info("上传异常:",e);
+            return ResponseEntity.failure("上传异常");
+
+        }catch (Exception e){
+            logger.info("导入异常:",e);
+            return ResponseEntity.failure("导入异常");
+        }
+        return ResponseEntity.success("success");
     }
 
 }

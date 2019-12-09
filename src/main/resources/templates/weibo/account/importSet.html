@@ -32,19 +32,19 @@
     <div class="layui-form-item">
         <label class="layui-form-label">城市：</label>
         <div class="layui-input-block">
-            <input type="text"  autocomplete="off" id="im_city" placeholder="请输入城市" class="layui-input">
+            <input type="text"  autocomplete="off" id="ac_city" placeholder="请输入城市" class="layui-input">
         </div>
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label">来源：</label>
         <div class="layui-input-block">
-            <input type="text"  autocomplete="off" id="im_source"  placeholder="请输入账号来源" class="layui-input">
+            <input type="text"  autocomplete="off" id="ac_source"  placeholder="请输入账号来源" class="layui-input">
         </div>
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label">账号组</label>
         <div class="layui-input-inline">
-            <select name="modules"  lay-search="" id="im_tags">
+            <select name="modules"  lay-search="" id="ac_tags">
                 <option value="">请选择</option>
                 <option th:each="tags : ${tagsList}" th:value="${tags.tagCode}" th:text="${tags.tagName}"></option>
             </select>
@@ -52,7 +52,8 @@
     </div>
     <div class="layui-form-item">
         <button type="button" class="layui-btn layui-btn-normal" id="uploadExcel">选择文件</button>
-        <button type="button" id="confirmUpload" hidden="true"></button>
+        <button type="button" id="confirmUpload" >测试</button>
+        <button type="button" id="confirmUpload1" onclick="alert(2)">测试2</button>
     </div>
 </form>
 
