@@ -21,13 +21,14 @@ layui.use(['layer','form','table'], function() {
         cols: [[
             {type:'checkbox'},
             {field:'taskName', title: '任务名称', width:'10%'},
-            {field:'taskCount',  title: '任务数量',    width:'10%'},
-            {field:'targetUrl',     title: '任务url',    width:'16%' },
-            {field:'commentTypeName',       title: '评论类型',    width:'12%'},
-            {field:'tagsTypeName', title: '任务标签', width:'8%'},
-            {field:'statusName',    title: '状态',width:'8%'},
-            {field:'createDate',  title: '创建时间',width:'14%', templet:'<span>{{ layui.laytpl.toDateString(d.createDate) }}</span>'}, //单元格内容水平居中
-            {fixed: 'right', align: 'center', toolbar: '#userBar'}
+            {field:'taskType',  title: '任务类型',    width:'10%'},
+            {field:'taskCount',     title: '任务进度',    width:'16%', templet:function(d){
+                return d.finishCount+"/"+d.taskCount;
+                } },
+            {field:'statusName',       title: '任务状态',    width:'12%'},
+            {field:'startTime', title: '任务开始时间', width:'8%'},
+            {field:'createDate',    title: '任务创建时间',width:'8%'},
+            {fixed: '', align: 'center', toolbar: '#taskBar'}
         ]]
     };
     table.render(t);

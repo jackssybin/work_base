@@ -4,7 +4,8 @@ public enum StatusNameEnums {
     STATUS_NAME_UNDO("待执行", 0),
     STATUS_NAME_DOING("执行中", 1),
     STATUS_NAME_PAUSE("暂停", 2),
-    STATUS_NAME_DONE("终止", 3);
+    STATUS_NAME_DONE("终止", 3),
+    STATUS_NAME_ERROR("异常",9);
 
     private String name;
     private Integer value;

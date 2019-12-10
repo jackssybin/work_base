@@ -15,6 +15,7 @@ import com.jackssy.weibo.entity.BzTask;
 import com.jackssy.weibo.entity.dto.BzTaskDto;
 import com.jackssy.weibo.enums.CommentTypeEnums;
 import com.jackssy.weibo.enums.StatusNameEnums;
+import com.jackssy.weibo.enums.TaskTypeEnums;
 import com.jackssy.weibo.service.BzTagsService;
 import com.jackssy.weibo.service.BzTaskService;
 import org.apache.commons.lang3.StringUtils;
@@ -82,16 +83,14 @@ public class BzTaskController extends BaseController {
     public PageData<BzTaskDto> list(@RequestParam(value = "page",defaultValue = "1")Integer page,
                                @RequestParam(value = "limit",defaultValue = "10")Integer limit,
                                ServletRequest request){
-        Map map = WebUtils.getParametersStartingWith(request, "s_");
+        Map map = WebUtils.getParametersStartingWith(request, Constant.TASK_PREX);
         PageData<BzTaskDto> taskPageData = new PageData<>();
         QueryWrapper<BzTask> taskWrapper = new QueryWrapper<>();
         if(!map.isEmpty()){
             String keys = (String) map.get("key");
             if(StringUtils.isNotBlank(keys)) {
                 taskWrapper.and(wrapper ->
-                        wrapper.like("login_name", keys).
-                                or().like("tel", keys).
-                                or().like("email", keys));
+                        wrapper.like("task_name", keys));
             }
         }
         IPage<BzTask> taskPage = bzTaskService.page(new Page<>(page,limit),taskWrapper);
@@ -101,7 +100,8 @@ public class BzTaskController extends BaseController {
             BeanUtils.copyProperties(xx,dto);
             dto.setStatusName(StatusNameEnums.getNameByValue(xx.getStatus()));
             dto.setCommentTypeName(CommentTypeEnums.getNameByValue(xx.getCommentType()));
-            dto.setTagsTypeName(bzTagsService.getTagsNameByTagsCode(xx.getTagsType()));
+            dto.setTaskType(TaskTypeEnums.getNameByValue(dto.getTaskType()));
+            dto.setTagsTypeName(bzTagsService.getTagsNameByTagsCode(xx.getTagGroup()));
             return dto;
         }).collect(Collectors.toList()));
         return taskPageData;

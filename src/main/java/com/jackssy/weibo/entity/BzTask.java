@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import java.time.LocalDateTime;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.Data;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -19,6 +20,7 @@ import java.util.Date;
  * @author jackssy
  * @since 2019-11-26
  */
+@Data
 @TableName("bz_task")
 public class BzTask extends Model<BzTask> {
 
@@ -33,11 +35,24 @@ public class BzTask extends Model<BzTask> {
     @TableField("task_name")
     private String taskName;
 
+
+    /**
+     * 任务名称
+     */
+    @TableField("task_type")
+    private String taskType;
+
     /**
      * 任务总量
      */
     @TableField("task_count")
     private Integer taskCount;
+
+    /**
+     * 任务总量
+     */
+    @TableField("finish_count")
+    private Integer finishCount;
 
     /**
      * 任务执行速度，1:正常速度模拟人行为,2:快速执行
@@ -75,8 +90,8 @@ public class BzTask extends Model<BzTask> {
     /**
      * 关联标签类型,多个标签已逗号分隔
      */
-    @TableField("tags_type")
-    private String tagsType;
+    @TableField("tag_group")
+    private String tagGroup;
 
     /**
      * 备注
@@ -210,13 +225,7 @@ public class BzTask extends Model<BzTask> {
         this.commentContent = commentContent;
     }
 
-    public String getTagsType() {
-        return tagsType;
-    }
 
-    public void setTagsType(String tagsType) {
-        this.tagsType = tagsType;
-    }
 
     public String getRemark() {
         return remark;
@@ -365,7 +374,7 @@ public class BzTask extends Model<BzTask> {
         ", targetTitle=" + targetTitle +
         ", commentType=" + commentType +
         ", commentContent=" + commentContent +
-        ", tagsType=" + tagsType +
+        ", tagGroup=" + tagGroup +
         ", remark=" + remark +
         ", status=" + status +
         ", comment=" + comment +

@@ -12,4 +12,6 @@ public class Constant {
     public static String ACCOUNT_PREX = "ac_";
 
     public static String LOG_PREX ="log_";
+
+    public static String TAG_PREX = "tag_";
 }

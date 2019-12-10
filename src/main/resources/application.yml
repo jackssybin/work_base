@@ -95,6 +95,8 @@ spring:
     password: root1234
     driver-class-name: com.mysql.jdbc.Driver
     maximum-pool-size: 30
+  thymeleaf:
+    cache: false
 jedis :
   pool :
     host : 127.0.0.1
@@ -108,6 +110,5 @@ jedis :
 server:
   #端口
   port: 8090
-
 
 

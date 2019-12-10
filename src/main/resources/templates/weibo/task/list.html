@@ -20,15 +20,8 @@
     <div class="layui-field-box">
         <form class="layui-form">
             <div class="layui-inline" style="width: 15%">
-                <input type="text" value="" name="s_key" placeholder="可以输入登录名/邮箱/手机号" class="layui-input search_input">
+                <input type="text" value="" name="task_key" placeholder="任务名称" class="layui-input search_input">
             </div>
-            <!--<div class="layui-input-inline">-->
-                <!--<select name="s_type">-->
-                    <!--<option value="">任务类型</option>-->
-                    <!--<option value="admin">后台用户</option>-->
-                    <!--<option value="page">前台用户</option>-->
-                <!--</select>-->
-            <!--</div>-->
             <div class="layui-inline">
                 <a class="layui-btn" lay-submit="" lay-filter="searchForm">查询</a>
             </div>
@@ -41,21 +34,19 @@
 <div class="layui-form users_list">
     <table class="layui-table" id="taskTable" lay-filter="taskList"></table>
 
-    <script type="text/html" id="taskStatus">
+    <script type="text/html" id="taskBar">
+        <a class="layui-btn  layui-btn" lay-event="view">查看</a>
+        {{#  if(d.status == 1){ }}
+        <a class="layui-btn  layui-btn-warn" lay-event="stop">暂停</a>
         <!--0:待执行,1:执行中2:暂停 3:终止-->
-        {{#  if(d.status == 0){ }}
-        <span class="layui-badge layui-bg-green">待执行</span>
-        {{#  } else { }}
-        <span class="layui-badge layui-bg-gray">无效</span>
+        {{#  } else if(d.status == 2){ }}
+        <a class="layui-btn  layui-btn-danger" lay-event="stop">继续</a>
+        <a class="layui-btn  layui-btn-warm" lay-event="stop">完成</a>
         {{#  } }}
 
     </script>
 
 
-    <script type="text/html" id="taskBar">
-        <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
-        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
-    </script>
 </div>
 <div id="page"></div>
 <script type="text/javascript" th:src="@{/static/layui/layui.js}"></script>
