@@ -22,13 +22,13 @@ layui.use(['layer','form','table'], function() {
 
             {field:'taskName', title: '任务名称', width:'15%'},
             {field:'taskType',  title: '任务类型',    width:'15%'},
-            {field:'taskCount',     title: '任务进度',    width:'12%', templet:function(d){
+            {field:'taskCount',     title: '任务进度',   width:'12%', templet:function(d){
                 return d.finishCount+"/"+d.taskCount;
                 } },
             {field:'statusName',       title: '任务状态',    width:'12%'},
             {field:'startTime', title: '任务开始时间', width:'15%'},
             {field:'createDate',    title: '任务创建时间',width:'15%'},
-            {fixed: '', align: 'center', toolbar: '#taskBar'}
+            {fixed: 'right', align: 'center', toolbar: '#taskBar'}
         ]]
     };
     table.render(t);

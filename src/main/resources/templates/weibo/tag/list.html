@@ -25,17 +25,17 @@
             <div class="layui-inline">
                 <a class="layui-btn" lay-submit="" lay-filter="searchForm">查询</a>
             </div>
+
             <div class="layui-inline">
-                <a class="layui-btn layui-btn-normal" data-type="addTags">新增</a>
+                <a class="layui-btn layui-btn-normal" data-type="addTags">新增分组</a>
             </div>
         </form>
     </div>
 </fieldset>
-<div class="layui-form tag_list">
+<div class="layui-form user_list">
     <table class="layui-table" id="tagTable" lay-filter="tagList"></table>
     <script type="text/html" id="tagBar">
-        <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit">编辑</a>
-        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+        <a class="layui-btn layui-btn-danger layui-btn" lay-event="del">删除</a>
     </script>
 </div>
 <div id="page"></div>

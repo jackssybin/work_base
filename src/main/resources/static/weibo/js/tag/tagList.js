@@ -19,17 +19,17 @@ layui.use(['layer','form','table'], function() {
         },
         width: $(parent.window).width()-223,
         cols: [[
-            {type:'checkbox'},
+            // {type:'checkbox'},
             {field:'tagCode', title: '分组代码', width:'15%'},
             {field:'tagName',  title: '分组名称',width:'40%'},
-            {fixed: '', align: 'center', toolBar:"#tagBar"}
+            {fixed: 'right', title:"操作",align: 'center', toolbar:"#tagBar"}
         ]]
     };
     table.render(t);
 
 
     //监听工具条
-    table.on('tool(tagBar)', function(obj){
+    table.on('tool(tagList)', function(obj){
         var data = obj.data;
         if(obj.event === "del"){
             layer.confirm("你确定要删除该分组么？",{btn:['是的,我确定','我再想想']},
@@ -52,7 +52,27 @@ layui.use(['layer','form','table'], function() {
         }
     });
 
-
+    //功能按钮
+    var active={
+        addTags : function(){
+            var addIndex = layer.open({
+                title : "添加分组",
+                type : 2,
+                content : "/bzTags/add",
+                success : function(layero, addIndex){
+                    setTimeout(function(){
+                        layer.tips('点击此处返回分组列表', '.layui-layer-setwin .layui-layer-close', {
+                            tips: 3
+                        });
+                    },500);
+                }
+            });
+            $(window).resize(function(){
+                layer.full(addIndex);
+            });
+            layer.full(addIndex);
+        }
+    };
 
     $('.layui-inline .layui-btn').on('click', function(){
         var type = $(this).data('type');
@@ -61,7 +81,7 @@ layui.use(['layer','form','table'], function() {
     //搜索
     form.on("submit(searchForm)",function(data){
         t.where = data.field;
-        table.reload('accountTable', t);
+        table.reload('tagTable', t);
         return false;
     });
 

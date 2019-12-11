@@ -60,7 +60,6 @@ layui.use(['layer','form','table'], function() {
 
     var active = {
         importAccount: function(){
-            console.log("gogog")
             var that = this;
             layer.open({
                 type: 2 //此处以iframe举例
