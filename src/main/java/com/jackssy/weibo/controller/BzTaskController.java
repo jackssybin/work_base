@@ -18,15 +18,19 @@ import com.jackssy.weibo.enums.StatusNameEnums;
 import com.jackssy.weibo.enums.TaskTypeEnums;
 import com.jackssy.weibo.service.BzTagsService;
 import com.jackssy.weibo.service.BzTaskService;
+import net.sf.jsqlparser.expression.DateTimeLiteralExpression;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.WebUtils;
 
 import javax.servlet.ServletRequest;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -110,18 +114,13 @@ public class BzTaskController extends BaseController {
     @PostMapping("add")
     @ResponseBody
     @SysLog("保存任务数据")
-    public ResponseEntity add(@RequestBody BzTask bzTask){
-        bzTask.setCreateDate(new Date());
-        boolean flag=bzTaskService.save(bzTask);
+    public ResponseEntity add(@RequestBody BzTaskDto bzTaskDto){
+        boolean flag = bzTaskService.addTask(bzTaskDto);
         if(flag){
-            String redisKey=Constant.TASK_PREX+bzTask.getId();
-            redisClient.setobj(redisKey,bzTask);
-            logger.info("redis 赋值 ok:{}",redisKey);
-            String val=redisClient.get(redisKey);
-            logger.info("redis 取值:{}",val);
-
+            return ResponseEntity.success("保存任务数据成功");
+        }else{
+            return ResponseEntity.failure("新建任务失败");
         }
-        return ResponseEntity.success("保存任务数据成功");
     }
 
 

@@ -33,7 +33,7 @@
         <div class="layui-inline">
             <label class="layui-form-label">任务总量</label>
             <div class="layui-input-block">
-                <input type="text" class="layui-input" name="taskCount" placeholder="请输入任务总量">
+                <input type="number" class="layui-input" name="taskCount" lay-verify="required" placeholder="请输入任务总量">
             </div>
         </div>
     </div>
@@ -46,26 +46,10 @@
             </div>
         </div>
         <div class="layui-inline">
-            <label class="layui-form-label">第几个</label>
+            <label class="layui-form-label">账号分组</label>
             <div class="layui-input-block">
-                <input type="text" class="layui-input" value="1" name="targetNumber" placeholder="请输入微博的第几个">
-            </div>
-        </div>
-    </div>
-
-    <div class="layui-form-item">
-        <div class="layui-inline">
-            <label class="layui-form-label">执行速度</label>
-            <div class="layui-input-block">
-                <input type="checkbox" th:id="taskSpeed"  name="taskSpeed" th:value="1"
-                       lay-filter="taskSpeed" lay-skin="switch" value="true"  lay-text="正常|超快" checked/>
-            </div>
-        </div>
-        <div class="layui-inline">
-            <label class="layui-form-label">关联标签</label>
-            <div class="layui-input-inline">
-                <select name="modules" lay-verify="required" lay-search="" th:each="tags : ${tagsList}">
-                   <option th:value="${tags.tagCode}" th:text="${tags.tagName}"></option>
+                <select name="tagGroup" id="tagGroup" lay-verify="required" lay-search="">
+                    <option  th:each="tags : ${tagsList}" th:value="${tags.tagCode}" th:text="${tags.tagName}"></option>
                 </select>
             </div>
 
@@ -74,96 +58,50 @@
 
     <div class="layui-form-item">
         <div class="layui-inline">
-            <label class="layui-form-label">是否评论</label>
+            <label class="layui-form-label">执行速度</label>
             <div class="layui-input-block">
-                <input type="checkbox" th:id="comment"  name="comment" th:value="0"
-                       lay-filter="comment" lay-skin="switch" value="true"  lay-text="是|否" />
+                <input type="radio" name="taskSpeed" value="1" title="普通">
+                <input type="radio" name="taskSpeed" value="2" title="快速" checked>
             </div>
         </div>
-
         <div class="layui-inline">
-            <label class="layui-form-label">评论类型</label>
+            <label class="layui-form-label">开始时间</label>
             <div class="layui-input-block">
-                <input type="checkbox" th:id="commentType"  name="commentType" th:value="1"
-                       lay-filter="commentType" lay-skin="switch" value="true"  lay-text="万能评论|通用评论" checked/>
+                <input type="text" class="layui-input" name="startTimeStr" id="startTimeStr"  style="width:100%" placeholder="请输入开始时间，为空则立即执行">
             </div>
+
         </div>
     </div>
 
-
     <div class="layui-form-item">
-        <div class="layui-form-item layui-form-text">
+
+        <label class="layui-form-label">任务类型</label>
+        <div class="layui-input-block" id="taskType">
+            <input type="checkbox" name="taskType" value="1" title="评论" checked>
+            <input type="checkbox" name="taskType" value="2"title="点赞">
+            <input type="checkbox" name="taskType" value="3" title="转发 ">
+            <input type="checkbox" name="taskType" value="4" title="关注 ">
+        </div>
+    </div>
+
+    <fieldset class="layui-elem-field layui-field-title" id="commentArea">
+        <legend>评论相关</legend>
+        <div class="layui-form-item layui-form-text" id="commentContext">
             <label class="layui-form-label">评论内容</label>
             <div class="layui-input-block">
-                <textarea placeholder="请输入评论内容" class="layui-textarea" id="commentContent" name="commentContent"></textarea>
+                <textarea name="commentContext" placeholder="请输入内容" class="layui-textarea"></textarea>
             </div>
         </div>
-    </div>
-
-
-    <div class="layui-form-item">
-        <div class="layui-inline">
-            <label class="layui-form-label">是否关注</label>
-            <div class="layui-input-block">
-                <input type="checkbox" th:id="focus"  name="focus" th:value="1"
-                       lay-filter="focus" lay-skin="switch" value="true"  lay-text="是|否" checked/>
+        <div class="layui-form-item">
+            <label class="layui-form-label">评论类型</label>
+            <div class="layui-input-block" id="commentType">
+                <input type="radio" name="commentType" value="2" title="文字评论" checked>
+                <input type="radio" name="commentType" value="1" title="万能评论">
             </div>
         </div>
-        <div class="layui-inline">
-            <label class="layui-form-label">是否点赞</label>
-            <div class="layui-input-block">
-                <input type="checkbox" th:id="raises" name="raises" th:value="1"
-                       lay-skin="switch"  lay-filter="raises"  lay-text="是|否" checked>
-            </div>
-        </div>
-    </div>
+    </fieldset>
 
 
-
-    <div class="layui-form-item">
-        <div class="layui-inline">
-            <label class="layui-form-label">转发无评论</label>
-            <div class="layui-input-block">
-                <input type="checkbox" th:id="forward"  name="forward" th:value="0"
-                       lay-filter="forward" lay-skin="switch" value="true"  lay-text="是|否" />
-            </div>
-        </div>
-        <div class="layui-inline">
-            <label class="layui-form-label">转发有评论</label>
-            <div class="layui-input-block">
-                <input type="checkbox" th:id="forwardComment" name="forwardComment" th:value="0"
-                       lay-skin="switch"  lay-filter="forwardComment"  lay-text="是|否" >
-            </div>
-        </div>
-    </div>
-
-    <div class="layui-form-item">
-
-        <div class="layui-inline">
-            <label class="layui-form-label">是否收藏</label>
-            <div class="layui-input-block">
-                <input type="checkbox" th:id="collect"  name="collect" th:value="0"
-                       lay-filter="collect" lay-skin="switch" value="true"  lay-text="是|否" />
-            </div>
-        </div>
-
-        <div class="layui-inline">
-            <label class="layui-form-label">时间范围</label>
-            <div class="layui-input-inline">
-                <input type="text" class="layui-input" id="test10" placeholder=" - ">
-            </div>
-        </div>
-
-    </div>
-
-    <div class="layui-form-item">
-        <div class="layui-form-item layui-form-text">
-            <label class="layui-form-label">备注</label>
-            <div class="layui-input-block">
-                <textarea placeholder="请输入备注内容" class="layui-textarea" name="remark"></textarea>
-            </div>
-        </div>
-    </div>
 
 
     <div class="layui-form-item">

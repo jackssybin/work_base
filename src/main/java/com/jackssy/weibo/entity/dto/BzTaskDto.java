@@ -1,11 +1,13 @@
 package com.jackssy.weibo.entity.dto;
 
 import com.jackssy.weibo.entity.BzTask;
+import lombok.Data;
 
 /**
  * @author zhoubin
  * @date 2019/11/27 12:02
  */
+@Data
 public class BzTaskDto extends BzTask {
 
     //状态名称
@@ -15,6 +17,10 @@ public class BzTaskDto extends BzTask {
 
     private String commentTypeName;
 
+    /**
+     * 前端转换用
+     */
+    private String startTimeStr;
 
     public String getStatusName() {
         return statusName;

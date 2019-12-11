@@ -1,18 +1,33 @@
 layui.use(['form','jquery','layer','laydate'],function(){
     var form = layui.form,
         $    = layui.jquery,
-        layer = layui.layer;   //默认启用用户
+        layer = layui.layer;
     var laydate = layui.laydate;
 
-        form.on("submit(addTask)",function(data){
+
+
+
+    form.on("submit(addTask)",function(data){
         var loadIndex = layer.load(2, {
             shade: [0.3, '#333']
         });
 
-
-        //判断用户是否启用
-
-
+        if(data.field.taskType  == undefined ){
+            layer.alert("请选择任务类型")
+            layer.close(loadIndex);
+            return false;
+        }
+        var taskType= "";
+        var value = $("#taskType input[name = 'taskType']:checked");
+        for(var i =0;i<value.length;i++){
+            if(i == 0){
+                taskType =  $(value[i]).val()
+            }else{
+                taskType +=","+  $(value[i]).val();
+            }
+        }
+        data.field.taskType = taskType;
+        console.log(JSON.stringify(data.field))
         $.ajax({
             type:"POST",
             url:"/bzTask/add",
@@ -34,88 +49,44 @@ layui.use(['form','jquery','layer','laydate'],function(){
         return false;
     });
 
-    form.on('switch(taskSpeed)', function(data){
-        if(data.elem.checked){
-            $("#taskSpeed").val(1);
+
+
+
+
+    $("#commentType").click(function () {
+       var value = $("#commentType input[name = 'commentType']:checked").val();
+        if(value == 1){
+            $("#commentContext").hide();
         }else{
-            $("#taskSpeed").val(2);
+            $("#commentContext").show();
         }
-    });
+    })
 
-    form.on('switch(comment)', function(data){
-        console.log("comment:{}"+data)
-        if(data.elem.checked){
-            $("#comment").val(1);
+
+    $("#taskType").click(function(){
+        var value = $("#taskType input[name = 'taskType']:checked");
+        var flag = false;
+        for(var i =0;i<value.length;i++){
+            if($(value[i]).val() == 1){
+                flag = true;
+            }
+        }
+
+        if(flag){
+            $("#commentArea").show();
         }else{
-            $("#comment").val(0);
+            $("#commentArea").hide();
         }
-    });
 
-    form.on('switch(commentType)', function(data){
-        console.log("commentType:{}"+data)
-        if(data.elem.checked){//万能
-            $("#commentType").val(1);
-        }else{
-            $("#commentType").val(2);
-        }
-    });
-
-    form.on('switch(focus)', function(data){
-        console.log("focus:{}"+data)
-        if(data.elem.checked){
-            $("#focus").val(1);
-        }else{
-            $("#focus").val(0);
-        }
-    });
-
-    form.on('switch(raises)', function(data){
-        console.log("raises:{}"+data)
-        if(data.elem.checked){
-            $("#raises").val(1);
-        }else{
-            $("#raises").val(0);
-        }
-    });
-
-    form.on('switch(forward)', function(data){
-        console.log("forward:{}"+data)
-        if(data.elem.checked){
-            $("#forward").val(1);
-        }else{
-            $("#forward").val(0);
-        }
-    });
-
-    form.on('switch(forwardComment)', function(data){
-        console.log("forwardComment:{}"+data)
-        if(data.elem.checked){
-            $("#forwardComment").val(1);
-        }else{
-            $("#forwardComment").val(0);
-        }
-    });
-
-    form.on('switch(collect)', function(data){
-        console.log("collect:{}"+data)
-        if(data.elem.checked){
-            $("#collect").val(1);
-        }else{
-            $("#collect").val(0);
-        }
-    });
-
-
-
+    })
 
 
 
 
     //日期时间范围
     laydate.render({
-        elem: '#test10'
+        elem: '#startTime'
         ,type: 'datetime'
-        ,range: true
     });
 
 });

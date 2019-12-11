@@ -35,7 +35,7 @@ public enum TaskTypeEnums {
                 }
             }
             if(result.length()>0){
-                result.substring(0,result.length()-1);
+                result = result.substring(0,result.length()-1);
             }
         }
         return result;

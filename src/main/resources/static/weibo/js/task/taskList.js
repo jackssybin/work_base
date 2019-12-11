@@ -20,14 +20,14 @@ layui.use(['layer','form','table'], function() {
         width: $(parent.window).width()-223,
         cols: [[
             {type:'checkbox'},
-            {field:'taskName', title: '任务名称', width:'10%'},
-            {field:'taskType',  title: '任务类型',    width:'10%'},
-            {field:'taskCount',     title: '任务进度',    width:'16%', templet:function(d){
+            {field:'taskName', title: '任务名称', width:'15%'},
+            {field:'taskType',  title: '任务类型',    width:'15%'},
+            {field:'taskCount',     title: '任务进度',    width:'12%', templet:function(d){
                 return d.finishCount+"/"+d.taskCount;
                 } },
             {field:'statusName',       title: '任务状态',    width:'12%'},
-            {field:'startTime', title: '任务开始时间', width:'8%'},
-            {field:'createDate',    title: '任务创建时间',width:'8%'},
+            {field:'startTime', title: '任务开始时间', width:'15%'},
+            {field:'createDate',    title: '任务创建时间',width:'15%'},
             {fixed: '', align: 'center', toolbar: '#taskBar'}
         ]]
     };
@@ -84,7 +84,7 @@ layui.use(['layer','form','table'], function() {
                 content : "/bzTask/add",
                 success : function(layero, addIndex){
                     setTimeout(function(){
-                        layer.tips('点击此处返回会员列表', '.layui-layer-setwin .layui-layer-close', {
+                        layer.tips('点击此处返回任务列表', '.layui-layer-setwin .layui-layer-close', {
                             tips: 3
                         });
                     },500);
