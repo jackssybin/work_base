@@ -147,5 +147,24 @@ public class BzTaskController extends BaseController {
         return ResponseEntity.success("操作成功");
     }
 
+
+    @PostMapping("updateStatus")
+    @ResponseBody
+    @SysLog("修改任务状态")
+    public ResponseEntity updateStatus(@RequestParam(value = "id",required = true)Integer id,@RequestParam(value = "status",required = true) Integer status){
+        BzTask task = bzTaskService.getById(id);
+        if(task == null){
+            return ResponseEntity.failure("任务不存在");
+        }
+        task.setStatus(status);
+        boolean flag = bzTaskService.updateById(task);
+        if(!flag){
+            return ResponseEntity.failure("操作失败");
+        }
+        return ResponseEntity.success("操作成功");
+    }
+
+
+
 }
 

@@ -37,11 +37,14 @@
     <script type="text/html" id="taskBar">
         <a class="layui-btn  layui-btn" lay-event="view">查看</a>
         {{#  if(d.status == 1){ }}
-        <a class="layui-btn  layui-btn-warn" lay-event="stop">暂停</a>
+        <a class="layui-btn  layui-btn-danger" lay-event="stop">暂停</a>
         <!--0:待执行,1:执行中2:暂停 3:终止-->
         {{#  } else if(d.status == 2){ }}
-        <a class="layui-btn  layui-btn-danger" lay-event="stop">继续</a>
-        <a class="layui-btn  layui-btn-warm" lay-event="stop">完成</a>
+        <a class="layui-btn  layui-btn-danger" lay-event="continue">继续</a>
+        <a class="layui-btn  layui-btn-warm" lay-event="finish">完成</a>
+        {{#  } else if(d.status == 0 || d.status == 9){}}
+        <a class="layui-btn  layui-btn-danger" lay-event="del">删除</a>
+
         {{#  } }}
     </script>
 

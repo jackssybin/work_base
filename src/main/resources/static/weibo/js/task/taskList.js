@@ -19,7 +19,7 @@ layui.use(['layer','form','table'], function() {
         },
         width: $(parent.window).width()-223,
         cols: [[
-            {type:'checkbox'},
+
             {field:'taskName', title: '任务名称', width:'15%'},
             {field:'taskType',  title: '任务类型',    width:'15%'},
             {field:'taskCount',     title: '任务进度',    width:'12%', templet:function(d){
@@ -58,12 +58,37 @@ layui.use(['layer','form','table'], function() {
         }
 
         if(obj.event === "del"){
-            layer.confirm("你确定要删除该用户么？",{btn:['是的,我确定','我再想想']},
+            layer.confirm("你确定要删除该任务么？",{btn:['是的,我确定','我再想想']},
                 function(){
                     $.post("/bzTask/delete",{"id":data.id},function (res){
                         if(res.success){
                             layer.msg("删除成功",{time: 1000},function(){
-                                table.reload('userTable', t);
+                                table.reload('taskTable', t);
+                            });
+                        }else{
+                            layer.msg(res.message);
+                        }
+
+                    });
+                }
+            );
+        }
+        if(obj.event === "stop" || "continue" || "finish"){
+            console.log(obj.event)
+            var status =0 ;
+            if(obj.event === "stop" ){
+                status = 2;
+            }else if(obj.event === "continue"){
+                status = 1;
+            }else{
+                status =3;
+            }
+            layer.confirm("你确定要改变任务状态么？",{btn:['是的,我确定','我再想想']},
+                function(){
+                    $.post("/bzTask/updateStatus",{"id":data.id,"status":status},function (res){
+                        if(res.success){
+                            layer.msg("操作成功",{time: 1000},function(){
+                                table.reload('taskTable', t);
                             });
                         }else{
                             layer.msg(res.message);
