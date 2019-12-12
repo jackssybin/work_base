@@ -10,9 +10,11 @@ import com.jackssy.common.util.ResponseEntity;
 import com.jackssy.weibo.common.Constant;
 import com.jackssy.weibo.entity.BzAccount;
 import com.jackssy.weibo.entity.BzTags;
+import com.jackssy.weibo.entity.BzTask;
 import com.jackssy.weibo.entity.dto.BzTaskDto;
 import com.jackssy.weibo.service.BzTagsService;
 
+import com.jackssy.weibo.service.BzTaskService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.util.WebUtils;
@@ -21,6 +23,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.servlet.ServletRequest;
@@ -39,6 +42,9 @@ public class BzTagsController {
 
     @Autowired
     private BzTagsService bzTagsService;
+
+    @Autowired
+    private BzTaskService bzTaskService;
 
     @GetMapping("list")
     @SysLog("跳转到分组列表界面")
@@ -62,6 +68,7 @@ public class BzTagsController {
                 .or(wrapper -> wrapper.like("tag_code",keys));
             }
         }
+        bzTagsWrapper.orderByDesc("create_date");
         IPage<BzTags> tagsIPage = bzTagsService.page(new Page<>(page,limit),bzTagsWrapper);
         bzTagsData.setCount(tagsIPage.getTotal());
         bzTagsData.setData(tagsIPage.getRecords());
@@ -99,9 +106,15 @@ public class BzTagsController {
         if(null ==id){
             return ResponseEntity.failure("参数错误");
         }
-        BzTags task = bzTagsService.getById(id);
-        if(task == null){
+        BzTags tags = bzTagsService.getById(id);
+        if(tags == null){
             return ResponseEntity.failure("分组不存在");
+        }
+        Map param = new HashMap<>();
+        param.put("tag_group",tags.getTagCode());
+        List<BzTask> taskList =(List<BzTask>)bzTaskService.listByMap(param);
+        if(taskList.size() > 0){
+            return ResponseEntity.failure("分组下存在任务，不能删除");
         }
         bzTagsService.removeById(id);
         return ResponseEntity.success("操作成功");
