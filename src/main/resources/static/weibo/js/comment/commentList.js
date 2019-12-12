@@ -22,7 +22,7 @@ layui.use(['layer','form','table'], function() {
             {type:'checkbox'},
             {field:'commentContent', title: '评论内容', width:'15%'},
             {field:'status',  title: '评论状态',width:'20%',templet:function(d){ return d.status == 1?"启用":"停用"}},
-            {field:'createDate',  title: '创建时间',width:'40%'},
+            {field:'createDate',  title: '创建时间',width:'40%',templet:'<span>{{ layui.laytpl.toDateString(d.createDate) }}</span>'},
             {fixed: 'right', title:"操作",align: 'center', toolbar:"#commentBar"}
         ]]
     };

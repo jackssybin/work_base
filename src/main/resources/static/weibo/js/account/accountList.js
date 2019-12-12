@@ -26,9 +26,9 @@ layui.use(['layer','form','table'], function() {
             {field:'regionName',    title: '归属地区',width:'6%'},
             {field:'useNumber', title: '任务执行', width:'6%'},
             {field:'userSource',    title: '账号来源',width:'8%'},
-            {field:'createDate',    title: '导入时间',width:'10%'},
-            {field:'updateDate',    title: '更新时间',width:'10%'},
-            {field:'invalidDate',  title: '失效时间',width:'10%'}, //单元格内容水平居中
+            {field:'createDate',    title: '导入时间',width:'10%',templet:'<span>{{ layui.laytpl.toDateString(d.createDate) }}</span>'},
+            {field:'updateDate',    title: '更新时间',width:'10%',templet:'<span>{{ layui.laytpl.toDateString(d.updateDate) }}</span>'},
+            {field:'invalidDate',  title: '失效时间',width:'10%',templet:'<span>{{ layui.laytpl.toDateString(d.invalidDate) }}</span>'}, //单元格内容水平居中
             {fixed: 'right', align: 'center', toolbar: '#accountBar'}
         ]]
     };

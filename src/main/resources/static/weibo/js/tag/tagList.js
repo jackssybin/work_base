@@ -21,7 +21,8 @@ layui.use(['layer','form','table'], function() {
         cols: [[
             // {type:'checkbox'},
             {field:'tagCode', title: '分组代码', width:'15%'},
-            {field:'tagName',  title: '分组名称',width:'40%'},
+            {field:'tagName',  title: '分组名称',width:'30%'},
+            {field:'createDate', title:"创建时间",templet:'<span>{{ layui.laytpl.toDateString(d.createDate) }}</span>'},
             {fixed: 'right', title:"操作",align: 'center', toolbar:"#tagBar"}
         ]]
     };
