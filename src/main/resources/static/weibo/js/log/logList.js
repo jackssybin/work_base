@@ -33,7 +33,7 @@ layui.use(['layer','form','table'], function() {
             {field:'remark',    title: '备注',width:'12%',templet: function(d){
                 return d.remark.replace(new RegExp("\n","gm"),"<br/>");
                 }},
-            {field:'createDate',  title: '创建时间',width:'10%'}//单元格内容水平居中
+            {field:'createDate',  title: '创建时间',width:'10%',templet:'<span>{{ layui.laytpl.toDateString(d.startTime) }}</span>'}//单元格内容水平居中
         ]]
     };
     table.render(t);

@@ -77,7 +77,13 @@ public class BzTaskController extends BaseController {
 
     @GetMapping("edit")
     @SysLog("跳转任务编辑页面")
-    public String edit(){
+    public String edit(@RequestParam(value = "id",required = true)String id,ModelMap map)
+    {
+        BzTask task = bzTaskService.getById(id);
+        map.put("bzTask",task);
+        QueryWrapper<BzTags> tagsQueryWrapper = new QueryWrapper<>();
+        List<BzTags> tagsList =bzTagsService.list(tagsQueryWrapper);
+        map.put("tagsList",tagsList);
         return "weibo/task/edit";
     }
 
@@ -97,7 +103,7 @@ public class BzTaskController extends BaseController {
                         wrapper.like("task_name", keys));
             }
         }
-        taskWrapper.orderByDesc("update_date");
+        taskWrapper.orderByDesc("create_date");
         IPage<BzTask> taskPage = bzTaskService.page(new Page<>(page,limit),taskWrapper);
         taskPageData.setCount(taskPage.getTotal());
         taskPageData.setData(taskPage.getRecords().stream().map(xx ->{

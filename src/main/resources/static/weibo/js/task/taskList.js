@@ -37,14 +37,14 @@ layui.use(['layer','form','table'], function() {
     table.on('tool(taskList)', function(obj){
         var data = obj.data;
 
-        if(obj.event === 'edit'){
+        if(obj.event === 'view'){
             var editIndex = layer.open({
                 title : "编辑用户",
                 type : 2,
                 content : "/bzTask/edit?id="+data.id,
                 success : function(layero, index){
                     setTimeout(function(){
-                        layer.tips('点击此处返回会员列表', '.layui-layer-setwin .layui-layer-close', {
+                        layer.tips('点击此处返回任务列表', '.layui-layer-setwin .layui-layer-close', {
                             tips: 3
                         });
                     },500);
@@ -73,7 +73,7 @@ layui.use(['layer','form','table'], function() {
                 }
             );
         }
-        if(obj.event === "stop" || "continue" || "finish"){
+        if(obj.event === "stop" || obj.event === "continue" ||obj.event ===  "finish"){
             console.log(obj.event)
             var status =0 ;
             if(obj.event === "stop" ){

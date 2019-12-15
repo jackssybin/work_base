@@ -27,6 +27,20 @@ layui.use(['form','jquery','layer','laydate'],function(){
             }
         }
         data.field.taskType = taskType;
+        if(taskType.indexOf("1") > -1){
+            if(data.field.commentType == 2){
+                console.log(data.field.commentContent)
+                if(data.field.commentContent  ==  ""){
+                    layer.alert("请输入评论内容")
+                    layer.close(loadIndex);
+                    return false;
+                }
+            }else{
+                data.field.commentContent = "";
+            }
+        }else{
+            data.field.commentContent = "";
+        }
         console.log(JSON.stringify(data.field))
         $.ajax({
             type:"POST",
@@ -56,9 +70,9 @@ layui.use(['form','jquery','layer','laydate'],function(){
     $("#commentType").click(function () {
        var value = $("#commentType input[name = 'commentType']:checked").val();
         if(value == 1){
-            $("#commentContext").hide();
+            $("#commentContent").hide();
         }else{
-            $("#commentContext").show();
+            $("#commentContent").show();
         }
     })
 
@@ -85,7 +99,7 @@ layui.use(['form','jquery','layer','laydate'],function(){
 
     //日期时间范围
     laydate.render({
-        elem: '#startTime'
+        elem: '#startTimeStr'
         ,type: 'datetime'
     });
 
