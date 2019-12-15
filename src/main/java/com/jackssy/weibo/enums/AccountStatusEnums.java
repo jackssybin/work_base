@@ -6,6 +6,8 @@ package com.jackssy.weibo.enums;
 public enum AccountStatusEnums {
     STATUS_NORMAL("正常",1),
     STATUS_USE("占用",2),
+    STATUS_UN_FILL("待完善信息",7),
+    STATUS_UN_WATCH("待观察",8),
     STATUS_CLOSE("封禁",9),
     STATUS_UNUSE("未启用",0);
 

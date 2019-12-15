@@ -97,6 +97,7 @@ public class BzTaskController extends BaseController {
                         wrapper.like("task_name", keys));
             }
         }
+        taskWrapper.orderByDesc("update_date");
         IPage<BzTask> taskPage = bzTaskService.page(new Page<>(page,limit),taskWrapper);
         taskPageData.setCount(taskPage.getTotal());
         taskPageData.setData(taskPage.getRecords().stream().map(xx ->{

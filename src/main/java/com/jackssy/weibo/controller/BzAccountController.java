@@ -89,7 +89,7 @@ public class BzAccountController extends BaseController {
                         wrapper.like("account_user", keys));
             }
         }
-        accountWapper.orderByDesc("update_date","create_date");
+        accountWapper.orderByDesc("update_date");
         IPage<BzAccount> accountIPage = bzAccountService.page(new Page<>(page,limit),accountWapper);
 
         accountPageData.setCount(accountIPage.getTotal());

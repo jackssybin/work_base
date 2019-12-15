@@ -226,7 +226,13 @@ public class BzTask extends Model<BzTask> {
         this.commentContent = commentContent;
     }
 
+    public String getTaskType() {
+        return taskType;
+    }
 
+    public void setTaskType(String taskType) {
+        this.taskType = taskType;
+    }
 
     public String getRemark() {
         return remark;

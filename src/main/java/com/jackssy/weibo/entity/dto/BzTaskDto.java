@@ -45,4 +45,12 @@ public class BzTaskDto extends BzTask {
     public void setCommentTypeName(String commentTypeName) {
         this.commentTypeName = commentTypeName;
     }
+
+    public String getStartTimeStr() {
+        return startTimeStr;
+    }
+
+    public void setStartTimeStr(String startTimeStr) {
+        this.startTimeStr = startTimeStr;
+    }
 }
