@@ -31,7 +31,8 @@ public class BzTaskServiceImpl extends ServiceImpl<BzTaskMapper, BzTask> impleme
     public Boolean addTask(BzTaskDto bzTaskDto) {
         BzTask bzTask = new BzTask();
         BeanUtils.copyProperties(bzTaskDto,bzTask);
-        bzTask.setCreateDate(new Date());
+        bzTask.setCreateDate(LocalDateTime.now());
+        bzTask.setUpdateDate(LocalDateTime.now());
         if(StringUtils.isNotBlank(bzTaskDto.getStartTimeStr())){
             DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
             bzTask.setStartTime(LocalDateTime.parse(bzTaskDto.getStartTimeStr(), fmt));

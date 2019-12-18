@@ -1,14 +1,18 @@
 package com.jackssy.weibo.controller;
 
 
+import com.alibaba.excel.ExcelWriter;
+import com.alibaba.excel.metadata.BaseRowModel;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.jackssy.admin.controller.BaseController;
+import com.jackssy.admin.excel.config.ExcelUtil;
 import com.jackssy.common.annotation.SysLog;
 import com.jackssy.common.base.PageData;
 import com.jackssy.common.util.ResponseEntity;
 import com.jackssy.weibo.common.Constant;
+import com.jackssy.weibo.entity.AccountExcel;
 import com.jackssy.weibo.entity.BzAccount;
 import com.jackssy.weibo.entity.BzTags;
 import com.jackssy.weibo.entity.dto.BzAccountDto;
@@ -26,7 +30,9 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.util.WebUtils;
 
 import javax.servlet.ServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -64,6 +70,14 @@ public class BzAccountController extends BaseController {
         List<BzTags> tagsList =bzTagsService.list(tagsQueryWrapper);
         map.put("tagsList",tagsList);
         return "weibo/account/importSet";
+    }
+
+    @RequestMapping(value = "exportOne", method = RequestMethod.GET)
+    public void writeExcel(HttpServletResponse response) throws IOException {
+        List<AccountExcel> list = new ArrayList<>();
+        String fileName = "账号信息源文件";
+        String sheetName = "账号信息";
+        ExcelUtil.writeExcel(response,list,fileName,sheetName,new AccountExcel());
     }
 
     /**
