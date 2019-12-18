@@ -78,10 +78,10 @@
 
         <label class="layui-form-label">任务类型</label>
         <div class="layui-input-block" id="taskType">
-            <input type="checkbox" name="taskType" value="1" title="评论" th:checked="${bzTask.taskType} == 1?true:false">
-            <input type="checkbox" name="taskType" value="2"title="点赞" th:checked="${bzTask.taskType} == 2?true:false">
-            <input type="checkbox" name="taskType" value="3" title="转发 " th:checked="${bzTask.taskType} == 3?true:false">
-            <input type="checkbox" name="taskType" value="4" title="关注 " th:checked="${bzTask.taskType} == 4?true:false">
+            <input type="checkbox" name="taskType" value="1" title="评论" th:checked="${#strings.contains(bzTask.taskType,1)}?checked:false">
+            <input type="checkbox" name="taskType" value="2"title="点赞" th:checked="${#strings.contains(bzTask.taskType,2)}?checked:false">
+            <input type="checkbox" name="taskType" value="3" title="转发 " th:checked="${#strings.contains(bzTask.taskType,3)}?checked:false">
+            <input type="checkbox" name="taskType" value="4" title="关注 " th:checked="${#strings.contains(bzTask.taskType,4)}?checked:false">
         </div>
     </div>
 
@@ -96,8 +96,8 @@
         <div class="layui-form-item">
             <label class="layui-form-label">评论类型</label>
             <div class="layui-input-block" id="commentType">
-                <input type="radio" name="commentType" value="2" title="文字评论" th:checked="${bzTask.commentType} == 2?true:false">
-                <input type="radio" name="commentType" value="1" title="万能评论"  th:checked="${bzTask.commentType} == 1?true:false">
+                <input type="radio" name="commentType" value="2" title="文字评论" th:checked="${bzTask.commentType} == 2?checked:false">
+                <input type="radio" name="commentType" value="1" title="万能评论"  th:checked="${bzTask.commentType} == 1?checked:false">
             </div>
         </div>
     </fieldset>
