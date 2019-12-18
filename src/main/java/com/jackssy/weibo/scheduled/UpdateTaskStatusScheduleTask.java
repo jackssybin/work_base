@@ -1,39 +1,53 @@
 package com.jackssy.weibo.scheduled;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.jackssy.weibo.entity.BzTags;
 import com.jackssy.weibo.entity.BzTask;
 import com.jackssy.weibo.enums.StatusNameEnums;
 import com.jackssy.weibo.service.BzTaskService;
+import com.sun.javafx.collections.MappingChange;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Component;
 
+import java.sql.Wrapper;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by lh on 2019/12/16.
  */
-@Component
+@Configuration
+@EnableScheduling
 public class UpdateTaskStatusScheduleTask {
+    Logger log  = LoggerFactory.getLogger(UpdateTaskStatusScheduleTask.class);
 
     @Autowired
-    private BzTaskService bzTaskService;
-//    @Scheduled(fixedRate = 2000)
+    BzTaskService bzTaskService;
+
+    //@Scheduled(fixedRate = 1000)
     @Scheduled(cron = "55 * * * * *")
-    public void test() {
-        System.out.println("[ 当前时间:" + new Date() + "]" );
-        QueryWrapper<BzTask> taskWrapper = new QueryWrapper<>();
-        taskWrapper.eq("status", StatusNameEnums.STATUS_NAME_UNDO.getValue());
-        List<BzTask> taskList=bzTaskService.list(taskWrapper);
-        taskList.stream().filter(bzTask -> null!=bzTask.getStartTime()&&bzTask.getStartTime().isBefore(LocalDateTime.now()))
-                .forEach(bzTask -> {
-                    bzTask.setStatus(StatusNameEnums.STATUS_NAME_DOING.getValue());
-                    bzTask.setUpdateDate(LocalDateTime.now());
-                    this.bzTaskService.updateById(bzTask);
-                });
-
-
-
-    }
+    private void ConfigureTask(){
+        LocalDateTime time = LocalDateTime.now();
+        log.info("轮询启动任务时间：{}", time);
+        try {
+            QueryWrapper<BzTask> taskWrapper = new QueryWrapper<>();
+            taskWrapper.and(wrapper ->
+                    wrapper.lt("start_time",time ).like("status",StatusNameEnums.STATUS_NAME_UNDO.getValue())
+            );
+            List<BzTask> taskList = (List<BzTask>) this.bzTaskService.list(taskWrapper);
+            taskList.forEach(item -> {
+                item.setStatus(StatusNameEnums.STATUS_NAME_DOING.getValue());
+                this.bzTaskService.updateById(item);
+            });
+            log.info("轮询启动任务时间,处理条数：{}",taskList.size());
+        }catch (Exception e){
+            log.error("轮询启动任务时间,异常",e);
+        }
+    };
 }
