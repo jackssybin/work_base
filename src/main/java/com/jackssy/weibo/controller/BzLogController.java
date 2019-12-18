@@ -21,6 +21,7 @@ import org.apache.shiro.authc.Account;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.WebUtils;
 
@@ -52,6 +53,12 @@ public class BzLogController {
     }
 
 
+    @GetMapping("listParam")
+    public String listParam(@RequestParam(value = "id",required = true)String id,ModelMap map){
+        map.put("keys",id);
+        return "weibo/log/list";
+    }
+
     /**
      * 日志列表
      * @param page 页数
@@ -73,7 +80,8 @@ public class BzLogController {
             if(StringUtils.isNotBlank(keys)) {
                 logWapper.and(wrapper ->
                         wrapper.like("account_id", keys)
-                                .or().like("account_user",keys));
+                                .or().like("account_user",keys)
+                                .or().eq("task_id",keys));
             }
         }
         logWapper.orderByDesc("create_date");

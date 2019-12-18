@@ -20,7 +20,7 @@ layui.use(['layer','form','table'], function() {
         width: $(parent.window).width()-223,
         cols: [[
             {type:'checkbox'},
-            {field:'accountUser', title: '账号id', width:'15%'},
+            {field:'accountUser', title: '账号id', width:'15%',event:"checkLog",style:"color:blue;cursor:pointer"},
             {field:'accountPwd',  title: '账号密码',width:'15%'},
             {field:'statusName',    title: '账号状态',width:'6%' },
             {field:'regionName',    title: '归属地区',width:'6%'},
@@ -35,8 +35,27 @@ layui.use(['layer','form','table'], function() {
     table.render(t);
 
     //监听工具条
-    table.on('tool(accountBar)', function(obj){
+    table.on('tool(accountList)', function(obj){
         var data = obj.data;
+        if(obj.event === "checkLog"){
+            var editIndex = layer.open({
+                title : "账号日志",
+                type : 2,
+                content : "/bzLog/listParam?id="+obj.data.accountUser,
+                success : function(layero, index){
+                    setTimeout(function(){
+                        layer.tips('点击此处返回任务列表', '.layui-layer-setwin .layui-layer-close', {
+                            tips: 3
+                        });
+                    },500);
+                }
+            });
+            //改变窗口大小时，重置弹窗的高度，防止超出可视区域（如F12调出debug的操作）
+            $(window).resize(function(){
+                layer.full(editIndex);
+            });
+            layer.full(editIndex);
+        }
         if(obj.event === "del"){
             layer.confirm("你确定要删除该账号么？",{btn:['是的,我确定','我再想想']},
                 function(){
