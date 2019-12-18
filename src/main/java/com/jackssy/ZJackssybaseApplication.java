@@ -9,7 +9,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @EnableTransactionManagement
 @SpringBootApplication
-@EnableScheduling
 public class ZJackssybaseApplication extends SpringBootServletInitializer {
 
 
