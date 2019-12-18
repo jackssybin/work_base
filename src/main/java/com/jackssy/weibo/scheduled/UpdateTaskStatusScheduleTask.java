@@ -1,11 +1,9 @@
 package com.jackssy.weibo.scheduled;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.jackssy.weibo.entity.BzTags;
 import com.jackssy.weibo.entity.BzTask;
 import com.jackssy.weibo.enums.StatusNameEnums;
 import com.jackssy.weibo.service.BzTaskService;
-import com.sun.javafx.collections.MappingChange;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,11 +11,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 
-import java.sql.Wrapper;
 import java.time.LocalDateTime;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by lh on 2019/12/16.
