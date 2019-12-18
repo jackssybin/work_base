@@ -5,7 +5,6 @@ layui.use(['layer','form','upload'], function() {
         elem: '#uploadExcel',
         data:{
             ac_city:$("#ac_region").val(),
-            ac_region_name:$("#ac_region").innerText(),
             ac_source:$("#ac_source").val(),
             ac_tags:$("#ac_tags").val()
         },
