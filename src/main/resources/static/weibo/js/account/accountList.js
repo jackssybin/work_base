@@ -72,6 +72,22 @@ layui.use(['layer','form','table'], function() {
                 }
             );
         }
+        if(obj.event === "use"){
+            layer.confirm("你确定要启用该账号么？",{btn:['是的,我确定','我再想想']},
+                function(){
+                    $.post("/bzAccount/updateStatus",{"id":data.id,"status":1},function (res){
+                        if(res.success){
+                            layer.msg("启用成功",{time: 1000},function(){
+                                table.reload('accountTable', t);
+                            });
+                        }else{
+                            layer.msg(res.message);
+                        }
+
+                    });
+                }
+            );
+        }
     });
 
 

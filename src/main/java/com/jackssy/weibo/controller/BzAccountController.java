@@ -148,6 +148,26 @@ public class BzAccountController extends BaseController {
         return ResponseEntity.success("操作成功");
     }
 
+
+
+    @PostMapping("updateStatus")
+    @ResponseBody
+    @SysLog("删除账号数据")
+    public ResponseEntity updateStatus(@RequestParam(value = "id",required = false)Integer id,@RequestParam(value = "status",required = false)Integer status){
+        if(null ==id){
+            return ResponseEntity.failure("参数错误");
+        }
+        BzAccount task = bzAccountService.getById(id);
+        if(task == null){
+            return ResponseEntity.failure("任务不存在");
+        }
+        task.setStatus(status);
+        bzAccountService.updateById(task);
+        return ResponseEntity.success("操作成功");
+    }
+
+
+
     @PostMapping("uploadExcel")
     @ResponseBody
     @SysLog("导入账号")
