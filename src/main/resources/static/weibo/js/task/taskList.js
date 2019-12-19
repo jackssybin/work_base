@@ -20,7 +20,7 @@ layui.use(['layer','form','table'], function() {
         width: $(parent.window).width()-223,
         cols: [[
 
-            {field:'taskName', title: '任务名称', width:'15%'},
+            {field:'taskName', title: '任务名称', width:'15%',event:"checkLog",style:"color:blue;cursor:pointer"},
             {field:'taskType',  title: '任务类型',    width:'15%'},
             {field:'taskCount',     title: '任务进度',   width:'12%', templet:function(d){
                 return d.finishCount+"/"+d.taskCount;
@@ -36,10 +36,28 @@ layui.use(['layer','form','table'], function() {
     //监听工具条
     table.on('tool(taskList)', function(obj){
         var data = obj.data;
-
+        if(obj.event === "checkLog"){
+            var editIndex = layer.open({
+                title : "任务日志",
+                type : 2,
+                content : "/bzLog/listParam?id="+obj.data.id,
+                success : function(layero, index){
+                    setTimeout(function(){
+                        layer.tips('点击此处返回任务列表', '.layui-layer-setwin .layui-layer-close', {
+                            tips: 3
+                        });
+                    },500);
+                }
+            });
+            //改变窗口大小时，重置弹窗的高度，防止超出可视区域（如F12调出debug的操作）
+            $(window).resize(function(){
+                layer.full(editIndex);
+            });
+            layer.full(editIndex);
+        }
         if(obj.event === 'view'){
             var editIndex = layer.open({
-                title : "编辑用户",
+                title : "查看任务",
                 type : 2,
                 content : "/bzTask/edit?id="+data.id,
                 success : function(layero, index){
@@ -99,7 +117,7 @@ layui.use(['layer','form','table'], function() {
             );
         }
     });
-
+    
     //功能按钮
     var active={
         addTask : function(){
@@ -120,7 +138,7 @@ layui.use(['layer','form','table'], function() {
                 layer.full(addIndex);
             });
             layer.full(addIndex);
-        }
+        },
     };
 
     $('.layui-inline .layui-btn').on('click', function(){
