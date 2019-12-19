@@ -21,6 +21,7 @@
         <form class="layui-form">
             <div class="layui-inline" style="width: 15%">
                 <input type="text"  id="search"  th:value="${keys}" name="log_key" placeholder="关联账号或任务ID" class="layui-input search_input">
+                <input type="text" id="flag" name="log_flag" th:value="${keys}" hidden>
             </div>
             <div class="layui-inline">
                 <a class="layui-btn" lay-submit="" lay-filter="searchForm">查询</a>

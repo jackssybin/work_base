@@ -9,7 +9,8 @@ layui.use(['layer','form','table'], function() {
         elem: '#logTable',
         url:'/bzLog/list',
         method:'post',
-        where:{'log_key':$("#search").val()},
+        where:{'log_key':$("#search").val(),
+        'log_flag':$("#flag").val()},
         page: { //支持传入 laypage 组件的所有参数（某些参数除外，如：jump/elem） - 详见文档
             layout: ['limit', 'count', 'prev', 'page', 'next', 'skip'], //自定义分页布局
             //,curr: 5 //设定初始在第 5 页

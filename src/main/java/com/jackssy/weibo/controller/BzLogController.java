@@ -77,7 +77,12 @@ public class BzLogController {
         QueryWrapper<BzLog> logWapper = new QueryWrapper<>();
         if(!map.isEmpty()){
             String keys = (String) map.get("key");
-            if(StringUtils.isNotBlank(keys)) {
+            String flag = (String) map.get("flag");
+            if(StringUtils.isNotBlank(flag) && StringUtils.isNotBlank(keys) ){
+                logWapper.and(wrapper ->
+                        wrapper.eq("task_id", keys)
+                                .or().eq("account_user",keys));
+            }else if(StringUtils.isNotBlank(keys)) {
                 logWapper.and(wrapper ->
                         wrapper.like("account_id", keys)
                                 .or().like("account_user",keys)
