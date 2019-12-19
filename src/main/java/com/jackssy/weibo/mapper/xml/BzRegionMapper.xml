@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jackssy.weibo.mapper.BzRegionMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.jackssy.weibo.entity.BzRegion">
+        <id column="id" property="id" />
+        <result column="region_code" property="regionCode" />
+        <result column="region_name" property="regionName" />
+        <result column="region_order" property="regionOrder" />
+        <result column="is_use" property="isUse" />
+        <result column="remark" property="remark" />
+        <result column="update_date" property="updateDate" />
+        <result column="create_date" property="createDate" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, region_code, region_name, region_order, is_use, remark, update_date, create_date
+    </sql>
+
+</mapper>

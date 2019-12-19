@@ -16,10 +16,12 @@ import com.jackssy.common.util.ResponseEntity;
 import com.jackssy.weibo.common.Constant;
 import com.jackssy.weibo.entity.AccountExcel;
 import com.jackssy.weibo.entity.BzAccount;
+import com.jackssy.weibo.entity.BzRegion;
 import com.jackssy.weibo.entity.BzTags;
 import com.jackssy.weibo.entity.dto.BzAccountDto;
 import com.jackssy.weibo.enums.AccountStatusEnums;
 import com.jackssy.weibo.service.BzAccountService;
+import com.jackssy.weibo.service.BzRegionService;
 import com.jackssy.weibo.service.BzTagsService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
@@ -59,6 +61,9 @@ public class BzAccountController extends BaseController {
     @Autowired
     BzTagsService bzTagsService;
 
+    @Autowired
+    BzRegionService bzRegionService;
+
     @GetMapping("list")
     @SysLog("跳转账号列表页面")
     public String list(){
@@ -71,6 +76,10 @@ public class BzAccountController extends BaseController {
     public String importSet(ModelMap map){
         QueryWrapper<BzTags> tagsQueryWrapper = new QueryWrapper<>();
         List<BzTags> tagsList =bzTagsService.list(tagsQueryWrapper);
+        QueryWrapper<BzRegion> regionQueryWrapper = new QueryWrapper<>();
+        regionQueryWrapper.and(wrapper -> wrapper.eq("is_use",1));
+        List<BzRegion> regionList = bzRegionService.list(regionQueryWrapper);
+        map.put("regionList",regionList);
         map.put("tagsList",tagsList);
         return "weibo/account/importSet";
     }

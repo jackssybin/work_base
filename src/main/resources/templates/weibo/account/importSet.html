@@ -32,7 +32,10 @@
     <div class="layui-form-item">
         <label class="layui-form-label">城市：</label>
         <div class="layui-input-block">
-            <input type="text"  autocomplete="off" id="ac_city" placeholder="请输入城市" class="layui-input">
+            <select name="modules"  lay-search="" id="ac_regions">
+                <option value="">请选择</option>
+                <option th:each="re:${regionList}" th:value="${re.regionCode}" th:text="${re.regionName}"></option>
+            </select>
         </div>
     </div>
     <div class="layui-form-item">
