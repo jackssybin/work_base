@@ -26,4 +26,19 @@ layui.use(['layer','form','upload'], function() {
             }
         }
     })
+    var active = {
+        testaaa: function(){
+            console.log($("#ac_regions").val())
+
+
+            console.log($("#ac_regions").find("option:selected").text());
+            console.log($("#ac_tags").val())
+            console.log($("#ac_source").val())
+        }
+    }
+    $('.layui-inline .layui-btn').on('click', function(){
+        var type = $(this).data('type');
+        active[type] ? active[type].call(this) : '';
+    });
+
 })
