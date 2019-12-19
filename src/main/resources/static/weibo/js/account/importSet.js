@@ -4,7 +4,8 @@ layui.use(['layer','form','upload'], function() {
     upload.render({
         elem: '#uploadExcel',
         data:{
-            ac_city:$("#ac_region").val(),
+            ac_region_name:$("#ac_regions").text(),
+            ac_region_id:$("#ac_regions").val(),
             ac_source:$("#ac_source").val(),
             ac_tags:$("#ac_tags").val()
         },
@@ -14,9 +15,15 @@ layui.use(['layer','form','upload'], function() {
         auto:false,
         bindAction:"#confirmUpload",
         done: function(res, index, upload){
-            console.log(res);
-            //获取当前触发上传的元素，一般用于 elem 绑定 class 的情况，注意：此乃 layui 2.1.0 新增
-            var item = this.item;
+            if(res.success){
+                layer.msg("启用成功",{time: 1000},function(){
+                    var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+                    parent.location.reload();//刷新父页面，注意一定要在关闭当前iframe层之前执行刷新
+                    parent.layer.close(index); //再执行关闭
+                });
+            }else{
+                layer.msg(res.message);
+            }
         }
     })
 })

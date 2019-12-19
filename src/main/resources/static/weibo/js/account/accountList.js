@@ -95,34 +95,23 @@ layui.use(['layer','form','table'], function() {
 
     var active = {
         importAccount: function(){
-            var that = this;
-            layer.open({
-                type: 2 //此处以iframe举例
-                ,title: '导入设置'
-                ,area: ['390px', '260px']
-                ,shade: 0
-                ,maxmin: true
-                ,content: '/bzAccount/importSet'
-                ,btn: ['确认导入', '取消'] //只是为了演示
-                ,yes: function(index, layero){
-                    $(layero).find("#confirmUpload").click();
-                    var btn = $(layero).find("#confirmUpload1")
-                    $(btn).click();
-                    $(layero).find("#confirmUpload1").click();
-                    console.log("1");
-
-                }
-                ,btn2: function(){
-                    layer.closeAll();
-                }
-
-                ,zIndex: layer.zIndex //重点1
-                ,success: function(layero){
-                    layer.setTop(layero);
-
-                    // layero.find('.layui-layer-btn0').attr("id","confirmUpload");
+            var addIndex = layer.open({
+                title : "导入设置",
+                type : 2,
+                content : "/bzAccount/importSet",
+                success : function(layero, addIndex){
+                    setTimeout(function(){
+                        layer.tips('点击此处返回账号列表', '.layui-layer-setwin .layui-layer-close', {
+                            tips: 3
+                        });
+                    },500);
                 }
             });
+            //改变窗口大小时，重置弹窗的高度，防止超出可视区域（如F12调出debug的操作）
+            $(window).resize(function(){
+                layer.full(addIndex);
+            });
+            layer.full(addIndex);
         }
     }
 

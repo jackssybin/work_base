@@ -31,17 +31,11 @@
 <form class="layui-form" action="">
     <div class="layui-form-item">
         <label class="layui-form-label">城市：</label>
-        <div class="layui-input-block">
+        <div class="layui-input-inline">
             <select name="modules"  lay-search="" id="ac_regions">
                 <option value="">请选择</option>
-                <option th:each="re:${regionList}" th:value="${re.regionCode}" th:text="${re.regionName}"></option>
+                <option th:each="re : ${regionList}" th:value="${re.regionCode}" th:text="${re.regionName}"></option>
             </select>
-        </div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">来源：</label>
-        <div class="layui-input-block">
-            <input type="text"  autocomplete="off" id="ac_source"  placeholder="请输入账号来源" class="layui-input">
         </div>
     </div>
     <div class="layui-form-item">
@@ -54,9 +48,22 @@
         </div>
     </div>
     <div class="layui-form-item">
-        <button type="button" class="layui-btn layui-btn-normal" id="uploadExcel">选择文件</button>
-        <button type="button" id="confirmUpload" >测试</button>
-        <button type="button" id="confirmUpload1" onclick="alert(2)">测试2</button>
+        <label class="layui-form-label">来源：</label>
+        <div class="layui-input-block">
+            <input type="text"  autocomplete="off" id="ac_source"  placeholder="请输入账号来源" class="layui-input" width="30%">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+        <button type="button" class="layui-btn layui-btn-warm" id="uploadExcel">选择文件</button>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button type="button" class="layui-btn layui-btn-normal" id="confirmUpload" >确定导入</button>
+        </div>
     </div>
 </form>
 
