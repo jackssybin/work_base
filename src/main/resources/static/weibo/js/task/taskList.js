@@ -19,8 +19,8 @@ layui.use(['layer','form','table'], function() {
         },
         width: $(parent.window).width()-223,
         cols: [[
-
-            {field:'taskName', title: '任务名称', width:'15%',event:"checkLog",style:"color:blue;cursor:pointer"},
+            {field:'id',title:'任务Id',width:'8%',event:"checkLog",style:"color:blue;cursor:pointer"},
+            {field:'taskName', title: '任务名称', width:'15%'},
             {field:'taskType',  title: '任务类型',    width:'15%'},
             {field:'taskCount',     title: '任务进度',   width:'12%', templet:function(d){
                 return d.finishCount+"/"+d.taskCount;

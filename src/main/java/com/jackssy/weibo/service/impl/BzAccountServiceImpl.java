@@ -47,9 +47,7 @@ public class BzAccountServiceImpl extends ServiceImpl<BzAccountMapper, BzAccount
                 BeanUtils.copyProperties(item,bza);
                 if(StringUtils.isNotBlank((String)param.get("region_id"))){
                     bza.setRegionId((String)param.get("region_id"));
-                }
-                if(StringUtils.isNotBlank((String)param.get("region_name"))){
-                    bza.setRegionId((String)param.get("region_name"));
+                    bza.setRegionName((String)param.get("region_name"));
                 }
                 if(StringUtils.isNotBlank((String)param.get("source"))){
                     bza.setUserSource((String)param.get("source"));

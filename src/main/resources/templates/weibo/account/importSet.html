@@ -31,7 +31,7 @@
 <form class="layui-form" action="">
     <div class="layui-form-item">
         <label class="layui-form-label">城市：</label>
-        <div class="layui-input-inline">
+        <div class="layui-input-inline" style="width:20%"   >
             <select name="modules"  lay-search="" id="ac_regions">
                 <option value="">请选择</option>
                 <option th:each="re : ${regionList}" th:value="${re.regionCode}" th:text="${re.regionName}"></option>
@@ -40,7 +40,7 @@
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label">账号组</label>
-        <div class="layui-input-inline">
+        <div class="layui-input-inline" style="width:20%">
             <select name="modules"  lay-search="" id="ac_tags">
                 <option value="">请选择</option>
                 <option th:each="tags : ${tagsList}" th:value="${tags.tagCode}" th:text="${tags.tagName}"></option>
@@ -49,8 +49,8 @@
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label">来源：</label>
-        <div class="layui-input-block">
-            <input type="text"  autocomplete="off" id="ac_source"  placeholder="请输入账号来源" class="layui-input" width="30%">
+        <div class="layui-input-block" style="width:20%">
+            <input type="text"  autocomplete="off" id="ac_source"  placeholder="请输入账号来源" class="layui-input">
         </div>
     </div>
 
@@ -64,9 +64,6 @@
         <div class="layui-input-block">
             <button type="button" class="layui-btn layui-btn-normal" id="confirmUpload" >确定导入</button>
         </div>
-    </div>
-    <div class="layui-inline">
-        <a class="layui-btn layui-btn-normal" data-type="testaaa">ces</a>
     </div>
 </form>
 
