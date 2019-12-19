@@ -28,6 +28,9 @@
             <div class="layui-inline">
                 <a class="layui-btn layui-btn-normal" data-type="importAccount">导入账号</a>
             </div>
+            <div class="layui-inline">
+                <a class="layui-btn layui-btn-normal" href="/bzAccount/exportExcel">导出模板</a>
+            </div>
         </form>
     </div>
 </fieldset>
@@ -37,6 +40,7 @@
         <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
     </script>
 </div>
+<input id ="test"  onclick="alert(3)" /> >
 <div id="page"></div>
 <script type="text/javascript" th:src="@{/static/layui/layui.js}"></script>
 <script type="text/javascript" th:src="@{/static/admin/js/tools.js}"></script>

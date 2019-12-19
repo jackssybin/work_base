@@ -3,6 +3,8 @@ package com.jackssy.weibo.controller;
 
 import com.alibaba.excel.ExcelWriter;
 import com.alibaba.excel.metadata.BaseRowModel;
+import com.alibaba.excel.metadata.Sheet;
+import com.alibaba.excel.support.ExcelTypeEnum;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -32,6 +34,7 @@ import org.springframework.web.util.WebUtils;
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -160,5 +163,37 @@ public class BzAccountController extends BaseController {
         return ResponseEntity.success("success");
     }
 
+    @GetMapping("exportExcel")
+    @SysLog("导出账号模板")
+    public  String exportExcel(HttpServletResponse response)throws IOException{
+            ExcelWriter writer = null;
+            OutputStream outputStream = response.getOutputStream();
+            try {
+                //添加响应头信息
+                response.setHeader("Content-disposition", "attachment; filename=" + "template.xls");
+                response.setContentType("application/msexcel;charset=UTF-8");//设置类型
+                response.setHeader("Pragma", "No-cache");//设置头
+                response.setHeader("Cache-Control", "no-cache");//设置头
+                response.setDateHeader("Expires", 0);//设置日期头
+                //实例化 ExcelWriter
+                writer = new ExcelWriter(outputStream, ExcelTypeEnum.XLS, true);
+
+                //实例化表单
+                Sheet sheet = new Sheet(1, 0,AccountExcel.class);
+                writer.write(new ArrayList<AccountExcel>(),sheet);
+                sheet.setSheetName("目录");
+                writer.finish();
+                outputStream.flush();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                try {
+                    response.getOutputStream().close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            return "index";
+    }
 }
 

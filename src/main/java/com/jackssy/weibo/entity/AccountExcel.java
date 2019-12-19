@@ -20,6 +20,4 @@ public class AccountExcel  extends BaseRowModel {
     @ExcelProperty(index = 2 ,value="用户来源")
     private String userSource;
 
-    @ExcelProperty(index = 3 ,value="用户标签")
-    private String tagGroup;
 }
