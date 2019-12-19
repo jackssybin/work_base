@@ -18,7 +18,7 @@
 <fieldset class="layui-elem-field">
     <legend>任务日志</legend>
     <div class="layui-field-box">
-        <form class="layui-form">
+        <form class="layui-form" th:hidden="${keys != null}">
             <div class="layui-inline" style="width: 15%">
                 <input type="text"  id="search"  th:value="${keys}" name="log_key" placeholder="关联账号或任务ID" class="layui-input search_input">
                 <input type="text" id="flag" name="log_flag" th:value="${keys}" hidden>
