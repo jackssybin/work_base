@@ -22,6 +22,16 @@
             <div class="layui-inline" style="width: 15%">
                 <input type="text" value="" name="task_key" placeholder="任务名称" class="layui-input search_input">
             </div>
+            <div class="layui-inline" style="width: 15%">
+                <select name="task_status" >
+                    <option value="">任务状态</option>
+                    <option value="0">待执行</option>
+                    <option value="1">执行中</option>
+                    <option value="2">暂停</option>
+                    <option value="3">终止</option>
+                    <option value="9">异常</option>
+                </select>
+            </div>
             <div class="layui-inline">
                 <a class="layui-btn" lay-submit="" lay-filter="searchForm">查询</a>
             </div>

@@ -28,7 +28,8 @@ layui.use(['layer','form','table'], function() {
             {field:'statusName',       title: '任务状态',    width:'12%'},
             {field:'startTime', title: '任务开始时间', width:'15%',templet:'<span>{{ layui.laytpl.toDateString(d.startTime) }}</span>'},
             {field:'createDate',    title: '任务创建时间',width:'15%'},
-            {fixed: 'right', align: 'center', toolbar: '#taskBar'}
+            {field:'updateDate',    title: '任务更新时间',width:'15%'},
+            {fixed: 'right',title:'操作', align: 'center', toolbar: '#taskBar',width:'15%'}
         ]]
     };
     table.render(t);

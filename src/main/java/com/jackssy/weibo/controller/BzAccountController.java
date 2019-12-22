@@ -110,9 +110,13 @@ public class BzAccountController extends BaseController {
         QueryWrapper<BzAccount> accountWapper = new QueryWrapper<>();
         if(!map.isEmpty()){
             String keys = (String) map.get("key");
+            String status = (String) map.get("status");
             if(StringUtils.isNotBlank(keys)) {
                 accountWapper.and(wrapper ->
                         wrapper.like("account_user", keys));
+            }
+            if(StringUtils.isNotBlank(status)){
+                accountWapper.eq("status",status);
             }
         }
         accountWapper.orderByDesc("update_date");

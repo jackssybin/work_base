@@ -9,6 +9,7 @@ import com.jackssy.common.annotation.SysLog;
 import com.jackssy.common.base.PageData;
 import com.jackssy.common.config.RedisClient;
 import com.jackssy.common.util.ResponseEntity;
+import com.jackssy.weibo.async.BzTaskAsync;
 import com.jackssy.weibo.common.Constant;
 import com.jackssy.weibo.entity.BzTags;
 import com.jackssy.weibo.entity.BzTask;
@@ -58,6 +59,9 @@ public class BzTaskController extends BaseController {
     BzTaskService bzTaskService;
 
     @Autowired
+    BzTaskAsync bzTaskAsync;
+
+    @Autowired
     private RedisClient redisClient;
 
     @GetMapping("list")
@@ -98,9 +102,13 @@ public class BzTaskController extends BaseController {
         QueryWrapper<BzTask> taskWrapper = new QueryWrapper<>();
         if(!map.isEmpty()){
             String keys = (String) map.get("key");
+            String status = (String) map.get("status");
             if(StringUtils.isNotBlank(keys)) {
                 taskWrapper.and(wrapper ->
                         wrapper.like("task_name", keys));
+            }
+            if(StringUtils.isNotBlank(status)){
+                taskWrapper.eq("status",status);
             }
         }
         taskWrapper.orderByDesc("update_date");

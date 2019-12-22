@@ -29,7 +29,7 @@ layui.use(['layer','form','table'], function() {
             {field:'createDate',    title: '导入时间',width:'10%',templet:'<span>{{ layui.laytpl.toDateString(d.createDate) }}</span>'},
             {field:'updateDate',    title: '更新时间',width:'10%',templet:'<span>{{ layui.laytpl.toDateString(d.updateDate) }}</span>'},
             {field:'invalidDate',  title: '失效时间',width:'10%',templet:'<span>{{ layui.laytpl.toDateString(d.invalidDate) }}</span>'}, //单元格内容水平居中
-            {fixed: 'right', align: 'center', title:"操作", toolbar: '#accountBar'}
+            {fixed: 'right', align: 'center', title:"操作", toolbar: '#accountBar',width:'15%'}
         ]]
     };
     table.render(t);

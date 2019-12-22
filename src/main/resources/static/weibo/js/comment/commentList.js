@@ -48,7 +48,7 @@ layui.use(['layer','form','table'], function() {
                 }
             );
         }
-        if(obj.event === "stop" || "start"){
+        if(obj.event === "stop" || obj.event === "start"){
             var status =0 ;
             if(obj.event === "start" ){
                 status = 1;

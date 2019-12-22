@@ -1,6 +1,7 @@
 package com.jackssy.weibo.service.impl;
 
 import com.jackssy.common.util.ResponseEntity;
+import com.jackssy.weibo.async.BzTaskAsync;
 import com.jackssy.weibo.entity.BzTask;
 import com.jackssy.weibo.entity.dto.BzTaskDto;
 import com.jackssy.weibo.mapper.BzTaskMapper;
@@ -8,6 +9,7 @@ import com.jackssy.weibo.service.BzTaskService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Array;
@@ -26,6 +28,9 @@ import java.util.Date;
  */
 @Service
 public class BzTaskServiceImpl extends ServiceImpl<BzTaskMapper, BzTask> implements BzTaskService {
+
+    @Autowired
+    BzTaskAsync bzTaskAsync;
 
     @Override
     public Boolean addTask(BzTaskDto bzTaskDto) {
@@ -63,6 +68,10 @@ public class BzTaskServiceImpl extends ServiceImpl<BzTaskMapper, BzTask> impleme
 
         boolean flag=this.save(bzTask);
         if(flag){
+
+            if(StringUtils.isBlank(bzTaskDto.getStartTimeStr())){
+                bzTaskAsync.sendUrl();
+            }
 //            String redisKey=Constant.TASK_PREX+bzTask.getId();
 //            redisClient.setobj(redisKey,bzTask);
 //            logger.info("redis 赋值 ok:{}",redisKey);

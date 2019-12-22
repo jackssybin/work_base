@@ -10,12 +10,14 @@ import com.jackssy.common.config.RedisClient;
 import com.jackssy.weibo.common.Constant;
 import com.jackssy.weibo.entity.BzAccount;
 import com.jackssy.weibo.entity.BzLog;
+import com.jackssy.weibo.entity.BzRegion;
 import com.jackssy.weibo.entity.dto.BzAccountDto;
 import com.jackssy.weibo.entity.dto.BzLogDto;
 import com.jackssy.weibo.enums.AccountStatusEnums;
 import com.jackssy.weibo.enums.CommonLogEnums;
 import com.jackssy.weibo.service.BzAccountService;
 import com.jackssy.weibo.service.BzLogService;
+import com.jackssy.weibo.service.BzRegionService;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authc.Account;
 import org.springframework.beans.BeanUtils;
@@ -44,6 +46,9 @@ public class BzLogController {
 
     @Autowired
     BzLogService bzLogService;
+
+    @Autowired
+    BzRegionService bzRegionService;
 
 
     @GetMapping("list")
@@ -103,6 +108,13 @@ public class BzLogController {
             dto.setForwardStatus(CommonLogEnums.getStatusByValue(xx.getForward()));
             dto.setForwardCommentStatus(CommonLogEnums.getStatusByValue(xx.getForwardComment()));
             dto.setCollectStatus(CommonLogEnums.getStatusByValue(xx.getCollect()));
+            if(StringUtils.isNotBlank(xx.getRegionId())){
+                QueryWrapper<BzRegion> param = new QueryWrapper<>();
+                param.eq("region_code",xx.getRegionId());
+                BzRegion re = new BzRegion();
+                re = bzRegionService.getOne(param);
+                dto.setRegionName(re.getRegionName());
+            }
             return dto;
         }).collect(Collectors.toList()));
         return logPageData;

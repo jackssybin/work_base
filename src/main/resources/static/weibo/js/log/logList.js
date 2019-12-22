@@ -23,14 +23,14 @@ layui.use(['layer','form','table'], function() {
         cols: [[
             {field:'taskId', title: '任务id', width:'6%'},
             {field:'accountUser',    title: '关联账号',width:'12%' },
-            {field:'regionId',    title: '城市id',width:'6%'},
+            {field:'regionName',    title: '城市',width:'6%'},
             {field:'proxyIp', title: '代理ip', width:'8%'},
             {field:'loginSystemStatus',    title: '登录',width:'6%'},
             {field:'commentStatus',    title: '评论',width:'6%'},
             {field:'commentContent',    title: '评论内容',width:'12%'},
             {field:'focusStatus',    title: '关注',width:'6%'},
             {field:'raisesStatus',    title: '点赞',width:'6%'},
-            {field:'forwardStatus',    title: '发转发无评论',width:'7%'},
+            {field:'forwardStatus',    title: '快转',width:'7%'},
             {field:'forwardCommentStatus',    title: '转发有评论',width:'6%'},
             {field:'remark',    title: '备注',width:'12%',templet: function(d){
                 return d.remark.replace(new RegExp("\n","gm"),"<br/>");

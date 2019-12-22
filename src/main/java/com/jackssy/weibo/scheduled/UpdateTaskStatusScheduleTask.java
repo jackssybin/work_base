@@ -1,6 +1,7 @@
 package com.jackssy.weibo.scheduled;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.jackssy.weibo.async.BzTaskAsync;
 import com.jackssy.weibo.entity.BzTask;
 import com.jackssy.weibo.enums.StatusNameEnums;
 import com.jackssy.weibo.service.BzTaskService;
@@ -25,6 +26,9 @@ public class UpdateTaskStatusScheduleTask {
     @Autowired
     BzTaskService bzTaskService;
 
+    @Autowired
+    BzTaskAsync bzTaskAsync;
+
     //@Scheduled(fixedRate = 1000)
     @Scheduled(cron = "55 * * * * *")
     private void ConfigureTask(){
@@ -39,6 +43,7 @@ public class UpdateTaskStatusScheduleTask {
             taskList.forEach(item -> {
                 item.setStatus(StatusNameEnums.STATUS_NAME_DOING.getValue());
                 this.bzTaskService.updateById(item);
+                this.bzTaskAsync.sendUrl();
             });
             log.info("轮询启动任务时间,处理条数：{}",taskList.size());
         }catch (Exception e){

@@ -22,6 +22,17 @@
             <div class="layui-inline" style="width: 15%">
                 <input type="text" value="" name="ac_key" placeholder="账号ID" class="layui-input search_input">
             </div>
+            <div class="layui-inline" style="width: 15%">
+                <select name="ac_status" >
+                    <option value="">账号状态</option>
+                    <option value="0">未启用</option>
+                    <option value="1">正常</option>
+                    <option value="2">占用</option>
+                    <option value="7">待完善信息</option>
+                    <option value="8">待观察</option>
+                    <option value="9">封禁</option>
+                </select>
+            </div>
             <div class="layui-inline">
                 <a class="layui-btn" lay-submit="" lay-filter="searchForm">查询</a>
             </div>
