@@ -1,5 +1,6 @@
 package com.jackssy.weibo.async;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
@@ -12,9 +13,12 @@ import org.springframework.web.client.RestTemplate;
 @Component
 public class BzTaskAsync {
 
+    @Value("taskUrl")
+    private String taskUrl;
+
     @Async
     public void sendUrl(){
         RestTemplate res = new RestTemplate();
-        res.put("http://47.93.233.127/api/start_task/,http://127.0.0.1/api/start_task/",null);
+        res.put(taskUrl,null);
     }
 }
