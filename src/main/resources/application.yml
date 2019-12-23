@@ -1,6 +1,6 @@
 #公共配置
 server:
-    port: 8088
+    port: 8080
     tomcat:
       uri-encoding: UTF-8
 #    servlet:
@@ -10,7 +10,7 @@ server:
 spring:
     #激活哪一个环境的配置文件
     profiles:
-      active: dev
+      active: prd
 #    http:
 #      multipart:
 #        max-file-size: 100MB
@@ -78,9 +78,7 @@ jedis :
       maxTotal: 100
       maxIdle: 10
       maxWaitMillis : 100000
-server:
-  #端口
-  port: 8088
+
 
 ---
 #开发环境配置
@@ -93,9 +91,9 @@ spring:
   aop:
     proxy-target-class: true
   datasource:
-    url: jdbc:mysql://127.0.0.1:3306/comadmin?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false
-    username: root
-    password: root1234
+    url: jdbc:mysql://rm-bp1dtrpntn1x9q35oto.mysql.rds.aliyuncs.com:3306/weibo_info?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false
+    username: weibo
+    password: weibo-1234
     driver-class-name: com.mysql.jdbc.Driver
     maximum-pool-size: 30
   thymeleaf:
@@ -110,10 +108,8 @@ jedis :
       maxTotal: 100
       maxIdle: 10
       maxWaitMillis : 100000
-server:
-  #端口
-  port: 8090
 
-taskUrl: http://47.93.233.127/api/start_task/,http://127.0.0.1/api/start_task/
+
+taskUrl: http://47.93.233.127/api/start_task/
 
 
