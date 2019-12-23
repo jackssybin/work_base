@@ -78,8 +78,7 @@ jedis :
       maxTotal: 100
       maxIdle: 10
       maxWaitMillis : 100000
-
-
+taskUrl: http://127.0.0.1:5010/start_task/
 ---
 #开发环境配置
 spring:
@@ -108,8 +107,6 @@ jedis :
       maxTotal: 100
       maxIdle: 10
       maxWaitMillis : 100000
-
-
 taskUrl: http://47.93.233.127/api/start_task/
 
 
