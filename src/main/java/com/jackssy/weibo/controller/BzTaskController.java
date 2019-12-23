@@ -59,10 +59,10 @@ public class BzTaskController extends BaseController {
     BzTaskService bzTaskService;
 
     @Autowired
-    BzTaskAsync bzTaskAsync;
+    private RedisClient redisClient;
 
     @Autowired
-    private RedisClient redisClient;
+    BzTaskAsync bzTaskAsync;
 
     @GetMapping("list")
     @SysLog("跳转任务列表页面")
@@ -102,13 +102,9 @@ public class BzTaskController extends BaseController {
         QueryWrapper<BzTask> taskWrapper = new QueryWrapper<>();
         if(!map.isEmpty()){
             String keys = (String) map.get("key");
-            String status = (String) map.get("status");
             if(StringUtils.isNotBlank(keys)) {
                 taskWrapper.and(wrapper ->
                         wrapper.like("task_name", keys));
-            }
-            if(StringUtils.isNotBlank(status)){
-                taskWrapper.eq("status",status);
             }
         }
         taskWrapper.orderByDesc("update_date");
@@ -174,6 +170,9 @@ public class BzTaskController extends BaseController {
         task.setStatus(status);
         boolean flag = bzTaskService.updateById(task);
         if(!flag){
+            if(task.getStatus() == 1){
+                bzTaskAsync.sendUrl();
+            }
             return ResponseEntity.failure("操作失败");
         }
         return ResponseEntity.success("操作成功");

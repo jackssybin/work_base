@@ -48,7 +48,7 @@
 <div class="layui-form users_list">
     <table class="layui-table" id="accountTable" lay-filter="accountList"></table>
     <script type="text/html" id="accountBar">
-        {{#  if(d.status == 9){ }}
+        {{#  if(d.status > 9){ }}
         <a class="layui-btn layui-btn-wram  layui-btn-xs" lay-event="use">启用</a>
         {{# } }}
         <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
