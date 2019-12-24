@@ -41,7 +41,7 @@ public class BzAccountServiceImpl extends ServiceImpl<BzAccountMapper, BzAccount
             AccountExcel ae = (AccountExcel) item;
             accountWapper.and(wrapper ->
             wrapper.eq("account_user", ((AccountExcel) item).getAccountUser()));
-            BzAccount bza =  this.getOne(accountWapper);
+            BzAccount bza =  null;//this.getOne(accountWapper);
             if(null == bza){
                 bza = new BzAccount();
                 BeanUtils.copyProperties(item,bza);
@@ -59,6 +59,11 @@ public class BzAccountServiceImpl extends ServiceImpl<BzAccountMapper, BzAccount
                 bza.setCreateDate(LocalDateTime.now());
                 bza.setUpdateDate(LocalDateTime.now());
                 bzaList.add(bza);
+
+                if(bzaList.size()>500){
+                    this.saveBatch(bzaList);
+                    bzaList.clear();
+                }
             }
         });
         if(!bzaList.isEmpty()){
