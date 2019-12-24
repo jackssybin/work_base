@@ -9,7 +9,7 @@ layui.use(['layer','form','upload'], function() {
     var regionId="";
     var source="";
     var tags = "";
-
+    var loadIndex;
     upload.render({
         elem: '#uploadExcel',
         url:"uploadExcel",
@@ -24,8 +24,12 @@ layui.use(['layer','form','upload'], function() {
         data.ac_source =$("#ac_source").val();
         data.ac_tags =$("#ac_tags").val();
         this.data=data;
+            loadIndex = layer.load(2, {
+                shade: [0.3, '#333']
+            });
         },
         done: function(res, index, upload){
+            layer.close(loadIndex);
             if(res.success){
                 layer.msg("导入成功",{time: 1000},function(){
                     var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引

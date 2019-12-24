@@ -35,13 +35,14 @@ public class BzAccountServiceImpl extends ServiceImpl<BzAccountMapper, BzAccount
     public void importExcel(MultipartFile file, Map param) throws Exception{
         AccountExcel ac = new AccountExcel();
         List<Object> aList = ExcelUtil.readExcel(file, ac,1);
-        QueryWrapper<BzAccount> accountWapper = new QueryWrapper<>();
+
         List<BzAccount> bzaList = new ArrayList<>();
         aList.forEach( item ->{
+            QueryWrapper<BzAccount> accountWapper = new QueryWrapper<>();
             AccountExcel ae = (AccountExcel) item;
             accountWapper.and(wrapper ->
             wrapper.eq("account_user", ((AccountExcel) item).getAccountUser()));
-            BzAccount bza =  null;//this.getOne(accountWapper);
+            BzAccount bza = this.getOne(accountWapper);
             if(null == bza){
                 bza = new BzAccount();
                 BeanUtils.copyProperties(item,bza);
