@@ -58,12 +58,6 @@ public class BzAccountController extends BaseController {
     @Autowired
     BzAccountService bzAccountService;
 
-    @Autowired
-    BzTagsService bzTagsService;
-
-    @Autowired
-    BzRegionService bzRegionService;
-
     @GetMapping("list")
     @SysLog("跳转账号列表页面")
     public String list(){
@@ -74,11 +68,9 @@ public class BzAccountController extends BaseController {
     @GetMapping("importSet")
     @SysLog("跳转导入设置页面")
     public String importSet(ModelMap map){
-        QueryWrapper<BzTags> tagsQueryWrapper = new QueryWrapper<>();
-        List<BzTags> tagsList =bzTagsService.list(tagsQueryWrapper);
-        QueryWrapper<BzRegion> regionQueryWrapper = new QueryWrapper<>();
-        regionQueryWrapper.and(wrapper -> wrapper.eq("is_use",1));
-        List<BzRegion> regionList = bzRegionService.list(regionQueryWrapper);
+
+        List<BzTags> tagsList = bzAccountService.queryTagGroupList();
+        List<BzRegion> regionList = bzAccountService.queryRegionList();
         map.put("regionList",regionList);
         map.put("tagsList",tagsList);
         return "weibo/account/importSet";
