@@ -164,6 +164,7 @@ public class BzTaskController extends BaseController {
     @SysLog("修改任务状态")
     public ResponseEntity updateStatus(@RequestParam(value = "id",required = true)Integer id,
                                        @RequestParam(value = "status",required = true) Integer status){
+        logger.info("修改任务状态:id:{} status:{}",id,status);
         BzTask task = bzTaskService.getById(id);
         if(task == null){
             return ResponseEntity.failure("任务不存在");
