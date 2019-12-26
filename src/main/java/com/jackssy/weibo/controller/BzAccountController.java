@@ -10,6 +10,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.jackssy.admin.controller.BaseController;
 import com.jackssy.admin.excel.config.ExcelUtil;
+import com.jackssy.admin.excel.controller.ExportInfo;
 import com.jackssy.common.annotation.SysLog;
 import com.jackssy.common.base.PageData;
 import com.jackssy.common.util.ResponseEntity;
@@ -222,13 +223,9 @@ public class BzAccountController extends BaseController {
             return "index";
     }
 
-
-
-
-        @PostMapping("exportAccountList")
+    @GetMapping("exportAccountList")
     @SysLog("导出账号模板")
-    public  String exportAccountList(HttpServletResponse response,ServletRequest request)throws IOException{
-
+    public  void exportAccountList(HttpServletResponse response,ServletRequest request)throws IOException{
         Map map = WebUtils.getParametersStartingWith(request, Constant.ACCOUNT_PREX);
         QueryWrapper<BzAccount> accountWapper = new QueryWrapper<>();
         if(!map.isEmpty()){
@@ -249,8 +246,9 @@ public class BzAccountController extends BaseController {
             BeanUtils.copyProperties(item,ae);
             accountlist.add(ae);
         });
-        this.bzAccountService.exportExcel(response,accountlist,"accountList.xls");
-        return "index";
+            String fileName = "账号数据";
+            String sheetName = "账号";
+            ExcelUtil.writeExcel(response, accountlist, fileName, sheetName, new AccountExcel());
     }
 }
 

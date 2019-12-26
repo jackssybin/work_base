@@ -96,9 +96,17 @@ layui.use(['layer','form','table'], function() {
 
     var active = {
         exportAccountList:function(){
-            $.post("/bzAccount/exportAccountList",{"ac_key":$("#ac_key").val(),"ac_status":$("#ac_status").val()},function (res){
-
-            });
+            var url ="/bzAccount/exportAccountList?1=1"
+            if ($("#ac_key").val() !=""){
+                url+="&ac_key="+$("#ac_key").val()
+            }
+            if ($("#ac_status").val() !=""){
+                url+="&ac_status="+$("#ac_status").val()
+            }
+            console.log("url:"+url)
+            if($('#downloadexcel').length<=0)
+            $('body').append("<iframe id=\"downloadexcel\" style=\"display:none\"></iframe>");
+            $('#downloadexcel').attr('src',url);
         },
         updateStatus:function () {
 
