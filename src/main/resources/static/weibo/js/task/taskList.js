@@ -20,7 +20,13 @@ layui.use(['layer','form','table'], function() {
         width: $(parent.window).width()-223,
         cols: [[
             {field:'id',title:'任务Id',width:'8%',event:"checkLog",style:"color:blue;cursor:pointer"},
-            {field:'taskName', title: '任务名称', width:'15%'},
+            {field:'taskName', title: '任务名称', width:'15%',event:'openUrl',style:"color:blue;cursor:pointer",templet:function (d) {
+                    if(d.taskName == "" || d.taskName == undefined){
+                        return d.targetUrl;
+                    }else{
+                        return d.taskName;
+                    }
+                }},
             {field:'taskType',  title: '任务类型',    width:'15%'},
             {field:'taskCount',     title: '任务进度',   width:'12%', templet:function(d){
                 return d.finishCount+"/"+d.taskCount;
@@ -37,6 +43,9 @@ layui.use(['layer','form','table'], function() {
     //监听工具条
     table.on('tool(taskList)', function(obj){
         var data = obj.data;
+        if(obj.event === "openUrl"){
+            window.open(data.targetUrl,"_blank")
+        }
         if(obj.event === "checkLog"){
             var editIndex = layer.open({
                 title : "任务日志",
