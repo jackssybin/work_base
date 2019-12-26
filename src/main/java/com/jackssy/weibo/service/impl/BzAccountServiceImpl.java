@@ -1,5 +1,8 @@
 package com.jackssy.weibo.service.impl;
 
+import com.alibaba.excel.ExcelWriter;
+import com.alibaba.excel.metadata.Sheet;
+import com.alibaba.excel.support.ExcelTypeEnum;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.jackssy.admin.excel.config.ExcelUtil;
 import com.jackssy.weibo.entity.AccountExcel;
@@ -19,10 +22,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.InputStream;
+import javax.servlet.http.HttpServletResponse;
+import java.io.*;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -138,4 +139,34 @@ public class BzAccountServiceImpl extends ServiceImpl<BzAccountMapper, BzAccount
     }
 
 
+    @Override
+    public void exportExcel(HttpServletResponse response, List<AccountExcel> accountList,String name) throws IOException {
+        ExcelWriter writer = null;
+        OutputStream outputStream = response.getOutputStream();
+        try {
+            //添加响应头信息
+            response.setHeader("Content-disposition", "attachment; filename=" + name);
+//            response.setContentType("application/msexcel;charset=UTF-8");//设置类型
+            response.setHeader("Pragma", "No-cache");//设置头
+            response.setHeader("Cache-Control", "no-cache");//设置头
+            response.setDateHeader("Expires", 0);//设置日期头
+            //实例化 ExcelWriter
+            writer = new ExcelWriter(outputStream, ExcelTypeEnum.XLS, true);
+
+            //实例化表单
+            Sheet sheet = new Sheet(1, 0,AccountExcel.class);
+            writer.write(accountList,sheet);
+            sheet.setSheetName("列表");
+            writer.finish();
+            outputStream.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                response.getOutputStream().close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 }

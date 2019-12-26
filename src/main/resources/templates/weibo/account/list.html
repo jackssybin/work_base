@@ -20,10 +20,10 @@
     <div class="layui-field-box">
         <form class="layui-form">
             <div class="layui-inline" style="width: 15%">
-                <input type="text" value="" name="ac_key" placeholder="账号ID" class="layui-input search_input">
+                <input type="text" value="" name="ac_key"  id="ac_key" placeholder="账号ID" class="layui-input search_input">
             </div>
             <div class="layui-inline" style="width: 15%">
-                <select name="ac_status" >
+                <select name="ac_status" id="ac_status">
                     <option value="">账号状态</option>
                     <option value="0">未启用</option>
                     <option value="1">正常</option>
@@ -37,12 +37,15 @@
                 <a class="layui-btn" lay-submit="" lay-filter="searchForm">查询</a>
             </div>
             <div class="layui-inline">
-                <a class="layui-btn layui-btn-normal" data-type="importAccount">导入账号</a>
+                <a class="layui-btn" data-type="updateStatus">状态更新</a>
             </div>
-            <div class="layui-inline">
+            <div class="layui-inline layui-btn-group" style="float:right">
+                <a class="layui-btn layui-btn-normal" data-type="exportAccountList">导出账号列表</a>
+                <a class="layui-btn layui-btn-normal" data-type="importAccount">导入账号</a>
                 <a class="layui-btn layui-btn-normal" href="/bzAccount/exportExcel">导出模板</a>
             </div>
         </form>
+
     </div>
 </fieldset>
 <div class="layui-form users_list">
