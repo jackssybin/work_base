@@ -32,7 +32,7 @@
     <div class="layui-form-item">
         <label class="layui-form-label">城市：</label>
         <div class="layui-input-inline" style="width:20%"   >
-            <select name="modules"  lay-search="" id="ac_regions">
+            <select name="modules"  lay-search="" id="ac_regions" lay-verify="required">
                 <option value="">请选择</option>
                 <option th:each="re : ${regionList}" th:value="${re.regionCode}" th:text="${re.regionName}"></option>
             </select>
@@ -50,7 +50,7 @@
     <div class="layui-form-item">
         <label class="layui-form-label">来源：</label>
         <div class="layui-input-block" style="width:20%">
-            <input type="text"  autocomplete="off" id="ac_source"  placeholder="请输入账号来源" class="layui-input">
+            <input type="text"  autocomplete="off" id="ac_source"  placeholder="请输入账号来源" class="layui-input" lay-verify="required">
         </div>
     </div>
 
@@ -62,7 +62,11 @@
 
     <div class="layui-form-item">
         <div class="layui-input-block">
-            <button type="button" class="layui-btn layui-btn-normal" id="confirmUpload" >确定导入</button>
+            <div class="layui-inline">
+            <a class="layui-btn layui-btn-normal" data-type="confirmUpload">导入账号</a>
+            </div>
+                <button type="button" class="layui-btn layui-btn-normal"  id="confirmUpload"  style="display:none">确定导入</button>
+
         </div>
     </div>
 </form>

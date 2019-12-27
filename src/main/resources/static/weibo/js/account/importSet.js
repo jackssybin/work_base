@@ -47,4 +47,19 @@ layui.use(['layer','form','upload'], function() {
         active[type] ? active[type].call(this) : '';
     });
 
+
+    var active = {
+        confirmUpload: function(){
+            if($("#ac_regions").val() == "" || $("#ac_regions").val() == undefined){
+                layer.msg("请选择城市~");
+                return;
+            }
+            if($("#ac_source").val() == "" ||$("#ac_source").val() == undefined){
+                layer.msg("请填写账号来源~");
+                return;
+            }
+            $("#confirmUpload").click();
+
+        }
+    }
 })

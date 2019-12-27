@@ -6,6 +6,7 @@ layui.use(['layer','form','table'], function() {
         t;                  //表格数据变量
 
     t = {
+        id:"accountTable",
         elem: '#accountTable',
         url:'/bzAccount/list',
         method:'post',
@@ -94,6 +95,47 @@ layui.use(['layer','form','table'], function() {
 
 
     var active = {
+        exportAccountList:function(){
+            var url ="/bzAccount/exportAccountList?1=1"
+            if ($("#ac_key").val() !=""){
+                url+="&ac_key="+$("#ac_key").val()
+            }
+            if ($("#ac_status").val() !=""){
+                url+="&ac_status="+$("#ac_status").val()
+            }
+            console.log("url:"+url)
+            if($('#downloadexcel').length<=0)
+            $('body').append("<iframe id=\"downloadexcel\" style=\"display:none\"></iframe>");
+            $('#downloadexcel').attr('src',url);
+        },
+        updateStatus:function () {
+
+            var checkStatus = table.checkStatus('accountTable');
+            var ids = [];
+            $(checkStatus.data).each(function (i, o) {//o即为表格中一行的数据
+                ids.push(o.id);
+            });
+            if (ids.length < 1) {
+                layer.msg('无选中项');
+                return false;
+            }
+            console.log(ids.join(","))
+
+            layer.confirm("确定要批量修改账号状态为正常吗？",{btn:['是的,我确定','我再想想']},
+                function(){
+                    $.post("/bzAccount/batchUpdateStatus",{"ids":ids.join(","),"status":1},function (res){
+                        if(res.success){
+                            layer.msg("修改成功",{time: 1000},function(){
+                                table.reload('accountTable', t);
+                            });
+                        }else{
+                            layer.msg(res.message);
+                        }
+
+                    });
+                }
+            );
+        },
         importAccount: function(){
             var addIndex = layer.open({
                 title : "导入设置",

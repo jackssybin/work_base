@@ -10,6 +10,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.jackssy.admin.controller.BaseController;
 import com.jackssy.admin.excel.config.ExcelUtil;
+import com.jackssy.admin.excel.controller.ExportInfo;
 import com.jackssy.common.annotation.SysLog;
 import com.jackssy.common.base.PageData;
 import com.jackssy.common.util.ResponseEntity;
@@ -37,7 +38,9 @@ import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -58,12 +61,6 @@ public class BzAccountController extends BaseController {
     @Autowired
     BzAccountService bzAccountService;
 
-    @Autowired
-    BzTagsService bzTagsService;
-
-    @Autowired
-    BzRegionService bzRegionService;
-
     @GetMapping("list")
     @SysLog("跳转账号列表页面")
     public String list(){
@@ -74,11 +71,9 @@ public class BzAccountController extends BaseController {
     @GetMapping("importSet")
     @SysLog("跳转导入设置页面")
     public String importSet(ModelMap map){
-        QueryWrapper<BzTags> tagsQueryWrapper = new QueryWrapper<>();
-        List<BzTags> tagsList =bzTagsService.list(tagsQueryWrapper);
-        QueryWrapper<BzRegion> regionQueryWrapper = new QueryWrapper<>();
-        regionQueryWrapper.and(wrapper -> wrapper.eq("is_use",1));
-        List<BzRegion> regionList = bzRegionService.list(regionQueryWrapper);
+
+        List<BzTags> tagsList = bzAccountService.queryTagGroupList();
+        List<BzRegion> regionList = bzAccountService.queryRegionList();
         map.put("regionList",regionList);
         map.put("tagsList",tagsList);
         return "weibo/account/importSet";
@@ -146,7 +141,7 @@ public class BzAccountController extends BaseController {
         }
         BzAccount task = bzAccountService.getById(id);
         if(task == null){
-            return ResponseEntity.failure("任务不存在");
+            return ResponseEntity.failure("账号不存在");
         }
         bzAccountService.removeById(id);
         return ResponseEntity.success("操作成功");
@@ -156,19 +151,44 @@ public class BzAccountController extends BaseController {
 
     @PostMapping("updateStatus")
     @ResponseBody
-    @SysLog("删除账号数据")
+    @SysLog("更新账号数据")
     public ResponseEntity updateStatus(@RequestParam(value = "id",required = false)Integer id,@RequestParam(value = "status",required = false)Integer status){
         if(null ==id){
             return ResponseEntity.failure("参数错误");
         }
         BzAccount task = bzAccountService.getById(id);
         if(task == null){
-            return ResponseEntity.failure("任务不存在");
+            return ResponseEntity.failure("账号不存在");
         }
         task.setStatus(status);
+        task.setUpdateDate(LocalDateTime.now());
         bzAccountService.updateById(task);
         return ResponseEntity.success("操作成功");
     }
+
+
+    @PostMapping("batchUpdateStatus")
+    @ResponseBody
+    @SysLog("更新账号数据")
+    public ResponseEntity batchUpdateStatus(@RequestParam(value = "ids",required = false)String ids,@RequestParam(value = "status",required = false)Integer status){
+        if(StringUtils.isBlank(ids)){
+            return ResponseEntity.failure("参数错误");
+        }
+        String [] idList = ids.split(",");
+        List<BzAccount> accountList = new ArrayList<>();
+        Arrays.stream(idList).forEach(item ->{
+            BzAccount ba = new BzAccount();
+            ba.setId(Integer.parseInt(item));
+            ba.setStatus(status);
+            ba.setUpdateDate(LocalDateTime.now());
+            accountList.add(ba);
+        });
+        bzAccountService.updateBatchById(accountList);
+        return ResponseEntity.success("操作成功");
+    }
+
+
+
 
 
 
@@ -199,34 +219,36 @@ public class BzAccountController extends BaseController {
     @GetMapping("exportExcel")
     @SysLog("导出账号模板")
     public  String exportExcel(HttpServletResponse response)throws IOException{
-            ExcelWriter writer = null;
-            OutputStream outputStream = response.getOutputStream();
-            try {
-                //添加响应头信息
-                response.setHeader("Content-disposition", "attachment; filename=" + "template.xls");
-                response.setContentType("application/msexcel;charset=UTF-8");//设置类型
-                response.setHeader("Pragma", "No-cache");//设置头
-                response.setHeader("Cache-Control", "no-cache");//设置头
-                response.setDateHeader("Expires", 0);//设置日期头
-                //实例化 ExcelWriter
-                writer = new ExcelWriter(outputStream, ExcelTypeEnum.XLS, true);
-
-                //实例化表单
-                Sheet sheet = new Sheet(1, 0,AccountExcel.class);
-                writer.write(new ArrayList<AccountExcel>(),sheet);
-                sheet.setSheetName("目录");
-                writer.finish();
-                outputStream.flush();
-            } catch (IOException e) {
-                e.printStackTrace();
-            } finally {
-                try {
-                    response.getOutputStream().close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
+        bzAccountService.exportExcel(response,null,"template.xls");
             return "index";
+    }
+
+    @GetMapping("exportAccountList")
+    @SysLog("导出账号模板")
+    public  void exportAccountList(HttpServletResponse response,ServletRequest request)throws IOException{
+        Map map = WebUtils.getParametersStartingWith(request, Constant.ACCOUNT_PREX);
+        QueryWrapper<BzAccount> accountWapper = new QueryWrapper<>();
+        if(!map.isEmpty()){
+            String keys = (String) map.get("key");
+            String status = (String) map.get("status");
+            if(StringUtils.isNotBlank(keys)) {
+                accountWapper.and(wrapper ->
+                        wrapper.like("account_user", keys));
+            }
+            if(StringUtils.isNotBlank(status)){
+                accountWapper.eq("status",status);
+            }
+        }
+        List<BzAccount> bzAccounts = this.bzAccountService.list(accountWapper);
+        List<AccountExcel> accountlist = new ArrayList<>();
+        bzAccounts.forEach(item ->{
+            AccountExcel ae = new AccountExcel();
+            BeanUtils.copyProperties(item,ae);
+            accountlist.add(ae);
+        });
+            String fileName = "账号数据";
+            String sheetName = "账号";
+            ExcelUtil.writeExcel(response, accountlist, fileName, sheetName, new AccountExcel());
     }
 }
 

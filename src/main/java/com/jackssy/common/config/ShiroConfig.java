@@ -44,11 +44,11 @@ public class ShiroConfig {
         LinkedHashMap<String, String> filterChainDefinitionMap = new LinkedHashMap();
         filterChainDefinitionMap.put("/","anon");
         filterChainDefinitionMap.put("/static/**","anon");
-        filterChainDefinitionMap.put("/uv/**","anon");
-        filterChainDefinitionMap.put("/bzTask/**","anon");
-        filterChainDefinitionMap.put("/bzAccount/**","anon");
-        filterChainDefinitionMap.put("/bzLog/**","anon");
-        filterChainDefinitionMap.put("/bzTags/**","anon");
+//        filterChainDefinitionMap.put("/uv/**","anon");
+//        filterChainDefinitionMap.put("/bzTask/**","anon");
+//        filterChainDefinitionMap.put("/bzAccount/**","anon");
+//        filterChainDefinitionMap.put("/bzLog/**","anon");
+//        filterChainDefinitionMap.put("/bzTags/**","anon");
 
         filterChainDefinitionMap.put("/admin","anon");
         filterChainDefinitionMap.put("/admin/index","anon");
