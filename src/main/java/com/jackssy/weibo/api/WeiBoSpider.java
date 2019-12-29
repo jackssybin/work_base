@@ -2,6 +2,7 @@ package com.jackssy.weibo.api;
 import com.jackssy.common.util.EncryptUtil;
 import com.jackssy.weibo.api.base.AbstractSpider;
 import com.jackssy.weibo.util.WeiBoUtil;
+import net.dongliu.requests.RawResponse;
 import net.dongliu.requests.Requests;
 import net.dongliu.requests.Session;
 
@@ -11,8 +12,30 @@ import java.util.Map;
 public class WeiBoSpider extends AbstractSpider {
 
     private static Session session = Requests.session();
-    private static String username = "MTU4MTAzMDI1MTU=";
+    private static String username = "15810302515";
     private static String password = "zb-000000";
+
+    /**
+     * 整个登录分三步1.预登录 2.登录 3.重定向 4.获取数据
+     */
+    public static void main(String[] args) {
+        //访问登录页面获取cookie
+        session.get("http://weibo.com/login.php").send().readToText();
+        //1.开始预登录
+        String preJsonStirng = preLogin();
+        //2.登录
+        String successString = login(preJsonStirng);
+        //3.重定向
+        redirect(successString);
+        //4.获取数据
+        String data = getData();
+        //输出登录后的后台视频分析数据
+        System.out.println(data);
+
+        String raisedata=getRaise();
+
+        System.out.println(raisedata);
+    }
 
     public static String getData() {
         String rend;
@@ -24,7 +47,24 @@ public class WeiBoSpider extends AbstractSpider {
             para.put("starttime", startTime);
             para.put("endtime", endTime);
             rend = session.get("https://dss.sc.weibo.com/pc/aj/chart/video/videoPlayTrend").params(para).send().readToText();
-            System.out.println("获取数据:"+rend);
+            return rend;
+        } catch (Exception e) {
+            rend = "获取数据出错了";
+            return rend;
+        }
+    }
+
+    public static String getRaise() {
+        String rend ="";
+        try {
+            session.get("https://m.weibo.cn/status/4444713379747766").send().readToText();;
+            Map<String, String> para = new HashMap<>(3);
+            para.put("_", String.valueOf(System.currentTimeMillis()));
+            para.put("id", "4444713379747766");
+            para.put("attitude", "heart");
+//            para.put("st", session.currentCookies().get(0).getValue());
+            RawResponse aa = session.post("https://m.weibo.cn/api/attitudes/create").params(para).headers(session.currentCookies()).send();
+            System.out.println(aa);
             return rend;
         } catch (Exception e) {
             rend = "获取数据出错了";
@@ -44,7 +84,6 @@ public class WeiBoSpider extends AbstractSpider {
             ssoParams.put("ssosavestate", String.valueOf(System.currentTimeMillis() / 1000));
             ssoParams.put("_", String.valueOf(System.currentTimeMillis()));
             rend = session.get("https://passport.weibo.com/wbsso/login").timeout(15000).params(ssoParams).send().readToText();
-            System.out.println("重定向:"+rend);
             return rend;
         } catch (Exception e) {
             rend = "重定向出错了";
@@ -61,12 +100,10 @@ public class WeiBoSpider extends AbstractSpider {
             paras.put("client", "ssologin.js(v1.4.18)");
             paras.put("rsakt", "mod");
             paras.put("checkpin", "1");
-//            paras.put("su", WeiBoUtil.getUserName(username));
-            paras.put("su", username);
+            paras.put("su", WeiBoUtil.getUserName(username));
             paras.put("_", String.valueOf(System.currentTimeMillis()));
             String json1 = session.post("http://login.sina.com.cn/sso/prelogin.php").timeout(15000).params(paras).send().readToText();
             rend = WeiBoUtil.getJsonByRegex(json1);
-            System.out.println("预登录:"+rend);
             return rend;
         } catch (Exception e) {
             rend = "预登录出错了";
@@ -98,34 +135,14 @@ public class WeiBoSpider extends AbstractSpider {
             postData.put("rsakv", rsakv);
             postData.put("servertime", servertime);
             postData.put("nonce", nonce);
-            postData.put("su", "bmV3bWVkaWElNDB2emhpYm8udHY=");
+            postData.put("su", WeiBoUtil.getUserName(username));
             postData.put("sp", pwd);
             postData.put("returntype", "TEXT");
             rend = session.post("http://login.sina.com.cn/sso/login.php?client=ssologin.js(v1.4.18)&_=" + System.currentTimeMillis()).timeout(15000).params(postData).send().readToText();
-            System.out.println("登录:"+rend);
             return rend;
         } catch (Exception e) {
             rend = "登录出错了";
             return rend;
         }
-    }
-
-    /**
-     * 整个登录分三步1.预登录 2.登录 3.重定向 4.获取数据
-     */
-    public static void main(String[] args) {
-        //访问登录页面获取cookie
-        session.get("http://weibo.com/login.php").send().readToText();
-        //1.开始预登录
-        String preJsonStirng = preLogin();
-        //2.登录
-        String successString = login(preJsonStirng);
-        //3.重定向
-        redirect(successString);
-        //4.获取数据
-        String data = getData();
-        //输出登录后的后台视频分析数据
-        System.out.println(data);
-
     }
 }
