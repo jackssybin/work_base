@@ -67,7 +67,15 @@ spring:
       username: root
       password: root1234
       driver-class-name: com.mysql.jdbc.Driver
-      maximum-pool-size: 30
+      hikari:
+        minimum-idle: 5
+        maximum-pool-size: 15
+        auto-commit: true
+        idle-timeout: 30000
+        pool-name: DatebookHikariCP
+        max-lifetime: 1800000
+        connection-timeout: 10000
+        connection-test-query: SELECT 1
 jedis :
   pool :
     host : 127.0.0.1
@@ -94,7 +102,15 @@ spring:
     username: weibo
     password: weibo-1234
     driver-class-name: com.mysql.jdbc.Driver
-    maximum-pool-size: 30
+    hikari:
+      minimum-idle: 5
+      maximum-pool-size: 15
+      auto-commit: true
+      idle-timeout: 30000
+      pool-name: DatebookHikariCP
+      max-lifetime: 1800000
+      connection-timeout: 10000
+      connection-test-query: SELECT 1
   thymeleaf:
     cache: false
 jedis :
