@@ -6,7 +6,7 @@
     <groupId>com.jackssy</groupId>
     <artifactId>work_base</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <packaging>jar</packaging>
+    <packaging>war</packaging>
 
     <name>work_base</name>
     <description>Demo project for Spring Boot</description>
@@ -206,6 +206,7 @@
     </dependencies>
 
     <build>
+        <finalName>${project.name}</finalName>
         <plugins>
              <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
