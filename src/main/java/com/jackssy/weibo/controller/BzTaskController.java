@@ -102,12 +102,16 @@ public class BzTaskController extends BaseController {
         QueryWrapper<BzTask> taskWrapper = new QueryWrapper<>();
         if(!map.isEmpty()){
             String keys = (String) map.get("key");
+            String status = (String) map.get("status");
             if(StringUtils.isNotBlank(keys)) {
                 taskWrapper.and(wrapper ->
                         wrapper.like("task_name", keys));
             }
+            if(StringUtils.isNotBlank(status)){
+                taskWrapper.eq("status",status);
+            }
         }
-        taskWrapper.orderByDesc("update_date");
+        taskWrapper.orderByDesc("create_date");
         IPage<BzTask> taskPage = bzTaskService.page(new Page<>(page,limit),taskWrapper);
         taskPageData.setCount(taskPage.getTotal());
         taskPageData.setData(taskPage.getRecords().stream().map(xx ->{
