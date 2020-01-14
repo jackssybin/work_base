@@ -51,6 +51,7 @@ public class ShiroConfig {
 //        filterChainDefinitionMap.put("/bzTags/**","anon");
 
         filterChainDefinitionMap.put("/admin","anon");
+        filterChainDefinitionMap.put("/ping/**","anon");
         filterChainDefinitionMap.put("/admin/index","anon");
         filterChainDefinitionMap.put("/admin/login","anon");
         filterChainDefinitionMap.put("/toLogin","anon");
