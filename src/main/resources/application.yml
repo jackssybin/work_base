@@ -11,13 +11,18 @@ spring:
     #激活哪一个环境的配置文件
     profiles:
       active: prd
+#1.0以后的配置方法
 #    http:
 #      multipart:
 #        max-file-size: 100MB
 #        max-request-size: 100MB
 #        maxFileSize: 100MB
 #        maxRequestSize: 100MB
-
+#2.0以后的配置方法
+    servlet:
+      multipart:
+        max-file-size: 5MB
+        max-request-size: 10M
 work_base:
   show_system_name: 微博辅助系统
 
