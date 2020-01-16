@@ -16,7 +16,7 @@ layui.use(['layer','form','table'], function() {
             groups: 6, //只显示 1 个连续页码
             first: "首页", //显示首页
             last: "尾页", //显示尾页
-            limits:[3,10, 20, 30]
+            limits:[3,10, 20, 30,50,100]
         },
         width: $(parent.window).width()-223,
         cols: [[
@@ -103,6 +103,9 @@ layui.use(['layer','form','table'], function() {
             if ($("#ac_status").val() !=""){
                 url+="&ac_status="+$("#ac_status").val()
             }
+            if ($("#ac_tagGroup").val() !=""){
+                url+="&ac_tagGroup="+$("#ac_tagGroup").val()
+            }
             console.log("url:"+url)
             if($('#downloadexcel').length<=0)
             $('body').append("<iframe id=\"downloadexcel\" style=\"display:none\"></iframe>");
@@ -126,6 +129,34 @@ layui.use(['layer','form','table'], function() {
                     $.post("/bzAccount/batchUpdateStatus",{"ids":ids.join(","),"status":1},function (res){
                         if(res.success){
                             layer.msg("修改成功",{time: 1000},function(){
+                                table.reload('accountTable', t);
+                            });
+                        }else{
+                            layer.msg(res.message);
+                        }
+
+                    });
+                }
+            );
+        },
+        batchDelete:function () {
+
+            var checkStatus = table.checkStatus('accountTable');
+            var ids = [];
+            $(checkStatus.data).each(function (i, o) {//o即为表格中一行的数据
+                ids.push(o.id);
+            });
+            if (ids.length < 1) {
+                layer.msg('无选中项');
+                return false;
+            }
+            console.log(ids.join(","))
+
+            layer.confirm("确定要批量删除选中的账号吗？",{btn:['是的,我确定','我再想想']},
+                function(){
+                    $.post("/bzAccount/batchDelete",{"ids":ids.join(",")},function (res){
+                        if(res.success){
+                            layer.msg("删除成功",{time: 1000},function(){
                                 table.reload('accountTable', t);
                             });
                         }else{

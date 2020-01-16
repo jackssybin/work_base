@@ -61,9 +61,15 @@ public class BzAccountController extends BaseController {
     @Autowired
     BzAccountService bzAccountService;
 
+    @Autowired
+    BzTagsService bzTagsService;
+
     @GetMapping("list")
     @SysLog("跳转账号列表页面")
-    public String list(){
+    public String list(ModelMap map){
+        QueryWrapper<BzTags> tagsQueryWrapper = new QueryWrapper<>();
+        List<BzTags> tagsList =bzTagsService.list(tagsQueryWrapper);
+        map.put("tagsList",tagsList);
         return "weibo/account/list";
     }
 
@@ -100,20 +106,9 @@ public class BzAccountController extends BaseController {
     public PageData<BzAccountDto> list(@RequestParam(value = "page",defaultValue = "1")Integer page,
                                     @RequestParam(value = "limit",defaultValue = "10")Integer limit,
                                     ServletRequest request){
-        Map map = WebUtils.getParametersStartingWith(request, Constant.ACCOUNT_PREX);
+        QueryWrapper<BzAccount> accountWapper = getBzAccountQueryWrapper(request);
         PageData<BzAccountDto> accountPageData = new PageData<>();
-        QueryWrapper<BzAccount> accountWapper = new QueryWrapper<>();
-        if(!map.isEmpty()){
-            String keys = (String) map.get("key");
-            String status = (String) map.get("status");
-            if(StringUtils.isNotBlank(keys)) {
-                accountWapper.and(wrapper ->
-                        wrapper.like("account_user", keys));
-            }
-            if(StringUtils.isNotBlank(status)){
-                accountWapper.eq("status",status);
-            }
-        }
+
         accountWapper.orderByDesc("update_date");
         IPage<BzAccount> accountIPage = bzAccountService.page(new Page<>(page,limit),accountWapper);
 
@@ -187,6 +182,23 @@ public class BzAccountController extends BaseController {
         return ResponseEntity.success("操作成功");
     }
 
+    @PostMapping("batchDelete")
+    @ResponseBody
+    @SysLog("批量删除账号")
+    public ResponseEntity batchDelete(@RequestParam(value = "ids",required = false)String ids
+                                      ){
+        if(StringUtils.isBlank(ids)){
+            return ResponseEntity.failure("参数错误");
+        }
+        String [] idList = ids.split(",");
+        List<Integer> accountList = new ArrayList<>();
+        Arrays.stream(idList).forEach(item ->{
+            accountList.add(Integer.parseInt(item));
+        });
+        bzAccountService.removeByIds(accountList);
+        return ResponseEntity.success("操作成功");
+    }
+
 
 
 
@@ -226,19 +238,7 @@ public class BzAccountController extends BaseController {
     @GetMapping("exportAccountList")
     @SysLog("导出账号模板")
     public  void exportAccountList(HttpServletResponse response,ServletRequest request)throws IOException{
-        Map map = WebUtils.getParametersStartingWith(request, Constant.ACCOUNT_PREX);
-        QueryWrapper<BzAccount> accountWapper = new QueryWrapper<>();
-        if(!map.isEmpty()){
-            String keys = (String) map.get("key");
-            String status = (String) map.get("status");
-            if(StringUtils.isNotBlank(keys)) {
-                accountWapper.and(wrapper ->
-                        wrapper.like("account_user", keys));
-            }
-            if(StringUtils.isNotBlank(status)){
-                accountWapper.eq("status",status);
-            }
-        }
+        QueryWrapper<BzAccount> accountWapper = getBzAccountQueryWrapper(request);
         List<BzAccount> bzAccounts = this.bzAccountService.list(accountWapper);
         List<AccountExcel> accountlist = new ArrayList<>();
         bzAccounts.forEach(item ->{
@@ -249,6 +249,27 @@ public class BzAccountController extends BaseController {
             String fileName = "账号数据";
             String sheetName = "账号";
             ExcelUtil.writeExcel(response, accountlist, fileName, sheetName, new AccountExcel());
+    }
+
+    private QueryWrapper<BzAccount> getBzAccountQueryWrapper(ServletRequest request) {
+        QueryWrapper<BzAccount> accountWapper = new QueryWrapper<>();
+        Map map = WebUtils.getParametersStartingWith(request, Constant.ACCOUNT_PREX);
+        if(!map.isEmpty()){
+            String keys = (String) map.get("key");
+            String status = (String) map.get("status");
+            String tagGroup = (String) map.get("tagGroup");
+            if(StringUtils.isNotBlank(keys)) {
+                accountWapper.and(wrapper ->
+                        wrapper.like("account_user", keys));
+            }
+            if(StringUtils.isNotBlank(status)){
+                accountWapper.eq("status",status);
+            }
+            if(StringUtils.isNotBlank(tagGroup)){
+                accountWapper.eq("tag_group",tagGroup);
+            }
+        }
+        return accountWapper;
     }
 }
 

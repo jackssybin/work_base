@@ -33,11 +33,20 @@
                     <option value="9">封禁</option>
                 </select>
             </div>
+            <div class="layui-inline" style="width: 15%">
+                <select name="ac_tagGroup" id="ac_tagGroup"  lay-search="">
+                    <option value="">账号分组</option>
+                    <option  th:each="tags : ${tagsList}" th:value="${tags.tagCode}" th:text="${tags.tagName}"></option>
+                </select>
+            </div>
             <div class="layui-inline">
                 <a class="layui-btn" lay-submit="" lay-filter="searchForm">查询</a>
             </div>
             <div class="layui-inline">
                 <a class="layui-btn" data-type="updateStatus">状态更新</a>
+            </div>
+            <div class="layui-inline">
+                <a class="layui-btn" data-type="batchDelete">批量删除</a>
             </div>
             <div class="layui-inline layui-btn-group" style="float:right">
                 <a class="layui-btn layui-btn-normal" data-type="exportAccountList">导出账号列表</a>

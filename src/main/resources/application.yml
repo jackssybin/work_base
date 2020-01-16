@@ -22,7 +22,7 @@ spring:
     servlet:
       multipart:
         max-file-size: 5MB
-        max-request-size: 10M
+        max-request-size: 10MB
 work_base:
   show_system_name: 微博辅助系统
 
