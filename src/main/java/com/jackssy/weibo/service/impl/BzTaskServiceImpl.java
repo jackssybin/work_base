@@ -63,7 +63,9 @@ public class BzTaskServiceImpl extends ServiceImpl<BzTaskMapper, BzTask> impleme
         if(bzTask.getTaskType().contains("4")){
             bzTask.setFocus(1);
         }
-
+        if(null!=bzTask.getTargetUrl()&&bzTask.getTargetUrl().length()>0){
+            bzTask.setTargetUrl(bzTask.getTargetUrl().trim());
+        }
 
 
         boolean flag=this.save(bzTask);
