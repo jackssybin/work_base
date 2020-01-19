@@ -118,7 +118,7 @@ public class BzTaskController extends BaseController {
             BzTaskDto dto =new BzTaskDto();
             BeanUtils.copyProperties(xx,dto);
             dto.setStatusName(StatusNameEnums.getNameByValue(xx.getStatus()));
-            if(StringUtils.isNotEmpty(xx.getCommentType())){
+            if(null!=xx.getCommentType()){
                 dto.setCommentTypeName(CommentTypeEnums.getNameByValue(xx.getCommentType()));
             }
             dto.setTaskType(TaskTypeEnums.getNameByValue(dto.getTaskType()));
