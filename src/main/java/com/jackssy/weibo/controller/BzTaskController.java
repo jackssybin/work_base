@@ -32,6 +32,7 @@ import org.springframework.web.util.WebUtils;
 import javax.servlet.ServletRequest;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -75,7 +76,15 @@ public class BzTaskController extends BaseController {
     public String add(ModelMap map){
         QueryWrapper<BzTags> tagsQueryWrapper = new QueryWrapper<>();
         List<BzTags> tagsList =bzTagsService.list(tagsQueryWrapper);
+        QueryWrapper<BzTask> taskQueryWrapper = new QueryWrapper<>();
+        List<Integer> status = new ArrayList<>();
+        status.add(StatusNameEnums.STATUS_NAME_UNDO.getValue());
+        status.add(StatusNameEnums.STATUS_NAME_DOING.getValue());
+        status.add(StatusNameEnums.STATUS_NAME_PAUSE.getValue());
+        taskQueryWrapper.in("status",status);
+        List<BzTask> taskList = bzTaskService.list(taskQueryWrapper);
         map.put("tagsList",tagsList);
+        map.put("taskList",taskList);
         return "weibo/task/add";
     }
 
@@ -123,6 +132,7 @@ public class BzTaskController extends BaseController {
             }
             dto.setTaskType(TaskTypeEnums.getNameByValue(dto.getTaskType()));
             dto.setTagsTypeName(bzTagsService.getTagsNameByTagsCode(xx.getTagGroup()));
+            dto.setPreTaskName(bzTaskService.getTaskNameByTaskId(xx.getPreTaskId()));
             return dto;
         }).collect(Collectors.toList()));
         return taskPageData;

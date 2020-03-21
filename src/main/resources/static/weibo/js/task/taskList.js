@@ -19,7 +19,7 @@ layui.use(['layer','form','table'], function() {
         },
         width: $(parent.window).width()-223,
         cols: [[
-            {field:'id',title:'任务Id',width:'8%',event:"checkLog",style:"color:blue;cursor:pointer"},
+            {field:'id',title:'任务Id',width:'5%',event:"checkLog",style:"color:blue;cursor:pointer"},
             {field:'taskName', title: '任务名称', width:'15%',event:'openUrl',style:"color:blue;cursor:pointer",templet:function (d) {
                     if(d.taskName == "" || d.taskName == undefined){
                         return d.targetUrl;
@@ -27,15 +27,16 @@ layui.use(['layer','form','table'], function() {
                         return d.taskName;
                     }
                 }},
-            {field:'taskType',  title: '任务类型',    width:'15%'},
+            {field:'taskType',  title: '任务类型',    width:'12%'},
+            {field:'preTaskName',  title: '前置任务',    width:'15%'},
             {field:'taskCount',     title: '任务进度',   width:'12%', templet:function(d){
                 return d.finishCount+"/"+d.taskCount;
                 } },
             {field:'statusName',       title: '任务状态',    width:'12%'},
-            {field:'startTime', title: '任务开始时间', width:'15%',templet:'<span>{{ layui.laytpl.toDateString(d.startTime) }}</span>'},
-            {field:'createDate',    title: '任务创建时间',width:'15%'},
-            {field:'updateDate',    title: '任务更新时间',width:'15%'},
-            {fixed: 'right',title:'操作', align: 'center', toolbar: '#taskBar',width:'15%'}
+            {field:'startTime', title: '任务开始时间', width:'12%',templet:'<span>{{ layui.laytpl.toDateString(d.startTime) }}</span>'},
+            {field:'createDate',    title: '任务创建时间',width:'12%'},
+            {field:'updateDate',    title: '任务更新时间',width:'12%'},
+            {fixed: 'right',title:'操作', align: 'center', toolbar: '#taskBar',width:'12%'}
         ]]
     };
     table.render(t);

@@ -17,6 +17,8 @@ public class BzTaskDto extends BzTask {
 
     private String commentTypeName;
 
+    private String preTaskName;
+
     /**
      * 前端转换用
      */
