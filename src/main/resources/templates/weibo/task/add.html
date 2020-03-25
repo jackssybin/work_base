@@ -59,11 +59,14 @@
 
     <div class="layui-form-item">
         <div class="layui-inline">
-            <label class="layui-form-label">执行速度</label>
+            <label class="layui-form-label">前置任务</label>
             <div class="layui-input-block">
-                <input type="radio" name="taskSpeed" value="1" title="普通">
-                <input type="radio" name="taskSpeed" value="2" title="快速" checked>
+                <select name="preTaskId" id="preTaskId"  lay-search="">
+                    <option value="">无</option>
+                    <option  th:each="task : ${taskList}" th:value="${task.id}" th:text="${task.taskName}"></option>
+                </select>
             </div>
+
         </div>
         <div class="layui-inline">
             <label class="layui-form-label">开始时间</label>
@@ -73,7 +76,15 @@
 
         </div>
     </div>
-
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">执行速度</label>
+            <div class="layui-input-block">
+                <input type="radio" name="taskSpeed" value="1" title="普通">
+                <input type="radio" name="taskSpeed" value="2" title="快速" checked>
+            </div>
+        </div>
+    </div>
     <div class="layui-form-item">
 
         <label class="layui-form-label">任务类型</label>

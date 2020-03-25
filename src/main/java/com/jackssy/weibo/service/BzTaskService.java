@@ -14,4 +14,6 @@ import com.jackssy.weibo.entity.dto.BzTaskDto;
  */
 public interface BzTaskService extends IService<BzTask> {
     Boolean addTask(BzTaskDto bzTaskDto);
+
+    String getTaskNameByTaskId(String taskId);
 }

@@ -83,4 +83,13 @@ public class BzTaskServiceImpl extends ServiceImpl<BzTaskMapper, BzTask> impleme
         }
         return flag;
     }
+
+    @Override
+    public String getTaskNameByTaskId(String taskId) {
+        BzTask task = this.getById(taskId);
+        if(task!=null){
+            return task.getTaskName();
+        }
+        return "";
+    }
 }

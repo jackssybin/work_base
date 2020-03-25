@@ -6,7 +6,10 @@
     <groupId>com.jackssy</groupId>
     <artifactId>work_base</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <packaging>war</packaging>
+    <modules>
+        <module>../../mashibing/herostory</module>
+    </modules>
+    <packaging>pom</packaging>
 
     <name>work_base</name>
     <description>Demo project for Spring Boot</description>

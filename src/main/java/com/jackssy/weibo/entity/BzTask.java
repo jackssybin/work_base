@@ -140,6 +140,8 @@ public class BzTask extends Model<BzTask> {
     @TableField("start_time")
     private LocalDateTime startTime;
 
+    @TableField("pre_task_id")
+    private String preTaskId;
 
     /**
      * 结束时间
@@ -159,6 +161,13 @@ public class BzTask extends Model<BzTask> {
     private LocalDateTime updateDate;
 
 
+    public String getPreTaskId() {
+        return preTaskId;
+    }
+
+    public void setPreTaskId(String preTaskId) {
+        this.preTaskId = preTaskId;
+    }
 
     public Integer getId() {
         return id;

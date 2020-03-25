@@ -10,7 +10,7 @@ server:
 spring:
     #激活哪一个环境的配置文件
     profiles:
-      active: prd
+      active: dev
 #1.0以后的配置方法
 #    http:
 #      multipart:
