@@ -150,6 +150,25 @@ layui.use(['layer','form','table'], function() {
             });
             layer.full(addIndex);
         },
+        batchAddTask : function(){
+            var addIndex = layer.open({
+                title : "批量添加任务",
+                type : 2,
+                content : "batchAdd/bzTask/add",
+                success : function(layero, addIndex){
+                    setTimeout(function(){
+                        layer.tips('点击此处返回任务列表', '.layui-layer-setwin .layui-layer-close', {
+                            tips: 3
+                        });
+                    },500);
+                }
+            });
+            //改变窗口大小时，重置弹窗的高度，防止超出可视区域（如F12调出debug的操作）
+            $(window).resize(function(){
+                layer.full(addIndex);
+            });
+            layer.full(addIndex);
+        }
     };
 
     $('.layui-inline .layui-btn').on('click', function(){
