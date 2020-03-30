@@ -21,7 +21,13 @@ layui.use(['layer','form','table'], function() {
         cols: [[
             {type:'checkbox'},
             {field:'filterContent', title: '关键词', width:'30%'},
-            {field:'isUse',  title: '是否启用',width:'15%'},
+            {field:'isUse',  title: '是否启用',width:'15%',templet:function(d){
+                    if(d.isUse == 1){
+                        return "是";
+                    }else{
+                        return "否";
+                    }
+                 },},
             {field:'remark', title:"备注",width:"20%"},
             {field:'createDate', title:"创建时间",templet:'<span>{{ layui.laytpl.toDateString(d.createDate) }}</span>'},
             {field:'updateDate', title:"更新时间",templet:'<span>{{ layui.laytpl.toDateString(d.createDate) }}</span>'},

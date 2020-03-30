@@ -77,13 +77,17 @@ public class BzFilterController extends BaseController {
     @ResponseBody
     @SysLog("保存关键词数据")
     public ResponseEntity add(@RequestBody BzFilter bzFilter){
-        bzFilter.setCreateDate(LocalDateTime.now());
+
         QueryWrapper<BzFilter> wrapper = new QueryWrapper<>();
         wrapper.eq("filter_content",bzFilter.getFilterContent());
         BzFilter exist = bzFilterService.getOne(wrapper);
         if(exist!=null){
             return ResponseEntity.failure("关键词已存在");
         }
+        bzFilter.setId();
+        bzFilter.setIsUse(1);
+        bzFilter.setCreateDate(LocalDateTime.now());
+        bzFilter.setUpdateDate(LocalDateTime.now());
         boolean flag = bzFilterService.save(bzFilter);
         if(flag){
             return ResponseEntity.success("新建关键词成功");
