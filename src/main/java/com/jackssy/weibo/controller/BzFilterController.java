@@ -84,7 +84,6 @@ public class BzFilterController extends BaseController {
         if(exist!=null){
             return ResponseEntity.failure("关键词已存在");
         }
-        bzFilter.setId();
         bzFilter.setIsUse(1);
         bzFilter.setCreateDate(LocalDateTime.now());
         bzFilter.setUpdateDate(LocalDateTime.now());
