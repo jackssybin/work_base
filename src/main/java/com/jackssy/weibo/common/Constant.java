@@ -16,4 +16,6 @@ public class Constant {
     public static String TAG_PREX = "tag_";
 
     public static String COMMENT_PREX = "comment_";
+
+    public static String FILTER_PREX = "filter_";
 }

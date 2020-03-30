@@ -6,8 +6,8 @@ layui.use(['layer','form','table'], function() {
         t;                  //表格数据变量
 
     t = {
-        elem: '#tagTable',
-        url:'/bzTags/list',
+        elem: '#filterTable',
+        url:'/bzFilter/list',
         method:'post',
         page: { //支持传入 laypage 组件的所有参数（某些参数除外，如：jump/elem） - 详见文档
             layout: ['limit', 'count', 'prev', 'page', 'next', 'skip'], //自定义分页布局
@@ -19,26 +19,28 @@ layui.use(['layer','form','table'], function() {
         },
         width: $(parent.window).width()-223,
         cols: [[
-            // {type:'checkbox'},
-            {field:'tagCode', title: '分组代码', width:'15%'},
-            {field:'tagName',  title: '分组名称',width:'30%'},
+            {type:'checkbox'},
+            {field:'filterContent', title: '关键词', width:'30%'},
+            {field:'isUse',  title: '是否启用',width:'15%'},
+            {field:'remark', title:"备注",width:"20%"},
             {field:'createDate', title:"创建时间",templet:'<span>{{ layui.laytpl.toDateString(d.createDate) }}</span>'},
-            {fixed: 'right', title:"操作",align: 'center', toolbar:"#tagBar"}
+            {field:'updateDate', title:"更新时间",templet:'<span>{{ layui.laytpl.toDateString(d.createDate) }}</span>'},
+            {fixed: 'right', title:"操作",align: 'center', toolbar:"#filterBar"}
         ]]
     };
     table.render(t);
 
 
     //监听工具条
-    table.on('tool(tagList)', function(obj){
+    table.on('tool(filterList)', function(obj){
         var data = obj.data;
         if(obj.event === "del"){
-            layer.confirm("你确定要删除该分组么？",{btn:['是的,我确定','我再想想']},
+            layer.confirm("你确定要删除该关键词么？",{btn:['是的,我确定','我再想想']},
                 function(){
-                    $.post("/bzTags/delete",{"id":data.id},function (res){
+                    $.post("/bzFilter/delete",{"id":data.id},function (res){
                         if(res.success){
                             layer.msg("删除成功",{time: 1000},function(){
-                                table.reload('tagTable', t);
+                                table.reload('filterTable', t);
                             });
                         }else{
                             layer.msg(res.message);
@@ -48,8 +50,26 @@ layui.use(['layer','form','table'], function() {
                 }
             );
         }
-        if(obj.event === "edit"){
-            console.log(obj.id)
+        if(obj.event === "stop" || obj.event === "use"){
+            if(obj.event === "stop" ){
+                isUse = 0;
+            }else if(obj.event === "use"){
+                isUse = 1;
+            }
+            layer.confirm("你确定要改变启用状态么？",{btn:['是的,我确定','我再想想']},
+                function(){
+                    $.post("/bzFilter/updateStatus",{"id":data.id,"isUse":isUse},function (res){
+                        if(res.success){
+                            layer.msg("操作成功",{time: 1000},function(){
+                                table.reload('filterTable', t);
+                            });
+                        }else{
+                            layer.msg(res.message);
+                        }
+
+                    });
+                }
+            );
         }
     });
 
@@ -57,9 +77,9 @@ layui.use(['layer','form','table'], function() {
     var active={
         addTags : function(){
             var addIndex = layer.open({
-                title : "添加分组",
+                title : "添加关键词",
                 type : 2,
-                content : "/bzTags/add",
+                content : "/bzFilter/add",
                 success : function(layero, addIndex){
                     setTimeout(function(){
                         layer.tips('点击此处返回分组列表', '.layui-layer-setwin .layui-layer-close', {
@@ -82,7 +102,7 @@ layui.use(['layer','form','table'], function() {
     //搜索
     form.on("submit(searchForm)",function(data){
         t.where = data.field;
-        table.reload('tagTable', t);
+        table.reload('filterTable', t);
         return false;
     });
 
