@@ -94,6 +94,7 @@ public class BzTask extends Model<BzTask> {
     @TableField("tag_group")
     private String tagGroup;
 
+
     /**
      * 备注
      */
@@ -159,6 +160,9 @@ public class BzTask extends Model<BzTask> {
     @TableField("update_date")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private LocalDateTime updateDate;
+
+    @TableField("task_category")
+    private String taskCategory;
 
 
     public String getPreTaskId() {
