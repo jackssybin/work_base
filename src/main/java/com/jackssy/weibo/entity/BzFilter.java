@@ -1,5 +1,6 @@
 package com.jackssy.weibo.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
@@ -16,8 +17,8 @@ import java.time.LocalDateTime;
 @TableName("bz_filter")
 @Data
 public class BzFilter extends Model<BzFilter> {
-    @TableId
-    private String id;
+    @TableId(value = "id", type = IdType.AUTO)
+    private Integer id;
 
     private String filterContent;
 

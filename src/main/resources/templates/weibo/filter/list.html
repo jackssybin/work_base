@@ -35,14 +35,13 @@
 <div class="layui-form user_list">
     <table class="layui-table" id="filterTable" lay-filter="filterList"></table>
     <script type="text/html" id="filterBar">
-        <a class="layui-btn layui-btn-danger layui-btn" lay-event="del">删除</a>
         {{#  if(d.isUse == 1){ }}
         <a class="layui-btn layui-btn layui-btn" lay-event="stop">停用</a>
         <!--0:待执行,1:执行中2:暂停 3:终止-->
         {{#  } else if(d.isUse == 0){ }}
         <a class="layui-btn layui-btn layui-btn" lay-event="use">启用</a>
         {{# } }}
-
+        <a class="layui-btn layui-btn-danger layui-btn" lay-event="del">删除</a>
     </script>
 </div>
 <div id="page"></div>
