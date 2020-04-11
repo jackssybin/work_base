@@ -11,6 +11,7 @@ import com.jackssy.common.config.RedisClient;
 import com.jackssy.common.util.ResponseEntity;
 import com.jackssy.weibo.async.BzTaskAsync;
 import com.jackssy.weibo.common.Constant;
+import com.jackssy.weibo.entity.BzFilter;
 import com.jackssy.weibo.entity.BzRealtime;
 import com.jackssy.weibo.entity.BzTags;
 import com.jackssy.weibo.entity.BzTask;
@@ -18,10 +19,12 @@ import com.jackssy.weibo.entity.dto.BzTaskDto;
 import com.jackssy.weibo.enums.CommentTypeEnums;
 import com.jackssy.weibo.enums.StatusNameEnums;
 import com.jackssy.weibo.enums.TaskTypeEnums;
+import com.jackssy.weibo.service.BzFilterService;
 import com.jackssy.weibo.service.BzRealtimeService;
 import com.jackssy.weibo.service.BzTagsService;
 import com.jackssy.weibo.service.BzTaskService;
 import org.apache.commons.lang3.StringUtils;
+import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -59,6 +62,8 @@ public class BzSendController extends BaseController {
     @Autowired
     BzRealtimeService bzRealtimeService;
 
+@Autowired
+    BzFilterService bzFilterService;
 
     @Autowired
     private RedisClient redisClient;
@@ -82,6 +87,7 @@ public class BzSendController extends BaseController {
         wrapper.eq("type","1");
         List<BzRealtime> realtimeList =bzRealtimeService.list(wrapper);
         map.put("tagsList",tagsList);
+        map.put("realtimeList",realtimeList);
         return "weibo/send/add";
     }
     @GetMapping("batchAdd")
@@ -133,7 +139,7 @@ public class BzSendController extends BaseController {
                 taskWrapper.eq("status",status);
             }
         }
-        taskWrapper.eq("send","1");
+        taskWrapper.eq("send",1);
         taskWrapper.orderByDesc("create_date");
         IPage<BzTask> taskPage = bzTaskService.page(new Page<>(page,limit),taskWrapper);
         taskPageData.setCount(taskPage.getTotal());
@@ -156,7 +162,16 @@ public class BzSendController extends BaseController {
     @ResponseBody
     @SysLog("保存任务数据")
     public ResponseEntity add(@RequestBody BzTaskDto bzTaskDto){
-        boolean flag = bzTaskService.batchAddTask(bzTaskDto);
+        List<String> filterList = bzFilterService.getContainsFilterContent(bzTaskDto.getRemark());
+        if(filterList.size()>0){
+            String msg = "内容包含关键字";
+            for (String keyword : filterList) {
+                msg += keyword +",";
+            }
+            msg+="请修改后提交。";
+            return ResponseEntity.failure(msg);
+        }
+        boolean flag = bzTaskService.addSend(bzTaskDto);
         if(flag){
             return ResponseEntity.success("保存任务数据成功");
         }else{
@@ -169,7 +184,7 @@ public class BzSendController extends BaseController {
     @ResponseBody
     @SysLog("保存任务数据")
     public ResponseEntity batchAdd(@RequestBody BzTaskDto bzTaskDto){
-        boolean flag = bzTaskService.addTask(bzTaskDto);
+        boolean flag = bzTaskService.addSend(bzTaskDto);
         if(flag){
             return ResponseEntity.success("保存任务数据成功");
         }else{

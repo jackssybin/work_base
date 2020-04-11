@@ -136,7 +136,7 @@ public class BzTaskController extends BaseController {
                 taskWrapper.eq("status",status);
             }
         }
-        taskWrapper.eq("send","0");
+        taskWrapper.eq("send",0);
         taskWrapper.orderByDesc("create_date");
         IPage<BzTask> taskPage = bzTaskService.page(new Page<>(page,limit),taskWrapper);
         taskPageData.setCount(taskPage.getTotal());
@@ -159,7 +159,7 @@ public class BzTaskController extends BaseController {
     @ResponseBody
     @SysLog("保存任务数据")
     public ResponseEntity add(@RequestBody BzTaskDto bzTaskDto){
-        boolean flag = bzTaskService.batchAddTask(bzTaskDto);
+        boolean flag = bzTaskService.addTask(bzTaskDto);
         if(flag){
             return ResponseEntity.success("保存任务数据成功");
         }else{
@@ -172,7 +172,7 @@ public class BzTaskController extends BaseController {
     @ResponseBody
     @SysLog("保存任务数据")
     public ResponseEntity batchAdd(@RequestBody BzTaskDto bzTaskDto){
-        boolean flag = bzTaskService.addTask(bzTaskDto);
+        boolean flag = bzTaskService.batchAddTask(bzTaskDto);
         if(flag){
             return ResponseEntity.success("保存任务数据成功");
         }else{

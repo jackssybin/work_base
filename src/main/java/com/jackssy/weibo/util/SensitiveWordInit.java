@@ -32,7 +32,7 @@ public class SensitiveWordInit {
         try {
             List<BzFilter> filterList = bzFilterService.listIsUse();
             //读取敏感词库
-            Set<String> keyWordSet = null;
+            Set<String> keyWordSet = new HashSet<String>();
             filterList.forEach(filter ->{
                 keyWordSet.add(filter.getFilterContent());
             });

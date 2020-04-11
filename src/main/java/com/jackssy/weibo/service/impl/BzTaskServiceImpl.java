@@ -33,6 +33,23 @@ public class BzTaskServiceImpl extends ServiceImpl<BzTaskMapper, BzTask> impleme
     @Autowired
     BzTaskAsync bzTaskAsync;
 
+
+    @Override
+    public Boolean addSend(BzTaskDto bzTaskDto) {
+        BzTask bzTask = new BzTask();
+        BeanUtils.copyProperties(bzTaskDto,bzTask);
+        bzTask.setCreateDate(LocalDateTime.now());
+        bzTask.setUpdateDate(LocalDateTime.now());
+        if(StringUtils.isNotBlank(bzTaskDto.getStartTimeStr())){
+            DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            bzTask.setStartTime(LocalDateTime.parse(bzTaskDto.getStartTimeStr(), fmt));
+        }else{
+            bzTask.setStatus(1);
+        }
+        bzTask.setSend(1);
+        boolean flag=this.save(bzTask);
+        return flag;
+    }
     @Override
     public Boolean addTask(BzTaskDto bzTaskDto) {
         BzTask bzTask = new BzTask();
@@ -68,7 +85,7 @@ public class BzTaskServiceImpl extends ServiceImpl<BzTaskMapper, BzTask> impleme
             bzTask.setTargetUrl(bzTask.getTargetUrl().trim());
         }
 
-
+        bzTask.setSend(0);
         boolean flag=this.save(bzTask);
         if(flag){
 

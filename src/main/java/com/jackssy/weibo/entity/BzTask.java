@@ -161,7 +161,7 @@ public class BzTask extends Model<BzTask> {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private LocalDateTime updateDate;
 
-    private String send;
+    private Integer send;
 
     private String rndComment;
 

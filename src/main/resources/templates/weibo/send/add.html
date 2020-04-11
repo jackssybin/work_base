@@ -73,7 +73,7 @@
             <div class="layui-input-block">
                 <select name="realtimeGroup" id="realTimeGroup"  lay-search="">
                     <option value="">无</option>
-                    <option  th:each="wb : ${realtimeList}" th:value="${wb.id}" th:text="${wb.name}"></option>
+                    <option  th:each="wb : ${realtimeList}" th:value="${wb.name}" th:text="${wb.name}"></option>
                 </select>
             </div>
 
@@ -83,7 +83,7 @@
         <div class="layui-form-item layui-form-text">
             <label class="layui-form-label">微博内容</label>
             <div class="layui-input-block">
-                <textarea name="commentContent" placeholder="请输入内容"  class="layui-textarea"></textarea>
+                <textarea name="remark" id="remark" placeholder="请输入内容"  class="layui-textarea"></textarea>
             </div>
         </div>
     </div>
@@ -100,6 +100,6 @@
     </div>
 </form>
 <script type="text/javascript" th:src="@{/static/layui/layui.js}"></script>
-<script type="text/javascript" th:src="@{/static/weibo/js/task/taskAdd.js}"></script>
+<script type="text/javascript" th:src="@{/static/weibo/js/send/sendAdd.js}"></script>
 </body>
 </html>
