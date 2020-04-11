@@ -17,6 +17,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 /**
  * <p>
@@ -82,5 +83,30 @@ public class BzTaskServiceImpl extends ServiceImpl<BzTaskMapper, BzTask> impleme
 
         }
         return flag;
+    }
+
+    @Override
+    public Boolean batchAddTask(BzTaskDto bzTaskDto) {
+        String Url = bzTaskDto.getTargetUrl();
+        String number = bzTaskDto.getTargetNumber();
+        List<String> urlList = Arrays.asList(Url.split(","));
+        List<String> numberList = Arrays.asList(number.split(","));
+        for (int i = 0; i < urlList.size(); i++) {
+            BzTaskDto bzTask = new BzTaskDto();
+            BeanUtils.copyProperties(bzTaskDto,bzTask);
+            bzTask.setTargetUrl(urlList.get(i));
+            bzTask.setTargetNumber(urlList.get(i));
+            this.addTask(bzTask);
+        }
+        return null;
+    }
+
+    @Override
+    public String getTaskNameByTaskId(String taskId) {
+        BzTask task = this.getById(taskId);
+        if(task!=null){
+            return task.getTaskName();
+        }
+        return "";
     }
 }
