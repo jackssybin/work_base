@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <meta charset="utf-8">
+    <title>任务添加--任务管理</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="stylesheet" th:href="@{/static/layui/css/layui.css}" media="all" />
+    <style type="text/css">
+        .layui-form-item .layui-inline{ width:33.333%; float:left; margin-right:0; }
+        @media(max-width:1240px){
+            .layui-form-item .layui-inline{ width:100%; float:none; }
+        }
+
+
+    </style>
+</head>
+<body class="childrenBody">
+<form class="layui-form" style="width:80%;margin-top: 2%;">
+
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">任务名称</label>
+            <div class="layui-input-block">
+                <input type="text" class="layui-input" name="taskName"  placeholder="请输入任务名称">
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">任务总量</label>
+            <div class="layui-input-block">
+                <input type="number" class="layui-input" name="taskCount" lay-verify="required" placeholder="请输入任务总量">
+            </div>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+
+        <div class="layui-inline">
+            <label class="layui-form-label">账号分组</label>
+            <div class="layui-input-block">
+                <select name="tagGroup" id="tagGroup"  lay-search="">
+                    <option value="">无</option>
+                    <option  th:each="tags : ${tagsList}" th:value="${tags.tagCode}" th:text="${tags.tagName}"></option>
+                </select>
+            </div>
+
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">开始时间</label>
+            <div class="layui-input-block">
+                <input type="text" class="layui-input" name="startTimeStr" id="startTimeStr"  style="width:100%" placeholder="请输入开始时间，为空则立即执行">
+            </div>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">执行速度</label>
+            <div class="layui-input-block">
+                <input type="radio" name="taskSpeed" value="1" title="普通">
+                <input type="radio" name="taskSpeed" value="2" title="快速" checked>
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">热搜选择</label>
+            <div class="layui-input-block">
+                <select name="realtimeGroup" id="realTimeGroup"  lay-search="">
+                    <option value="">无</option>
+                    <option  th:each="wb : ${realtimeList}" th:value="${wb.id}" th:text="${wb.name}"></option>
+                </select>
+            </div>
+
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">微博内容</label>
+            <div class="layui-input-block">
+                <textarea name="commentContent" placeholder="请输入内容"  class="layui-textarea"></textarea>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn" lay-submit="" lay-filter="addTask">立即提交</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
+</form>
+<script type="text/javascript" th:src="@{/static/layui/layui.js}"></script>
+<script type="text/javascript" th:src="@{/static/weibo/js/task/taskAdd.js}"></script>
+</body>
+</html>

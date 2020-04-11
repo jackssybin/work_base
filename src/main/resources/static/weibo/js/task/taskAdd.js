@@ -8,6 +8,21 @@ layui.use(['form','jquery','layer','laydate'],function(){
 
 
     form.on("submit(addTask)",function(data){
+
+        var rndCon =  $("input[name = 'rndContentInput']");
+        var  rndContent = "";
+        for (let rndConKey in rndCon) {
+            var rndV = $(rndConKey).val();
+            if(rndv != "" && rndv != null){
+                rndContent += rndV +"/";
+            }
+        }
+        if(rndContent !=""){
+            rndContent = rndContent.substring(0,rndContent.length-1);
+            data.field.rndContent = rndContent;
+        }
+        console.log(rndContent)
+        return
         var loadIndex = layer.load(2, {
             shade: [0.3, '#333']
         });
@@ -65,7 +80,28 @@ layui.use(['form','jquery','layer','laydate'],function(){
 
 
 
+    $("#rndTargetSelect").click(function () {
+        var value = $("#rndTargetSelect input[name = 'rndTargetSelect']:checked").val();
+        if(value == 1){
+            $("#rndIdInput").show();
+        }else{
+            $("#rndIdInput").hide();
+        }
+    })
 
+
+    /**
+     * 开启回复
+     */
+    $("#rndComment").click(function () {
+        var value = $("#commentType input[name = 'rndComment']:checked").val();
+        if(value == 1){
+            console.log("rnd SHOW");
+            $("#rndArea").show();
+        }else{
+            $("#rndArea").hide();
+        }
+    })
 
     $("#commentType").click(function () {
        var value = $("#commentType input[name = 'commentType']:checked").val();
@@ -75,6 +111,8 @@ layui.use(['form','jquery','layer','laydate'],function(){
             $("#commentContent").show();
         }
     })
+
+
 
 
     $("#taskType").click(function(){

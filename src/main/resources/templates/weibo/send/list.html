@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+
+    <meta charset="utf-8">
+    <title>任务列表--后台管理</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <link rel = "shortcut icon" href="${site.logo}">
+    <link rel="stylesheet" th:href="@{/static/layui/css/layui.css}" media="all" />
+    <link rel="stylesheet" th:href="@{/static/admin/css/list.css}" media="all" />
+</head>
+<body class="childrenBody">
+<fieldset class="layui-elem-field">
+    <legend>任务检索</legend>
+    <div class="layui-field-box">
+        <form class="layui-form">
+            <div class="layui-inline" style="width: 15%">
+                <input type="text" value="" name="task_key" placeholder="任务名称" class="layui-input search_input">
+            </div>
+            <div class="layui-inline" style="width: 15%">
+                <select name="task_status" >
+                    <option value="">任务状态</option>
+                    <option value="0">待执行</option>
+                    <option value="1">执行中</option>
+                    <option value="2">暂停</option>
+                    <option value="3">终止</option>
+                    <option value="9">异常</option>
+                </select>
+            </div>
+            <div class="layui-inline">
+                <a class="layui-btn" lay-submit="" lay-filter="searchForm">查询</a>
+            </div>
+            <div class="layui-inline">
+                <a class="layui-btn layui-btn-normal" data-type="addTask">添加发送任务</a>
+            </div>
+        </form>
+    </div>
+</fieldset>
+<div class="layui-form users_list">
+    <table class="layui-table" id="taskTable" lay-filter="taskList"></table>
+    <script type="text/html" id="taskBar">
+        <a class="layui-btn  layui-btn" lay-event="view">查看</a>
+        {{#  if(d.status == 1){ }}
+        <a class="layui-btn  layui-btn-danger" lay-event="stop">暂停</a>
+        <!--0:待执行,1:执行中2:暂停 3:终止-->
+        {{#  } else if(d.status == 2){ }}
+        <a class="layui-btn  layui-btn-danger" lay-event="continue">继续</a>
+        <a class="layui-btn  layui-btn-warm" lay-event="finish">完成</a>
+        {{#  } else if(d.status == 0 || d.status == 9){}}
+        <a class="layui-btn  layui-btn-danger" lay-event="del">删除</a>
+
+        {{#  } }}
+    </script>
+
+
+</div>
+<div id="page"></div>
+<script type="text/javascript" th:src="@{/static/layui/layui.js}"></script>
+<script type="text/javascript" th:src="@{/static/admin/js/tools.js}"></script>
+<script type="text/javascript" th:src="@{/static/weibo/js/task/sendList.js}"></script>
+</body>
+</html>

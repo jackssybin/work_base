@@ -11,29 +11,26 @@ import com.jackssy.common.config.RedisClient;
 import com.jackssy.common.util.ResponseEntity;
 import com.jackssy.weibo.async.BzTaskAsync;
 import com.jackssy.weibo.common.Constant;
+import com.jackssy.weibo.entity.BzRealtime;
 import com.jackssy.weibo.entity.BzTags;
 import com.jackssy.weibo.entity.BzTask;
 import com.jackssy.weibo.entity.dto.BzTaskDto;
 import com.jackssy.weibo.enums.CommentTypeEnums;
 import com.jackssy.weibo.enums.StatusNameEnums;
 import com.jackssy.weibo.enums.TaskTypeEnums;
+import com.jackssy.weibo.service.BzRealtimeService;
 import com.jackssy.weibo.service.BzTagsService;
 import com.jackssy.weibo.service.BzTaskService;
-import net.sf.jsqlparser.expression.DateTimeLiteralExpression;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.WebUtils;
 
 import javax.servlet.ServletRequest;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -47,8 +44,8 @@ import java.util.stream.Collectors;
  * @since 2019-11-26
  */
 @Controller
-@RequestMapping("/bzTask")
-public class BzTaskController extends BaseController {
+@RequestMapping("/bzSend")
+public class BzSendController extends BaseController {
 
 
 
@@ -60,32 +57,32 @@ public class BzTaskController extends BaseController {
     BzTaskService bzTaskService;
 
     @Autowired
+    BzRealtimeService bzRealtimeService;
+
+
+    @Autowired
     private RedisClient redisClient;
 
     @Autowired
     BzTaskAsync bzTaskAsync;
 
     @GetMapping("list")
-    @SysLog("跳转任务列表页面")
+    @SysLog("跳转微博直发列表页面")
     public String list(){
-        return "weibo/task/list";
+        return "weibo/send/list";
     }
 
     @GetMapping("add")
-    @SysLog("跳转任务新增页面")
+    @SysLog("跳转微博执法新增页面")
     public String add(ModelMap map){
         QueryWrapper<BzTags> tagsQueryWrapper = new QueryWrapper<>();
         List<BzTags> tagsList =bzTagsService.list(tagsQueryWrapper);
-        QueryWrapper<BzTask> taskQueryWrapper = new QueryWrapper<>();
-        List<Integer> status = new ArrayList<>();
-        status.add(StatusNameEnums.STATUS_NAME_UNDO.getValue());
-        status.add(StatusNameEnums.STATUS_NAME_DOING.getValue());
-        status.add(StatusNameEnums.STATUS_NAME_PAUSE.getValue());
-        taskQueryWrapper.in("status",status);
-        List<BzTask> taskList = bzTaskService.list(taskQueryWrapper);
+        QueryWrapper<BzRealtime> wrapper = new QueryWrapper<>();
+        wrapper.orderByDesc("create_date");
+        wrapper.eq("type","1");
+        List<BzRealtime> realtimeList =bzRealtimeService.list(wrapper);
         map.put("tagsList",tagsList);
-        map.put("taskList",taskList);
-        return "weibo/task/add";
+        return "weibo/send/add";
     }
     @GetMapping("batchAdd")
     @SysLog("跳转批量任务新增页面")
@@ -136,7 +133,7 @@ public class BzTaskController extends BaseController {
                 taskWrapper.eq("status",status);
             }
         }
-        taskWrapper.eq("send","0");
+        taskWrapper.eq("send","1");
         taskWrapper.orderByDesc("create_date");
         IPage<BzTask> taskPage = bzTaskService.page(new Page<>(page,limit),taskWrapper);
         taskPageData.setCount(taskPage.getTotal());

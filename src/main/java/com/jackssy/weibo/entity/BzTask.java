@@ -161,9 +161,13 @@ public class BzTask extends Model<BzTask> {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private LocalDateTime updateDate;
 
-    @TableField("task_category")
-    private String taskCategory;
+    private String send;
 
+    private String rndComment;
+
+    private String rndTarget;
+
+    private String rndContent;
 
     public String getPreTaskId() {
         return preTaskId;
