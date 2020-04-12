@@ -9,20 +9,7 @@ layui.use(['form','jquery','layer','laydate'],function(){
 
     form.on("submit(addTask)",function(data){
 
-        var rndCon =  $("input[name = 'rndContentInput']");
-        var  rndContent = "";
-        for (let rndConKey in rndCon) {
-            var rndV = $(rndConKey).val();
-            if(rndv != "" && rndv != null){
-                rndContent += rndV +"/";
-            }
-        }
-        if(rndContent !=""){
-            rndContent = rndContent.substring(0,rndContent.length-1);
-            data.field.rndContent = rndContent;
-        }
-        console.log(rndContent)
-        return
+
         var loadIndex = layer.load(2, {
             shade: [0.3, '#333']
         });
