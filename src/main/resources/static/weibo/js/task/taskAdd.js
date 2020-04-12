@@ -10,6 +10,7 @@ layui.use(['form','jquery','layer','laydate'],function(){
     form.on("submit(addTask)",function(data){
         var rndContent = document.getElementById("rndContent").value;
         data.field.rndContent = rndContent;
+        console.log(data.field.rndTargetSelect)
         if(data.field.rndTargetSelect == 0){
             data.field.rndTarget = 0 ;
         }
