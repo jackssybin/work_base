@@ -69,7 +69,7 @@ layui.use(['layer','form','table'], function() {
             var editIndex = layer.open({
                 title : "查看任务",
                 type : 2,
-                content : "/bzTask/edit?id="+data.id,
+                content : "/bzSend/edit?id="+data.id,
                 success : function(layero, index){
                     setTimeout(function(){
                         layer.tips('点击此处返回任务列表', '.layui-layer-setwin .layui-layer-close', {

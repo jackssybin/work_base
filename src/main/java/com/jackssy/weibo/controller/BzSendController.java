@@ -115,8 +115,13 @@ public class BzSendController extends BaseController {
         map.put("bzTask",task);
         QueryWrapper<BzTags> tagsQueryWrapper = new QueryWrapper<>();
         List<BzTags> tagsList =bzTagsService.list(tagsQueryWrapper);
+        QueryWrapper<BzRealtime> wrapper = new QueryWrapper<>();
+        wrapper.orderByDesc("create_date");
+        wrapper.eq("type","1");
+        List<BzRealtime> realtimeList =bzRealtimeService.list(wrapper);
+        map.put("realtimeList",realtimeList);
         map.put("tagsList",tagsList);
-        return "weibo/task/edit";
+        return "weibo/send/edit";
     }
 
 
