@@ -8,8 +8,11 @@ layui.use(['form','jquery','layer','laydate'],function(){
 
 
     form.on("submit(addTask)",function(data){
-
-
+        var rndContent = document.getElementById("rndContent").value;
+        data.field.rndContent = rndContent;
+        if(data.field.rndTargetSelect == 0){
+            data.field.rndTarget = 0 ;
+        }
         var loadIndex = layer.load(2, {
             shade: [0.3, '#333']
         });
@@ -68,6 +71,8 @@ layui.use(['form','jquery','layer','laydate'],function(){
 
 
     $("#rndTargetSelect").click(function () {
+
+
         var value = $("#rndTargetSelect input[name = 'rndTargetSelect']:checked").val();
         if(value == 1){
             $("#rndIdInput").show();
@@ -81,9 +86,8 @@ layui.use(['form','jquery','layer','laydate'],function(){
      * 开启回复
      */
     $("#rndComment").click(function () {
-        var value = $("#commentType input[name = 'rndComment']:checked").val();
+        var value = $("#rndComment input[name = 'rndComment']:checked").val();
         if(value == 1){
-            console.log("rnd SHOW");
             $("#rndArea").show();
         }else{
             $("#rndArea").hide();
