@@ -19,6 +19,7 @@ public class BzTaskDto extends BzTask {
 
     private String preTaskName;
 
+    private String taskCountList;
     /**
      * 前端转换用
      */

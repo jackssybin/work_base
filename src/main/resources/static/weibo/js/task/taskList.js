@@ -154,7 +154,7 @@ layui.use(['layer','form','table'], function() {
             var addIndex = layer.open({
                 title : "批量添加任务",
                 type : 2,
-                content : "batchAdd/bzTask/add",
+                content : "/bzTask/batchAdd",
                 success : function(layero, addIndex){
                     setTimeout(function(){
                         layer.tips('点击此处返回任务列表', '.layui-layer-setwin .layui-layer-close', {

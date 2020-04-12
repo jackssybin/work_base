@@ -21,7 +21,7 @@
     </style>
 </head>
 <body class="childrenBody">
-<form class="layui-form" style="width:80%;margin-top: 2%;">
+<form class="layui-form" style="width:80%;margin-top: 2%;" id="batchAddForm">
 
     <div class="layui-form-item">
         <div class="layui-inline">
@@ -42,7 +42,7 @@
         </div>
     </div>
 
-    <div class="layui-form-item">
+    <div class="layui-form-item taskItem" id="taskItem">
         <div class="layui-inline">
             <label class="layui-form-label">任务地址</label>
             <div class="layui-input-block">
@@ -52,23 +52,20 @@
         <div class="layui-inline">
             <label class="layui-form-label">任务总量</label>
             <div class="layui-input-block">
-                <input type="number" class="layui-input" name="taskCount" lay-verify="required" placeholder="请输入任务总量">
+                <input type="number" class="layui-input" name="taskCountList" lay-verify="required" placeholder="请输入任务总量">
             </div>
         </div>
-        <button type="addUrl" class="layui-btn layui-btn-primary">添加</button>
+
     </div>
-
-    <div class="layui-form-item">
+    <div class="layui-form-item" id="btnDiv">
         <div class="layui-inline">
-            <label class="layui-form-label">前置任务</label>
             <div class="layui-input-block">
-                <select name="preTaskId" id="preTaskId"  lay-search="">
-                    <option value="">无</option>
-                    <option  th:each="task : ${taskList}" th:value="${task.id}" th:text="${task.taskName}"></option>
-                </select>
-            </div>
-
+        <button type="addUrl" class="layui-btn layui-btn-primary" id="addInput">添加</button>
+                <button type="delUrl" class="layui-btn layui-btn-primary" id="delInput" hidden>删除</button>
         </div>
+        </div>
+    </div>
+    <div class="layui-form-item">
         <div class="layui-inline">
             <label class="layui-form-label">开始时间</label>
             <div class="layui-input-block">
@@ -125,6 +122,6 @@
     </div>
 </form>
 <script type="text/javascript" th:src="@{/static/layui/layui.js}"></script>
-<script type="text/javascript" th:src="@{/static/weibo/js/task/sendAdd.js}"></script>
+<script type="text/javascript" th:src="@{/static/weibo/js/task/batchAdd.js}"></script>
 </body>
 </html>

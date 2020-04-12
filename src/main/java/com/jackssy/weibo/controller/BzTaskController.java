@@ -92,15 +92,7 @@ public class BzTaskController extends BaseController {
     public String batchAdd(ModelMap map){
         QueryWrapper<BzTags> tagsQueryWrapper = new QueryWrapper<>();
         List<BzTags> tagsList =bzTagsService.list(tagsQueryWrapper);
-        QueryWrapper<BzTask> taskQueryWrapper = new QueryWrapper<>();
-        List<Integer> status = new ArrayList<>();
-        status.add(StatusNameEnums.STATUS_NAME_UNDO.getValue());
-        status.add(StatusNameEnums.STATUS_NAME_DOING.getValue());
-        status.add(StatusNameEnums.STATUS_NAME_PAUSE.getValue());
-        taskQueryWrapper.in("status",status);
-        List<BzTask> taskList = bzTaskService.list(taskQueryWrapper);
         map.put("tagsList",tagsList);
-        map.put("taskList",taskList);
         return "weibo/task/batchAdd";
     }
 

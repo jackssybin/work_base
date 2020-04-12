@@ -84,7 +84,7 @@ public class BzTaskServiceImpl extends ServiceImpl<BzTaskMapper, BzTask> impleme
         if(null!=bzTask.getTargetUrl()&&bzTask.getTargetUrl().length()>0){
             bzTask.setTargetUrl(bzTask.getTargetUrl().trim());
         }
-        if(bzTask.getPreTaskId().equals("")){
+        if(StringUtils.isNotEmpty(bzTask.getPreTaskId()) && bzTask.getPreTaskId().equals("")){
             bzTask.setPreTaskId(null);
         }
 
@@ -108,17 +108,21 @@ public class BzTaskServiceImpl extends ServiceImpl<BzTaskMapper, BzTask> impleme
     @Override
     public Boolean batchAddTask(BzTaskDto bzTaskDto) {
         String Url = bzTaskDto.getTargetUrl();
-        String number = bzTaskDto.getTargetNumber();
+        String number = bzTaskDto.getTaskCountList();
         List<String> urlList = Arrays.asList(Url.split(","));
         List<String> numberList = Arrays.asList(number.split(","));
+        Boolean flag = true;
         for (int i = 0; i < urlList.size(); i++) {
             BzTaskDto bzTask = new BzTaskDto();
             BeanUtils.copyProperties(bzTaskDto,bzTask);
             bzTask.setTargetUrl(urlList.get(i));
-            bzTask.setTargetNumber(urlList.get(i));
-            this.addTask(bzTask);
+            bzTask.setTaskCount(Integer.parseInt(numberList.get(i)));
+            flag =this.addTask(bzTask);
+            if(!flag){
+                break;
+            }
         }
-        return null;
+        return flag;
     }
 
     @Override
