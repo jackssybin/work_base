@@ -24,10 +24,16 @@
 <form class="layui-form" style="width:80%;margin-top: 2%;">
 
     <div class="layui-form-item">
+<!--        <div class="layui-inline">-->
+<!--            <label class="layui-form-label">任务名称</label>-->
+<!--            <div class="layui-input-block">-->
+<!--                <input type="text" class="layui-input" name="taskName"  placeholder="请输入任务名称">-->
+<!--            </div>-->
+<!--        </div>-->
         <div class="layui-inline">
-            <label class="layui-form-label">任务名称</label>
+            <label class="layui-form-label">任务地址</label>
             <div class="layui-input-block">
-                <input type="text" class="layui-input" name="taskName"  placeholder="请输入任务名称">
+                <input type="text" class="layui-input" name="targetUrl" lay-verify="required" placeholder="请输入任务地址url">
             </div>
         </div>
         <div class="layui-inline">
@@ -39,12 +45,7 @@
     </div>
 
     <div class="layui-form-item">
-        <div class="layui-inline">
-            <label class="layui-form-label">任务地址</label>
-            <div class="layui-input-block">
-                <input type="text" class="layui-input" name="targetUrl" lay-verify="required" placeholder="请输入任务地址url">
-            </div>
-        </div>
+
         <div class="layui-inline">
             <label class="layui-form-label">账号分组</label>
             <div class="layui-input-block">
@@ -55,9 +56,6 @@
             </div>
 
         </div>
-    </div>
-
-    <div class="layui-form-item">
         <div class="layui-inline">
             <label class="layui-form-label">前置任务</label>
             <div class="layui-input-block">
@@ -68,6 +66,10 @@
             </div>
 
         </div>
+    </div>
+
+    <div class="layui-form-item">
+
         <div class="layui-inline">
             <label class="layui-form-label">开始时间</label>
             <div class="layui-input-block">

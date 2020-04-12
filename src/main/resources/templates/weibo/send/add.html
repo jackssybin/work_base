@@ -24,11 +24,21 @@
 <form class="layui-form" style="width:80%;margin-top: 2%;">
 
     <div class="layui-form-item">
+<!--        <div class="layui-inline">-->
+<!--            <label class="layui-form-label">任务名称</label>-->
+<!--            <div class="layui-input-block">-->
+<!--                <input type="text" class="layui-input" name="taskName"  placeholder="请输入任务名称">-->
+<!--            </div>-->
+<!--        </div>-->
         <div class="layui-inline">
-            <label class="layui-form-label">任务名称</label>
+            <label class="layui-form-label">账号分组</label>
             <div class="layui-input-block">
-                <input type="text" class="layui-input" name="taskName"  placeholder="请输入任务名称">
+                <select name="tagGroup" id="tagGroup"  lay-search="">
+                    <option value="">无</option>
+                    <option  th:each="tags : ${tagsList}" th:value="${tags.tagCode}" th:text="${tags.tagName}"></option>
+                </select>
             </div>
+
         </div>
         <div class="layui-inline">
             <label class="layui-form-label">任务总量</label>
@@ -40,16 +50,7 @@
 
     <div class="layui-form-item">
 
-        <div class="layui-inline">
-            <label class="layui-form-label">账号分组</label>
-            <div class="layui-input-block">
-                <select name="tagGroup" id="tagGroup"  lay-search="">
-                    <option value="">无</option>
-                    <option  th:each="tags : ${tagsList}" th:value="${tags.tagCode}" th:text="${tags.tagName}"></option>
-                </select>
-            </div>
 
-        </div>
         <div class="layui-inline">
             <label class="layui-form-label">开始时间</label>
             <div class="layui-input-block">
