@@ -6,7 +6,6 @@ import com.jackssy.weibo.entity.BzFilter;
 import com.jackssy.weibo.mapper.BzFilterMapper;
 import com.jackssy.weibo.service.BzFilterService;
 import com.jackssy.weibo.util.SensitiveWordInit;
-import com.sun.javafx.collections.MappingChange;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
