@@ -165,6 +165,8 @@ public class BzTask extends Model<BzTask> {
 
     private String rndComment;
 
+    private Integer rndCount;
+
     private String rndTarget;
 
     private String rndContent;

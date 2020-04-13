@@ -56,6 +56,15 @@
 
         </div>
     </div>
+    <div class="layui-form-item">
+    <div class="layui-inline">
+        <label class="layui-form-label">前置任务</label>
+        <div class="layui-input-block">
+            <input type="text" class="layui-input" name="preTaskName" id="preTaskName"  style="width:100%" th:value="${bzTask.preTaskName} ==null?'ID'+${bzTask.preTaskId}:${bzTask.preTaskName}" readonly>
+        </div>
+
+    </div>
+    </div>
 
     <div class="layui-form-item">
         <div class="layui-inline">
@@ -95,9 +104,20 @@
             </div>
         </div>
         <div class="layui-form-item" id="rndIdInput">
+            <div class="layui-inline">
             <label class="layui-form-label">热门评论Id</label>
             <div class="layui-input-block">
                 <input type="text" class="layui-input" name="rndTarget" id="rndTarget" th:value="${bzTask.rndTarget}" readonly style="width:100%" placeholder="请输入热门评论ID">
+            </div>
+            </div>
+
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">回复数量</label>
+                <div class="layui-input-block">
+                    <input type="number" class="layui-input" name="rndTarget" id="rndCount" th:value="${bzTask.rndCount}"  readonly style="width:100%" placeholder="请输入回复数量">
+                </div>
             </div>
         </div>
         <div class="layui-form-item">

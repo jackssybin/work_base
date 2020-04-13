@@ -61,7 +61,7 @@
             <div class="layui-input-block">
                 <select name="preTaskId" id="preTaskId"  lay-search="">
                     <option value="">无</option>
-                    <option  th:each="task : ${taskList}" th:value="${task.id}" th:text="${task.taskName}"></option>
+                    <option  th:each="task : ${taskList}" th:value="${task.id}" th:text="${task.taskName}!=null?${task.taskName}:'ID:'+${task.id} "></option>
                 </select>
             </div>
 
@@ -107,10 +107,21 @@
             </div>
         </div>
         <div class="layui-form-item" id="rndIdInput">
+            <div class="layui-inline">
             <label class="layui-form-label">热门评论Id</label>
             <div class="layui-input-block">
                 <input type="text" class="layui-input" name="rndTarget" id="rndTarget"  style="width:100%" placeholder="请输入热门评论ID">
             </div>
+            </div>
+
+        </div>
+        <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">回复数量</label>
+            <div class="layui-input-block">
+                <input type="number" class="layui-input" name="rndCount" id="rndCount" lay-verify="required" style="width:100%" placeholder="请输入回复数量">
+            </div>
+        </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">回复内容</label>

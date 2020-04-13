@@ -28,7 +28,16 @@ layui.use(['layer','form','table'], function() {
                     }
                 }},
             {field:'taskType',  title: '任务类型',    width:'12%'},
-            {field:'preTaskName',  title: '前置任务',    width:'15%'},
+            {field:'preTaskName',  title: '前置任务',    width:'15%',templet:function (d) {
+                if(d.preTaskId == null){
+                    return "无";
+                }
+                if(d.preTaskName == "" || d.preTaskName == undefined){
+                        return d.preTaskId;
+                    }else{
+                        return d.preTaskName;
+                    }
+                }},
             {field:'taskCount',     title: '任务进度',   width:'12%', templet:function(d){
                 return d.finishCount+"/"+d.taskCount;
                 } },

@@ -82,6 +82,7 @@ public class BzTaskController extends BaseController {
         status.add(StatusNameEnums.STATUS_NAME_DOING.getValue());
         status.add(StatusNameEnums.STATUS_NAME_PAUSE.getValue());
         taskQueryWrapper.in("status",status);
+        taskQueryWrapper.eq("send",0);
         List<BzTask> taskList = bzTaskService.list(taskQueryWrapper);
         map.put("tagsList",tagsList);
         map.put("taskList",taskList);
@@ -101,7 +102,12 @@ public class BzTaskController extends BaseController {
     public String edit(@RequestParam(value = "id",required = true)String id,ModelMap map)
     {
         BzTask task = bzTaskService.getById(id);
-        map.put("bzTask",task);
+        BzTaskDto dto =  new BzTaskDto();
+        BeanUtils.copyProperties(task,dto);
+        dto.setPreTaskName(bzTaskService.getTaskNameByTaskId(task.getPreTaskId()));
+
+
+        map.put("bzTask",dto);
         QueryWrapper<BzTags> tagsQueryWrapper = new QueryWrapper<>();
         List<BzTags> tagsList =bzTagsService.list(tagsQueryWrapper);
         map.put("tagsList",tagsList);
