@@ -24,7 +24,6 @@ import com.jackssy.weibo.service.BzRealtimeService;
 import com.jackssy.weibo.service.BzTagsService;
 import com.jackssy.weibo.service.BzTaskService;
 import org.apache.commons.lang3.StringUtils;
-import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
