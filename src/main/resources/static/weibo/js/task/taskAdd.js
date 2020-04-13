@@ -4,7 +4,7 @@ layui.use(['form','jquery','layer','laydate'],function(){
         layer = layui.layer;
     var laydate = layui.laydate;
 
-
+    $("#rndArea").hide();
 
 
     form.on("submit(addTask)",function(data){

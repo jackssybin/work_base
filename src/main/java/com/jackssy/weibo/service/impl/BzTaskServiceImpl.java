@@ -84,7 +84,7 @@ public class BzTaskServiceImpl extends ServiceImpl<BzTaskMapper, BzTask> impleme
         if(null!=bzTask.getTargetUrl()&&bzTask.getTargetUrl().length()>0){
             bzTask.setTargetUrl(bzTask.getTargetUrl().trim());
         }
-        if(StringUtils.isNotEmpty(bzTask.getPreTaskId()) && bzTask.getPreTaskId().equals("")){
+        if(StringUtils.isEmpty(bzTask.getPreTaskId())){
             bzTask.setPreTaskId(null);
         }
 
