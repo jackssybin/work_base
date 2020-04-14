@@ -8,11 +8,12 @@ layui.use(['form','jquery','layer','laydate'],function(){
 
 
     form.on("submit(addTask)",function(data){
-        var vbRealTime =  $("#realTimeGroup").val();
+
         var remark =  data.field.remark;
-        remark = "#"+vbRealTime+"#"+remark;
+        remark = "#"+remark+"#";
         data.field.remark = remark;
-        data.field.realtimeGroup = null;
+        var content = document.getElementById("commentContent").value;
+        data.field.commentContent = content;
 
         var loadIndex = layer.load(2, {
             shade: [0.3, '#333']

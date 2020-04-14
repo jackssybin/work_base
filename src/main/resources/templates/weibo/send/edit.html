@@ -74,10 +74,19 @@
         </div>
     </div>
     <div class="layui-form-item">
+
+        <div class="layui-inline">
+            <label class="layui-form-label">热搜选择</label>
+            <div class="layui-input-block">
+                <input type="text" class="layui-input" name="remark" id="remark"  style="width:100%" th:value="${bzTask.remark}" readonly>
+            </div>
+
+        </div>
+    <div class="layui-form-item">
         <div class="layui-form-item layui-form-text">
             <label class="layui-form-label">微博内容</label>
             <div class="layui-input-block">
-                <textarea name="remark" id="remark" placeholder="请输入内容"  readonly th:text="${bzTask.remark}" class="layui-textarea"></textarea>
+                <textarea name="remark" id="commentContent" placeholder="请输入内容"  readonly th:text="${bzTask.commentContent}" class="layui-textarea"></textarea>
             </div>
         </div>
     </div>

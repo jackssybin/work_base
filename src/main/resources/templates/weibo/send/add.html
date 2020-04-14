@@ -72,7 +72,7 @@
         <div class="layui-inline">
             <label class="layui-form-label">热搜选择</label>
             <div class="layui-input-block">
-                <select name="realtimeGroup" id="realTimeGroup"  lay-search="">
+                <select name="remark" id="remark"  lay-search="">
                     <option value="">无</option>
                     <option  th:each="wb : ${realtimeList}" th:value="${wb.name}" th:text="${wb.name}"></option>
                 </select>
@@ -84,7 +84,7 @@
         <div class="layui-form-item layui-form-text">
             <label class="layui-form-label">微博内容</label>
             <div class="layui-input-block">
-                <textarea name="remark" id="remark" placeholder="请输入内容"  class="layui-textarea"></textarea>
+                <textarea name="commentContent" id="commentContent" placeholder="请输入内容"  class="layui-textarea"></textarea>
             </div>
         </div>
     </div>

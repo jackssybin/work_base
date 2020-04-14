@@ -6,6 +6,17 @@ layui.use(['form','jquery','layer','laydate'],function(){
 
     $("#rndArea").hide();
 
+    form.verify({
+        showAndHide : function(value,item) {
+            if($(item).is(":visible")){
+                if (value == "" || value == null || value == undefined) {
+                    return '必填项不能为空';
+                }
+            }
+
+        }
+    });
+
 
     form.on("submit(addTask)",function(data){
         var rndContent = document.getElementById("rndContent").value;
@@ -77,9 +88,11 @@ layui.use(['form','jquery','layer','laydate'],function(){
         var value = $("#rndTargetSelect input[name = 'rndTargetSelect']:checked").val();
         if(value == 1){
             $("#rndIdInput").show();
+
         }else{
             $("#rndIdInput").hide();
         }
+        form.render();
     })
 
 

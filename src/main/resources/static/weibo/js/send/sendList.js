@@ -20,17 +20,10 @@ layui.use(['layer','form','table'], function() {
         width: $(parent.window).width()-223,
         cols: [[
             {field:'id',title:'任务Id',width:'5%',event:"checkLog",style:"color:blue;cursor:pointer"},
-            {field:'taskName', title: '任务名称', width:'15%',event:'openUrl',style:"color:blue;cursor:pointer",templet:function (d) {
-                    if(d.taskName == "" || d.taskName == undefined){
-                        return d.targetUrl;
-                    }else{
-                        return d.taskName;
-                    }
-                }},
             {field:'taskCount',     title: '任务进度',   width:'12%', templet:function(d){
                 return d.finishCount+"/"+d.taskCount;
                 } },
-            {field:'remark',     title: '发送内容',   width:'20%'},
+            {field:'remark',     title: '热搜选择',   width:'20%'},
             {field:'statusName',       title: '任务状态',    width:'12%'},
             {field:'startTime', title: '任务开始时间', width:'12%',templet:'<span>{{ layui.laytpl.toDateString(d.startTime) }}</span>'},
             {field:'createDate',    title: '任务创建时间',width:'12%'},

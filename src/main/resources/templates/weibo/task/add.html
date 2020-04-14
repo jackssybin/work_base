@@ -110,7 +110,7 @@
             <div class="layui-inline">
             <label class="layui-form-label">热门评论Id</label>
             <div class="layui-input-block">
-                <input type="text" class="layui-input" name="rndTarget" id="rndTarget"  style="width:100%" placeholder="请输入热门评论ID">
+                <input type="text" class="layui-input" name="rndTarget" id="rndTarget"  lay-verify="showAndHide" style="width:100%" placeholder="请输入热门评论ID">
             </div>
             </div>
 
@@ -119,14 +119,14 @@
         <div class="layui-inline">
             <label class="layui-form-label">回复数量</label>
             <div class="layui-input-block">
-                <input type="number" class="layui-input" name="rndCount" id="rndCount" lay-verify="required" style="width:100%" placeholder="请输入回复数量">
+                <input type="number" class="layui-input" name="rndCount" id="rndCount"  lay-verify="showAndHide" style="width:100%" placeholder="请输入回复数量">
             </div>
         </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">回复内容</label>
             <div class="layui-input-block">
-                <textarea name="rndContent" id="rndContent" placeholder="请输入回复内容"  class="layui-textarea"></textarea>
+                <textarea name="rndContent" id="rndContent" placeholder="请输入回复内容"   class="layui-textarea"></textarea>
             </div>
         </div>
     </fieldset>
