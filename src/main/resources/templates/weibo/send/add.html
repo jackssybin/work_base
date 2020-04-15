@@ -74,7 +74,7 @@
             <label class="layui-form-label">热搜选择</label>
             <div class="layui-input-block">
                 <select name="remark" id="remark"  lay-search="">
-
+                    <option value="">无</option>
                     <option  th:each="wb : ${realtimeList}" th:value="${wb.name}" th:text="${wb.name}"></option>
                 </select>
             </div>
