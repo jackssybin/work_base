@@ -149,7 +149,7 @@ public class BzSendController extends BaseController {
     @ResponseBody
     @SysLog("保存任务数据")
     public ResponseEntity add(@RequestBody BzTaskDto bzTaskDto){
-        List<String> filterList = bzFilterService.getContainsFilterContent(bzTaskDto.getRemark());
+        List<String> filterList = bzFilterService.getContainsFilterContent(bzTaskDto.getCommentContent());
         if(filterList.size()>0){
             String msg = "内容包含关键字";
             for (String keyword : filterList) {

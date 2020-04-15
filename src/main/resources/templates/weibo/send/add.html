@@ -73,10 +73,13 @@
         <div class="layui-inline">
             <label class="layui-form-label">热搜选择</label>
             <div class="layui-input-block">
-                <select name="remark" id="remark"  lay-search="">
-                    <option value="">无</option>
+                <input type="text" name="remark" required lay-verify="remark" placeholder="请选择热搜或输入"
+                       autocomplete="off"
+                        list="realtimeSelect"
+                       class="layui-input">
+                <datalist id="realtimeSelect" style="display:none;">
                     <option  th:each="wb : ${realtimeList}" th:value="${wb.name}" th:text="${wb.name}"></option>
-                </select>
+                </datalist>
             </div>
 
         </div>
