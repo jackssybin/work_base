@@ -49,7 +49,8 @@
             <label class="layui-form-label">账号分组</label>
             <div class="layui-input-block">
                 <select name="tagGroup" id="tagGroup"  lay-search="" readonly="">
-                    <option value="">无</option>
+                    <option value="0000default" th:checked="${bzTask.tagGroup == '0000default'? checked:false}">白号</option>
+                    <option value="8888default" th:checked="${bzTask.tagGroup == '8888default'? checked:false}">优质号</option>
                     <option  th:each="tags : ${tagsList}" th:value="${tags.tagCode}" th:text="${tags.tagName}" th:checked="${bzTask.tagGroup == tags.tagCode? checked:false}"></option>
                 </select>
             </div>

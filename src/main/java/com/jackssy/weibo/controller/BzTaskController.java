@@ -17,6 +17,7 @@ import com.jackssy.weibo.entity.dto.BzTaskDto;
 import com.jackssy.weibo.enums.CommentTypeEnums;
 import com.jackssy.weibo.enums.StatusNameEnums;
 import com.jackssy.weibo.enums.TaskTypeEnums;
+import com.jackssy.weibo.service.BzFilterService;
 import com.jackssy.weibo.service.BzTagsService;
 import com.jackssy.weibo.service.BzTaskService;
 import net.sf.jsqlparser.expression.DateTimeLiteralExpression;
@@ -61,6 +62,9 @@ public class BzTaskController extends BaseController {
 
     @Autowired
     private RedisClient redisClient;
+
+    @Autowired
+    BzFilterService bzFilterService;
 
     @Autowired
     BzTaskAsync bzTaskAsync;
@@ -157,6 +161,25 @@ public class BzTaskController extends BaseController {
     @ResponseBody
     @SysLog("保存任务数据")
     public ResponseEntity add(@RequestBody BzTaskDto bzTaskDto){
+        List<String> filterList = bzFilterService.getContainsFilterContent(bzTaskDto.getRndContent());
+        if(filterList.size()>0){
+            String msg = "回复内容包含关键字";
+            for (String keyword : filterList) {
+                msg += keyword +",";
+            }
+            msg+="请修改后提交。";
+            return ResponseEntity.failure(msg);
+        }
+
+        filterList = bzFilterService.getContainsFilterContent(bzTaskDto.getCommentContent());
+        if(filterList.size()>0){
+            String msg = "评论内容包含关键字";
+            for (String keyword : filterList) {
+                msg += keyword +",";
+            }
+            msg+="请修改后提交。";
+            return ResponseEntity.failure(msg);
+        }
         boolean flag = bzTaskService.addTask(bzTaskDto);
         if(flag){
             return ResponseEntity.success("保存任务数据成功");
@@ -170,6 +193,15 @@ public class BzTaskController extends BaseController {
     @ResponseBody
     @SysLog("保存任务数据")
     public ResponseEntity batchAdd(@RequestBody BzTaskDto bzTaskDto){
+        List<String> filterList = bzFilterService.getContainsFilterContent(bzTaskDto.getCommentContent());
+        if(filterList.size()>0){
+            String msg = "评论内容包含关键字";
+            for (String keyword : filterList) {
+                msg += keyword +",";
+            }
+            msg+="请修改后提交。";
+            return ResponseEntity.failure(msg);
+        }
         boolean flag = bzTaskService.batchAddTask(bzTaskDto);
         if(flag){
             return ResponseEntity.success("保存任务数据成功");

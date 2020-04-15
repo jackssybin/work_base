@@ -89,23 +89,6 @@ public class BzSendController extends BaseController {
         map.put("realtimeList",realtimeList);
         return "weibo/send/add";
     }
-    @GetMapping("batchAdd")
-    @SysLog("跳转批量任务新增页面")
-    public String batchAdd(ModelMap map){
-        QueryWrapper<BzTags> tagsQueryWrapper = new QueryWrapper<>();
-        List<BzTags> tagsList =bzTagsService.list(tagsQueryWrapper);
-        QueryWrapper<BzTask> taskQueryWrapper = new QueryWrapper<>();
-        List<Integer> status = new ArrayList<>();
-        status.add(StatusNameEnums.STATUS_NAME_UNDO.getValue());
-        status.add(StatusNameEnums.STATUS_NAME_DOING.getValue());
-        status.add(StatusNameEnums.STATUS_NAME_PAUSE.getValue());
-        taskQueryWrapper.in("status",status);
-        List<BzTask> taskList = bzTaskService.list(taskQueryWrapper);
-        map.put("tagsList",tagsList);
-        map.put("taskList",taskList);
-        return "weibo/task/batchAdd";
-    }
-
     @GetMapping("edit")
     @SysLog("跳转任务编辑页面")
     public String edit(@RequestParam(value = "id",required = true)String id,ModelMap map)

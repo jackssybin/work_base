@@ -34,7 +34,8 @@
             <label class="layui-form-label">账号分组</label>
             <div class="layui-input-block">
                 <select name="tagGroup" id="tagGroup"  lay-search="">
-                    <option value="">无</option>
+                    <option value="0000default">白号</option>
+                    <option value="8888default">优质号</option>
                     <option  th:each="tags : ${tagsList}" th:value="${tags.tagCode}" th:text="${tags.tagName}"></option>
                 </select>
             </div>
