@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <meta charset="utf-8">
+    <title>任务添加--任务管理</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="stylesheet" th:href="@{/static/layui/css/layui.css}" media="all" />
+    <style type="text/css">
+        .layui-form-item .layui-inline{ width:33.333%; float:left; margin-right:0; }
+        @media(max-width:1240px){
+            .layui-form-item .layui-inline{ width:100%; float:none; }
+        }
+
+
+    </style>
+</head>
+<body class="childrenBody">
+<form class="layui-form" style="width:80%;margin-top: 2%;">
+
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">任务名称</label>
+            <div class="layui-input-block">
+                <input type="text" class="layui-input" name="taskName" th:value="${bzTask.taskName}" readonly>
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">任务总量</label>
+            <div class="layui-input-block">
+                <input type="number" class="layui-input" name="taskCount" th:value="${bzTask.taskCount}" readonly>
+            </div>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">任务地址</label>
+            <div class="layui-input-block">
+                <input type="text" class="layui-input" name="targetUrl"  th:value="${bzTask.targetUrl}" readonly>
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">账号分组</label>
+            <div class="layui-input-block">
+                <select name="tagGroup" id="tagGroup"  lay-search="" readonly="">
+                    <option value="0000default" th:checked="${bzTask.tagGroup == '0000default'? checked:false}">白号</option>
+                    <option value="8888default" th:checked="${bzTask.tagGroup == '8888default'? checked:false}">优质号</option>
+                    <option  th:each="tags : ${tagsList}" th:value="${tags.tagCode}" th:text="${tags.tagName}" th:checked="${bzTask.tagGroup == tags.tagCode? checked:false}"></option>
+                </select>
+            </div>
+
+        </div>
+    </div>
+    <div class="layui-form-item">
+    <div class="layui-inline">
+        <label class="layui-form-label">前置任务</label>
+        <div class="layui-input-block">
+            <input type="text" class="layui-input" name="preTaskName" id="preTaskName"  style="width:100%" th:value="${bzTask.preTaskName} ==null?'ID'+${bzTask.preTaskId}:${bzTask.preTaskName}" readonly>
+        </div>
+
+    </div>
+    </div>
+
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">执行速度</label>
+            <div class="layui-input-block">
+                <input type="radio" name="taskSpeed" value="1" title="普通" th:checked="${bzTask.taskSpeed} == 1?checked:false">
+                <input type="radio" name="taskSpeed" value="2" title="快速"  th:checked="${bzTask.taskSpeed} == 2?checked:false">
+            </div>
+        </div>
+        <div class="layui-inline">
+            <label class="layui-form-label">开始时间</label>
+            <div class="layui-input-block">
+                <input type="text" class="layui-input" name="startTimeStr" id="startTimeStr"  style="width:100%" th:value="${bzTask.startTime}" readonly>
+            </div>
+
+        </div>
+    </div>
+
+
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">评论回复</label>
+            <div class="layui-input-block" id="rndComment">
+                <input type="radio" name="rndComment" value="1" title="开启"  th:checked="${bzTask.rndComment} == 1?checked:false">
+                <input type="radio" name="rndComment" value="0" title="关闭" th:checked="${bzTask.rndComment} == 0?checked:false">
+            </div>
+        </div>
+
+    </div>
+    <fieldset class="layui-elem-field layui-field-title" id="rndArea">
+        <legend>回复相关</legend>
+        <div class="layui-form-item">
+            <label class="layui-form-label">回复类型</label>
+            <div class="layui-input-block" id="rndTargetSelect">
+                <input type="radio" name="rndTargetSelect" value="1" title="热门评论"  th:checked="${bzTask.rndTarget} != 0?checked:false">
+                <input type="radio" name="rndTargetSelect" value="0" title="随机评论" th:checked="${bzTask.rndTarget} == 0?checked:false">
+            </div>
+        </div>
+        <div class="layui-form-item" id="rndIdInput">
+            <div class="layui-inline">
+            <label class="layui-form-label">热门评论Id</label>
+            <div class="layui-input-block">
+                <input type="text" class="layui-input" name="rndTarget" id="rndTarget" th:value="${bzTask.rndTarget}" readonly style="width:100%" placeholder="请输入热门评论ID">
+            </div>
+            </div>
+
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">回复数量</label>
+                <div class="layui-input-block">
+                    <input type="number" class="layui-input" name="rndTarget" id="rndCount" th:value="${bzTask.rndCount}"  readonly style="width:100%" placeholder="请输入回复数量">
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">回复内容</label>
+            <div class="layui-input-block">
+                <textarea name="rndContent" id="rndContent" placeholder="请输入回复内容"  th:text="${bzTask.rndContent}" readonly class="layui-textarea"></textarea>
+            </div>
+        </div>
+    </fieldset>
+
+    <div class="layui-form-item">
+
+        <label class="layui-form-label">任务类型</label>
+        <div class="layui-input-block" id="taskType">
+            <input type="checkbox" name="taskType" value="1" title="评论" th:checked="${#strings.contains(bzTask.taskType,1)}?checked:false">
+            <input type="checkbox" name="taskType" value="2"title="点赞" th:checked="${#strings.contains(bzTask.taskType,2)}?checked:false">
+            <input type="checkbox" name="taskType" value="3" title="转发 " th:checked="${#strings.contains(bzTask.taskType,3)}?checked:false">
+            <input type="checkbox" name="taskType" value="4" title="关注 " th:checked="${#strings.contains(bzTask.taskType,4)}?checked:false">
+        </div>
+    </div>
+
+    <fieldset class="layui-elem-field layui-field-title" id="commentArea">
+        <legend>评论相关</legend>
+        <div class="layui-form-item layui-form-text" id="commentContent">
+            <label class="layui-form-label">评论内容</label>
+            <div class="layui-input-block">
+                <textarea name="commentContent" placeholder="请输入内容"  class="layui-textarea" readonly th:text="${bzTask.commentContent}"></textarea>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">评论类型</label>
+            <div class="layui-input-block" id="commentType">
+                <input type="radio" name="commentType" value="2" title="文字评论" th:checked="${bzTask.commentType} == 2?checked:false">
+                <input type="radio" name="commentType" value="1" title="万能评论"  th:checked="${bzTask.commentType} == 1?checked:false">
+            </div>
+        </div>
+    </fieldset>
+
+
+
+
+    <!--<div class="layui-form-item">-->
+        <!--<div class="layui-input-block">-->
+            <!--<button class="layui-btn" lay-submit="" lay-filter="addTask">立即提交</button>-->
+            <!--<button type="reset" class="layui-btn layui-btn-primary">重置</button>-->
+        <!--</div>-->
+    <!--</div>-->
+</form>
+<script type="text/javascript" th:src="@{/static/layui/layui.js}"></script>
+<script type="text/javascript" th:src="@{/static/weibo/js/task/taskEdit.js}"></script>
+</body>
+</html>

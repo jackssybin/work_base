@@ -68,7 +68,7 @@ spring:
   aop:
     proxy-target-class: true
   datasource:
-      url: jdbc:mysql://59.110.240.154:3306/weibo_info?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false
+      url: jdbc:mysql://59.110.240.154:3306/weibo_base_bak?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false
       username: root
       password: root1234
       driver-class-name: com.mysql.jdbc.Driver

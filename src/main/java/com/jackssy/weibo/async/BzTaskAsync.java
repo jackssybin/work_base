@@ -29,14 +29,14 @@ public class BzTaskAsync {
 
     @Async
     public void sendUrl(){
-        RestTemplate res = new RestTemplate();
-        logger.info("taskUrl：{}",taskUrl);
-        if(StringUtils.isNoneEmpty(taskUrl)){
-            Arrays.stream(taskUrl.split(",")).forEach(url->{
-                ResponseEntity<String> response = res.getForEntity(
-                        url,String.class);
-                logger.info("resp:{}",response.getBody());
-            });
-        }
+//        RestTemplate res = new RestTemplate();
+//        logger.info("taskUrl：{}",taskUrl);
+//        if(StringUtils.isNoneEmpty(taskUrl)){
+//            Arrays.stream(taskUrl.split(",")).forEach(url->{
+//                ResponseEntity<String> response = res.getForEntity(
+//                        url,String.class);
+//                logger.info("resp:{}",response.getBody());
+//            });
+//        }
     }
 }

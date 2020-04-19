@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <meta charset="utf-8">
+    <title>注册任务添加--注册任务管理</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="stylesheet" th:href="@{/static/layui/css/layui.css}" media="all" />
+    <style type="text/css">
+        .layui-form-item .layui-inline{ width:33.333%; float:left; margin-right:0; }
+        @media(max-width:1240px){
+            .layui-form-item .layui-inline{ width:100%; float:none; }
+        }
+
+
+    </style>
+</head>
+<body class="childrenBody">
+<form class="layui-form" style="width:80%;margin-top: 2%;">
+
+    <div class="layui-form-item">
+
+        <div class="layui-inline">
+            <label class="layui-form-label">卡商</label>
+            <div class="layui-input-block">
+                <select name="cardType" id="cardType"  lay-search="" lay-filter="cardType">
+                    <option  th:each="cardType : ${cardTypeList}"
+                             th:value="${cardType.value}" th:text="${cardType.name}"></option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">对应卡商项目号</label>
+            <div class="layui-input-block">
+                <input type="number" class="layui-input" name="registerProject" lay-verify="required" placeholder="请输入对应卡商项目号">
+            </div>
+        </div>
+    </div>
+    <fieldset class="layui-elem-field layui-field-title" id="phoneArea">
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">手机号所属国code</label>
+                <div class="layui-input-block">
+                    <input type="text" class="layui-input" name="phoneCountryPre"  value="010" placeholder="默认010，国外的请输入对应区号">
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">手机号所属国</label>
+                <div class="layui-input-block">
+                    <input type="text" class="layui-input" name="phoneCountryName"  value="010" placeholder="默认010，国外的请输入对应区号">
+                </div>
+            </div>
+        </div>
+    </fieldset>
+
+
+
+    <div class="layui-form-item">
+        <div class="layui-inline">
+            <label class="layui-form-label">任务总量</label>
+            <div class="layui-input-block">
+                <input type="number" class="layui-input" name="registerCount" lay-verify="required" placeholder="请输入任务总量">
+            </div>
+        </div>
+    </div>
+
+    <!--<div class="layui-form-item">-->
+
+        <!--<div class="layui-inline">-->
+            <!--<label class="layui-form-label">账号分组</label>-->
+            <!--<div class="layui-input-block">-->
+                <!--<select name="registerGroup" id="registerGroup"  lay-search="">-->
+                    <!--<option value="0000default">白号</option>-->
+                    <!--<option value="8888default">优质号</option>-->
+                <!--</select>-->
+            <!--</div>-->
+
+        <!--</div>-->
+
+    <!--</div>-->
+
+    <div class="layui-form-item">
+
+        <div class="layui-inline">
+            <label class="layui-form-label">开始时间</label>
+            <div class="layui-input-block">
+                <input type="text" class="layui-input" name="startTimeStr" id="startTimeStr"  style="width:100%" placeholder="请输入开始时间，为空则立即执行">
+            </div>
+
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn" lay-submit="" lay-filter="addRegister">立即提交</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
+</form>
+<script type="text/javascript" th:src="@{/static/layui/layui.js}"></script>
+<script type="text/javascript" th:src="@{/static/weibo/js/register/registerAdd.js}"></script>
+</body>
+</html>
