@@ -3,6 +3,7 @@ package com.jackssy.weibo.util;
 import com.jackssy.weibo.entity.BzFilter;
 import com.jackssy.weibo.service.BzFilterService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections.map.CaseInsensitiveMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -20,7 +21,7 @@ public class SensitiveWordInit {
 
 
     private String ENCODING = "utf-8";    //字符编码
-    public HashMap sensitiveWordMap;
+    public Map<String,Object> sensitiveWordMap;
     public SensitiveWordInit(){
         super();
     }
@@ -76,7 +77,7 @@ public class SensitiveWordInit {
      *      }
      */
     private void addSensitiveWordToHashMap(Set<String> keyWordSet) {
-        sensitiveWordMap = new HashMap(keyWordSet.size());     //初始化敏感词容器，减少扩容操作
+        sensitiveWordMap = new CaseInsensitiveMap(keyWordSet.size());     //初始化敏感词容器，减少扩容操作
         String key = null;
         Map nowMap = null;
         Map<String, String> newWorMap = null;
@@ -93,7 +94,7 @@ public class SensitiveWordInit {
                     nowMap = (Map) wordMap;
                 }
                 else{     //不存在则，则构建一个map，同时将isEnd设置为0，因为他不是最后一个
-                    newWorMap = new HashMap<String,String>();
+                    newWorMap = new CaseInsensitiveMap();
                     newWorMap.put("isEnd", "0");     //不是最后一个
                     nowMap.put(keyChar, newWorMap);
                     nowMap = newWorMap;

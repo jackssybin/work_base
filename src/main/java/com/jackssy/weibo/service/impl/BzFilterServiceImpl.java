@@ -7,6 +7,7 @@ import com.jackssy.weibo.mapper.BzFilterMapper;
 import com.jackssy.weibo.service.BzFilterService;
 import com.jackssy.weibo.util.SensitiveWordInit;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections.map.CaseInsensitiveMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -65,7 +66,7 @@ public class BzFilterServiceImpl extends ServiceImpl<BzFilterMapper, BzFilter> i
         boolean  flag = false;    //敏感词结束标识位：用于敏感词只有1位的情况
         int matchFlag = 0;     //匹配标识数默认为0
         char word = 0;
-        Map nowMap = sensitiveWordMap;
+        Map<String,Object> nowMap = sensitiveWordMap;
         for(int i = beginIndex; i < txt.length() ; i++){
             word = txt.charAt(i);
             nowMap = (Map) nowMap.get(word);     //获取指定key
