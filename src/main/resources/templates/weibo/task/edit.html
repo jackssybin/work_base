@@ -86,50 +86,6 @@
 
 
     <div class="layui-form-item">
-        <div class="layui-inline">
-            <label class="layui-form-label">评论回复</label>
-            <div class="layui-input-block" id="rndComment">
-                <input type="radio" name="rndComment" value="1" title="开启"  th:checked="${bzTask.rndComment} == 1?checked:false">
-                <input type="radio" name="rndComment" value="0" title="关闭" th:checked="${bzTask.rndComment} == 0?checked:false">
-            </div>
-        </div>
-
-    </div>
-    <fieldset class="layui-elem-field layui-field-title" id="rndArea">
-        <legend>回复相关</legend>
-        <div class="layui-form-item">
-            <label class="layui-form-label">回复类型</label>
-            <div class="layui-input-block" id="rndTargetSelect">
-                <input type="radio" name="rndTargetSelect" value="1" title="热门评论"  th:checked="${bzTask.rndTarget} != 0?checked:false">
-                <input type="radio" name="rndTargetSelect" value="0" title="随机评论" th:checked="${bzTask.rndTarget} == 0?checked:false">
-            </div>
-        </div>
-        <div class="layui-form-item" id="rndIdInput">
-            <div class="layui-inline">
-            <label class="layui-form-label">热门评论Id</label>
-            <div class="layui-input-block">
-                <input type="text" class="layui-input" name="rndTarget" id="rndTarget" th:value="${bzTask.rndTarget}" readonly style="width:100%" placeholder="请输入热门评论ID">
-            </div>
-            </div>
-
-        </div>
-        <div class="layui-form-item">
-            <div class="layui-inline">
-                <label class="layui-form-label">回复数量</label>
-                <div class="layui-input-block">
-                    <input type="number" class="layui-input" name="rndTarget" id="rndCount" th:value="${bzTask.rndCount}"  readonly style="width:100%" placeholder="请输入回复数量">
-                </div>
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">回复内容</label>
-            <div class="layui-input-block">
-                <textarea name="rndContent" id="rndContent" placeholder="请输入回复内容"  th:text="${bzTask.rndContent}" readonly class="layui-textarea"></textarea>
-            </div>
-        </div>
-    </fieldset>
-
-    <div class="layui-form-item">
 
         <label class="layui-form-label">任务类型</label>
         <div class="layui-input-block" id="taskType">
@@ -137,6 +93,7 @@
             <input type="checkbox" name="taskType" value="2"title="点赞" th:checked="${#strings.contains(bzTask.taskType,2)}?checked:false">
             <input type="checkbox" name="taskType" value="3" title="转发 " th:checked="${#strings.contains(bzTask.taskType,3)}?checked:false">
             <input type="checkbox" name="taskType" value="4" title="关注 " th:checked="${#strings.contains(bzTask.taskType,4)}?checked:false">
+            <input type="checkbox" name="taskType" value="5" title="回复 " th:checked="${#strings.contains(bzTask.taskType,5)}?checked:false">
         </div>
     </div>
 
@@ -153,6 +110,40 @@
             <div class="layui-input-block" id="commentType">
                 <input type="radio" name="commentType" value="2" title="文字评论" th:checked="${bzTask.commentType} == 2?checked:false">
                 <input type="radio" name="commentType" value="1" title="万能评论"  th:checked="${bzTask.commentType} == 1?checked:false">
+            </div>
+        </div>
+    </fieldset>
+
+    <fieldset class="layui-elem-field layui-field-title" id="rndArea">
+        <legend>回复相关</legend>
+        <div class="layui-form-item">
+            <label class="layui-form-label">回复类型</label>
+            <div class="layui-input-block" id="rndTargetSelect">
+                <input type="radio" name="rndTargetSelect" value="1" title="热门评论"  th:checked="${bzTask.rndTarget} != 0?checked:false">
+                <input type="radio" name="rndTargetSelect" value="0" title="随机评论" th:checked="${bzTask.rndTarget} == 0?checked:false">
+            </div>
+        </div>
+        <div class="layui-form-item" id="rndIdInput">
+            <div class="layui-inline">
+                <label class="layui-form-label">热门评论Id</label>
+                <div class="layui-input-block">
+                    <input type="text" class="layui-input" name="rndTarget" id="rndTarget" th:value="${bzTask.rndTarget}" readonly style="width:100%" placeholder="请输入热门评论ID">
+                </div>
+            </div>
+
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">回复数量</label>
+                <div class="layui-input-block">
+                    <input type="number" class="layui-input" name="rndTarget" id="rndCount" th:value="${bzTask.rndCount}"  readonly style="width:100%" placeholder="请输入回复数量">
+                </div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">回复内容</label>
+            <div class="layui-input-block">
+                <textarea name="rndContent" id="rndContent" placeholder="请输入回复内容"  th:text="${bzTask.rndContent}" readonly class="layui-textarea"></textarea>
             </div>
         </div>
     </fieldset>

@@ -21,7 +21,6 @@ layui.use(['form','jquery','layer','laydate'],function(){
     form.on("submit(addTask)",function(data){
         var rndContent = document.getElementById("rndContent").value;
         data.field.rndContent = rndContent;
-        console.log(data.field.rndTargetSelect)
         if(data.field.rndTargetSelect == 0){
             data.field.rndTarget = 0 ;
         }
@@ -42,6 +41,11 @@ layui.use(['form','jquery','layer','laydate'],function(){
             }else{
                 taskType +=","+  $(value[i]).val();
             }
+        }
+        if(taskType.indexOf("5") != -1){
+            data.field.rndComment = 1;
+        }else{
+            data.field.rndComment = 0;
         }
         data.field.taskType = taskType;
         if(taskType.indexOf("1") > -1){
@@ -96,17 +100,7 @@ layui.use(['form','jquery','layer','laydate'],function(){
     })
 
 
-    /**
-     * 开启回复
-     */
-    $("#rndComment").click(function () {
-        var value = $("#rndComment input[name = 'rndComment']:checked").val();
-        if(value == 1){
-            $("#rndArea").show();
-        }else{
-            $("#rndArea").hide();
-        }
-    })
+
 
     $("#commentType").click(function () {
        var value = $("#commentType input[name = 'commentType']:checked").val();
@@ -123,12 +117,21 @@ layui.use(['form','jquery','layer','laydate'],function(){
     $("#taskType").click(function(){
         var value = $("#taskType input[name = 'taskType']:checked");
         var flag = false;
+        var rndFlag = false;
         for(var i =0;i<value.length;i++){
             if($(value[i]).val() == 1){
                 flag = true;
             }
+            if($(value[i]).val()==5){
+                rndFlag = true;
+            }
         }
 
+        if(rndFlag){
+            $("#rndArea").show();
+        }else{
+            $("#rndArea").hide();
+        }
         if(flag){
             $("#commentArea").show();
         }else{
