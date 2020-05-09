@@ -139,7 +139,7 @@ public class BzTaskController extends BaseController {
             }
         }
         taskWrapper.eq("send",0);
-        taskWrapper.orderByDesc("create_date");
+        taskWrapper.orderByDesc("id");
         IPage<BzTask> taskPage = bzTaskService.page(new Page<>(page,limit),taskWrapper);
         taskPageData.setCount(taskPage.getTotal());
         taskPageData.setData(taskPage.getRecords().stream().map(xx ->{
