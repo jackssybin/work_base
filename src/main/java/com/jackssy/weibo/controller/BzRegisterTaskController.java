@@ -21,6 +21,7 @@ import com.jackssy.weibo.service.BzFilterService;
 import com.jackssy.weibo.service.BzRegisterTaskService;
 import com.jackssy.weibo.service.BzTagsService;
 import org.apache.commons.lang3.StringUtils;
+import org.checkerframework.checker.units.qual.K;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -31,8 +32,10 @@ import org.springframework.web.util.WebUtils;
 import javax.servlet.ServletRequest;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 /**
@@ -56,6 +59,24 @@ public class BzRegisterTaskController  extends BaseController {
 
     @Autowired
     BzFilterService bzFilterService;
+
+    static Map<String,String> regionMap = new HashMap();
+    static {
+        regionMap.put("530300","云南省");
+        regionMap.put("140900","海南省");
+        regionMap.put("610400","陕西省");
+        regionMap.put("350200","福建省");
+        regionMap.put("440100","广东省");
+        regionMap.put("150600","内蒙古");
+        regionMap.put("210600","辽宁省");
+        regionMap.put("370100","山东省");
+        regionMap.put("330300","浙江省");
+        regionMap.put("340100","安徽省");
+        regionMap.put("320300","江苏省");
+        regionMap.put("360100","江西省");
+    }
+
+
 
 
     @GetMapping("list")
@@ -130,8 +151,7 @@ public class BzRegisterTaskController  extends BaseController {
         }
         bzRegisterTask.setCreateDate(LocalDateTime.now());
         bzRegisterTask.setUpdateDate(LocalDateTime.now());
-        bzRegisterTask.setRegionId("360100");
-        bzRegisterTask.setRegionName("江西");
+        this.setRandomRegion(bzRegisterTask);
         bzRegisterTask.setRegisterTag("9999");
         boolean flag = bzregister.save(bzRegisterTask);
         if(flag){
@@ -141,6 +161,24 @@ public class BzRegisterTaskController  extends BaseController {
         }
     }
 
+    public void setRandomRegion(BzRegisterTaskDto bzRegisterTask){
+        try {
+            Random random = new Random();
+            int rn = random.nextInt(regionMap.size());
+            int num =0;
+            for (String key : regionMap.keySet()) {
+                if (rn ==num){
+                    bzRegisterTask.setRegionId(key);
+                    bzRegisterTask.setRegionName(regionMap.get(key));
+                }
+                num++;
+            }
+        } catch (Exception e) {
+            bzRegisterTask.setRegionId("360100");
+            bzRegisterTask.setRegionName("江西");
+        }
+
+    }
 
     @PostMapping("edit")
     @ResponseBody

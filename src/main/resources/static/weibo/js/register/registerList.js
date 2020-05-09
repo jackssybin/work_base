@@ -19,12 +19,13 @@ layui.use(['layer','form','table'], function() {
         },
         width: $(parent.window).width()-223,
         cols: [[
-            {field:'id',title:'任务Id',width:'5%',event:"checkLog",style:"color:blue;cursor:pointer"},
+            {field:'id',title:'任务Id',width:'5%'},
             {field:'cartTypeName',  title: '卡商类型',    width:'12%'},
             {field:'registerCount',     title: '任务进度',   width:'12%', templet:function(d){
                 return d.finishCount+"/"+d.registerCount;
                 } },
             {field:'statusName',       title: '任务状态',    width:'12%'},
+            {field:'regionName',       title: '代理地区',    width:'12%'},
             {field:'startTime', title: '任务开始时间', width:'12%',templet:'<span>{{ layui.laytpl.toDateString(d.startTime) }}</span>'},
             // {field:'createDate',    title: '任务创建时间',width:'12%'},
             {field:'updateDate',    title: '任务更新时间',width:'12%',templet:'<span>{{ layui.laytpl.toDateString(d.updateDate) }}</span>'},
@@ -36,7 +37,7 @@ layui.use(['layer','form','table'], function() {
     //监听工具条
     table.on('tool(registerList)', function(obj){
         var data = obj.data;
-        if(obj.event === "checkLog"){
+        if(obj.event === "checkLog2"){
             var editIndex = layer.open({
                 title : "任务日志",
                 type : 2,
