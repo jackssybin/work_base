@@ -73,7 +73,7 @@ public class BzRegisterTaskController  extends BaseController {
         regionMap.put("330300","浙江省");
         regionMap.put("340100","安徽省");
         regionMap.put("320300","江苏省");
-        regionMap.put("360100","江西省");
+        regionMap.put("360400","江西省");
     }
 
 
