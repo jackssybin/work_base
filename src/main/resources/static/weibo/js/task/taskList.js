@@ -43,8 +43,8 @@ layui.use(['layer','form','table'], function() {
                 } },
             {field:'statusName',       title: '任务状态',    width:'12%'},
             {field:'startTime', title: '任务开始时间', width:'12%',templet:'<span>{{ layui.laytpl.toDateString(d.startTime) }}</span>'},
-            {field:'createDate',    title: '任务创建时间',width:'12%',templet:'<span>{{ layui.laytpl.toDateString(d.startTime) }}</span>'},
-            {field:'updateDate',    title: '任务更新时间',width:'12%',templet:'<span>{{ layui.laytpl.toDateString(d.startTime) }}</span>'},
+            {field:'createDate',    title: '任务创建时间',width:'12%',templet:'<span>{{ layui.laytpl.toDateString(d.createDate) }}</span>'},
+            {field:'updateDate',    title: '任务更新时间',width:'12%',templet:'<span>{{ layui.laytpl.toDateString(d.updateDate) }}</span>'},
             {fixed: 'right',title:'操作', align: 'center', toolbar: '#taskBar',width:'12%'}
         ]]
     };
@@ -70,10 +70,13 @@ layui.use(['layer','form','table'], function() {
                 }
             });
             //改变窗口大小时，重置弹窗的高度，防止超出可视区域（如F12调出debug的操作）
-            $(window).resize(function(){
+            try {
+                $(window).resize(function () {
+                    layer.full(editIndex);
+                });
                 layer.full(editIndex);
-            });
-            layer.full(editIndex);
+            } catch (e) {
+            }
         }
         if(obj.event === 'view'){
             var editIndex = layer.open({

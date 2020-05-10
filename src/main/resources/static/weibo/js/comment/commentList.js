@@ -85,10 +85,13 @@ layui.use(['layer','form','table'], function() {
                     },500);
                 }
             });
-            $(window).resize(function(){
+            try {
+                $(window).resize(function () {
+                    layer.full(addIndex);
+                });
                 layer.full(addIndex);
-            });
-            layer.full(addIndex);
+            } catch (e) {
+            }
         }
     };
 

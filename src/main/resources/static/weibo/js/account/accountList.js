@@ -52,10 +52,13 @@ layui.use(['layer','form','table'], function() {
                 }
             });
             //改变窗口大小时，重置弹窗的高度，防止超出可视区域（如F12调出debug的操作）
-            $(window).resize(function(){
+            try {
+                $(window).resize(function () {
+                    layer.full(editIndex);
+                });
                 layer.full(editIndex);
-            });
-            layer.full(editIndex);
+            } catch (e) {
+            }
         }
         if(obj.event === "del"){
             layer.confirm("你确定要删除该账号么？",{btn:['是的,我确定','我再想想']},
