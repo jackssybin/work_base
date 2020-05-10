@@ -62,20 +62,20 @@ public class BzRegisterTaskController  extends BaseController {
 
     static Map<String,String> regionMap = new HashMap();
     static {
-        regionMap.put("530000","云南省");
-        regionMap.put("310000","上海直辖市");
-        regionMap.put("110000","北京直辖市");
-        regionMap.put("140000","海南省");
-        regionMap.put("610000","陕西省");
-        regionMap.put("350000","福建省");
-        regionMap.put("440000","广东省");
+        regionMap.put("530000","云南");
+        regionMap.put("310000","上海");
+        regionMap.put("110000","北京");
+        regionMap.put("140000","海南");
+        regionMap.put("610000","陕西");
+        regionMap.put("350000","福建");
+        regionMap.put("440000","广东");
         regionMap.put("150000","内蒙古");
-        regionMap.put("210000","辽宁省");
-        regionMap.put("370000","山东省");
-        regionMap.put("330000","浙江省");
-        regionMap.put("340000","安徽省");
-        regionMap.put("320000","江苏省");
-        regionMap.put("360000","江西省");
+        regionMap.put("210000","辽宁");
+        regionMap.put("370000","山东");
+        regionMap.put("330000","浙江");
+        regionMap.put("340000","安徽");
+        regionMap.put("320000","江苏");
+        regionMap.put("360000","江西");
     }
 
 

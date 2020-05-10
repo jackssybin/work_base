@@ -113,6 +113,7 @@ public class BzLogController {
                 param.eq("region_code",xx.getRegionId());
                 BzRegion re = new BzRegion();
                 re = bzRegionService.getOne(param);
+                if(null!=re)
                 dto.setRegionName(re.getRegionName());
             }
             return dto;
