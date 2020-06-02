@@ -60,6 +60,7 @@ public class BzTaskServiceImpl extends ServiceImpl<BzTaskMapper, BzTask> impleme
             DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
             bzTask.setStartTime(LocalDateTime.parse(bzTaskDto.getStartTimeStr(), fmt));
         }else{
+            bzTask.setStartTime(LocalDateTime.now());
             bzTask.setStatus(1);
         }
 

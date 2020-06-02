@@ -22,24 +22,12 @@
 </head>
 <body class="childrenBody">
 <form class="layui-form" style="width:80%;margin-top: 2%;">
-
-    <div class="layui-form-item">
-
-        <div class="layui-inline">
-            <label class="layui-form-label">卡商</label>
-            <div class="layui-input-block">
-                <select name="cardType" id="cardType"  lay-search="" lay-filter="cardType">
-                    <option  th:each="cardType : ${cardTypeList}"
-                             th:value="${cardType.value}" th:text="${cardType.name}"></option>
-                </select>
-            </div>
-        </div>
-    </div>
+    <input type="hidden" class="layui-input" name="id"  th:value="${id}">
     <div class="layui-form-item">
         <div class="layui-inline">
             <label class="layui-form-label">昨日阅读刷新账号主页uid</label>
             <div class="layui-input-block">
-                <input type="number" class="layui-input" name="registerProject" lay-verify="required" placeholder="请输入账号主页uid">
+                <textarea name="uids" placeholder="请输入账号主页uid" th:text="${uids}"  class="layui-textarea"></textarea>
             </div>
         </div>
     </div>
@@ -48,7 +36,7 @@
         <div class="layui-inline">
             <label class="layui-form-label">任务总量</label>
             <div class="layui-input-block">
-                <input type="number" class="layui-input" name="registerCount" lay-verify="required" placeholder="请输入任务总量">
+                <input type="number" class="layui-input" name="lastreadCount" th:value="${lastreadCount}" lay-verify="required" placeholder="请输入任务总量">
             </div>
         </div>
     </div>
@@ -56,12 +44,12 @@
 
     <div class="layui-form-item">
         <div class="layui-input-block">
-            <button class="layui-btn" lay-submit="" lay-filter="addRegister">立即提交</button>
-            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+            <button class="layui-btn" lay-submit="" lay-filter="addLastRead">立即提交</button>
+            <!--<button type="reset" class="layui-btn layui-btn-primary">重置</button>-->
         </div>
     </div>
 </form>
 <script type="text/javascript" th:src="@{/static/layui/layui.js}"></script>
-<script type="text/javascript" th:src="@{/static/weibo/js/register/registerAdd.js}"></script>
+<script type="text/javascript" th:src="@{/static/weibo/js/register/lastRead.js}"></script>
 </body>
 </html>

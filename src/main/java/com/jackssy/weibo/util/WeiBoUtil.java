@@ -2,15 +2,32 @@ package com.jackssy.weibo.util;
 import java.io.UnsupportedEncodingException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Base64;
-import java.util.Date;
-import java.util.TimeZone;
+import java.util.*;
 
 
 public class WeiBoUtil {
 
     static Base64.Decoder decoder = Base64.getDecoder();
     static Base64.Encoder encoder = Base64.getEncoder();
+
+    public static Map<String,String> regionMap = new HashMap();
+    static {
+        regionMap.put("530000","云南");
+        regionMap.put("310000","上海");
+        regionMap.put("110000","北京");
+        regionMap.put("140000","海南");
+        regionMap.put("610000","陕西");
+        regionMap.put("350000","福建");
+        regionMap.put("440000","广东");
+        regionMap.put("150000","内蒙古");
+        regionMap.put("210000","辽宁");
+        regionMap.put("370000","山东");
+        regionMap.put("330000","浙江");
+        regionMap.put("340000","安徽");
+        regionMap.put("320000","江苏");
+        regionMap.put("360000","江西");
+    }
+
 
     public static String getJsonByRegex(String json) {
         String s = json.replaceAll("\\(|\\)", "");

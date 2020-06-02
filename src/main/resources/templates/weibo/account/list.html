@@ -22,6 +22,7 @@
             <div class="layui-inline" style="width: 15%">
                 <input type="text" value="" name="ac_key"  id="ac_key" placeholder="账号ID" class="layui-input search_input">
             </div>
+
             <div class="layui-inline" style="width: 15%">
                 <select name="ac_status" id="ac_status">
                     <option value="">账号状态</option>
@@ -38,6 +39,9 @@
                     <option value="">账号分组</option>
                     <option  th:each="tags : ${tagsList}" th:value="${tags.tagCode}" th:text="${tags.tagName}"></option>
                 </select>
+            </div>
+            <div class="layui-inline" style="width: 15%">
+                <input type="text" value="" name="ac_userSource"  id="ac_userSource" placeholder="账号来源" class="layui-input search_input">
             </div>
             <div class="layui-inline">
                 <a class="layui-btn" lay-submit="" lay-filter="searchForm">查询</a>

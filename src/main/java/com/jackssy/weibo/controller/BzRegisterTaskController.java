@@ -9,30 +9,28 @@ import com.jackssy.common.annotation.SysLog;
 import com.jackssy.common.base.PageData;
 import com.jackssy.common.util.ResponseEntity;
 import com.jackssy.weibo.common.Constant;
+import com.jackssy.weibo.entity.BzLastreadTask;
 import com.jackssy.weibo.entity.BzRegisterTask;
-import com.jackssy.weibo.entity.BzTags;
 import com.jackssy.weibo.entity.dto.BzRegisterTaskDto;
-import com.jackssy.weibo.entity.dto.BzTaskDto;
 import com.jackssy.weibo.enums.CardTypeEnums;
-import com.jackssy.weibo.enums.CommentTypeEnums;
 import com.jackssy.weibo.enums.StatusNameEnums;
-import com.jackssy.weibo.enums.TaskTypeEnums;
 import com.jackssy.weibo.service.BzFilterService;
+import com.jackssy.weibo.service.BzLastreadTaskService;
 import com.jackssy.weibo.service.BzRegisterTaskService;
 import com.jackssy.weibo.service.BzTagsService;
+import com.jackssy.weibo.util.WeiBoUtil;
 import org.apache.commons.lang3.StringUtils;
-import org.checkerframework.checker.units.qual.K;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.WebUtils;
 
 import javax.servlet.ServletRequest;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -56,27 +54,14 @@ public class BzRegisterTaskController  extends BaseController {
     @Autowired
     BzRegisterTaskService bzregister;
 
+    @Autowired
+    BzLastreadTaskService bzLastreadTaskService;
+
 
     @Autowired
     BzFilterService bzFilterService;
 
-    static Map<String,String> regionMap = new HashMap();
-    static {
-        regionMap.put("530000","云南");
-        regionMap.put("310000","上海");
-        regionMap.put("110000","北京");
-        regionMap.put("140000","海南");
-        regionMap.put("610000","陕西");
-        regionMap.put("350000","福建");
-        regionMap.put("440000","广东");
-        regionMap.put("150000","内蒙古");
-        regionMap.put("210000","辽宁");
-        regionMap.put("370000","山东");
-        regionMap.put("330000","浙江");
-        regionMap.put("340000","安徽");
-        regionMap.put("320000","江苏");
-        regionMap.put("360000","江西");
-    }
+
 
 
 
@@ -94,6 +79,27 @@ public class BzRegisterTaskController  extends BaseController {
         return "weibo/register/add";
     }
 
+    @GetMapping("lastRead")
+    @SysLog("昨日阅读任务")
+    public String lastRead(ModelMap map){
+        QueryWrapper queryWrapper =  new QueryWrapper();
+        String uids ="";
+        Integer lastreadCount = 0;
+        Integer id = 0;
+        List<BzLastreadTask> list =bzLastreadTaskService.list(queryWrapper);
+        if(!CollectionUtils.isEmpty(list)){
+            uids = list.get(0).getUids();
+            id = list.get(0).getId();
+            lastreadCount = list.get(0).getLastreadCount();
+        }
+        map.put("id",id);
+        map.put("uids",uids);
+        map.put("lastreadCount",lastreadCount);
+
+        return "weibo/register/lastRead";
+    }
+
+
     @GetMapping("edit")
     @SysLog("跳转任务编辑页面")
     public String edit(@RequestParam(value = "id",required = true)String id, ModelMap map)
@@ -101,6 +107,26 @@ public class BzRegisterTaskController  extends BaseController {
         BzRegisterTask task = bzregister.getById(id);
         map.put("task",task);
         return "weibo/register/edit";
+    }
+
+    @PostMapping("addLastRead")
+    @ResponseBody
+    @SysLog("保存任务数据")
+    public ResponseEntity addLastRead(@RequestBody BzLastreadTask bzLastreadTask){
+        bzLastreadTask.setUpdateDate(LocalDateTime.now());
+        if(null!=bzLastreadTask.getId()&&bzLastreadTask.getId().intValue()>0){
+            bzLastreadTaskService.updateById(bzLastreadTask);
+            return ResponseEntity.success("保存任务数据成功");
+        }else{
+            bzLastreadTask.setCreateDate(LocalDateTime.now());
+            boolean flag = bzLastreadTaskService.save(bzLastreadTask);
+            if(flag){
+                return ResponseEntity.success("保存任务数据成功");
+            }else{
+                return ResponseEntity.failure("新建任务失败");
+            }
+        }
+
     }
 
     @PostMapping("list")
@@ -166,12 +192,12 @@ public class BzRegisterTaskController  extends BaseController {
     public void setRandomRegion(BzRegisterTaskDto bzRegisterTask){
         try {
             Random random = new Random();
-            int rn = random.nextInt(regionMap.size());
+            int rn = random.nextInt(WeiBoUtil.regionMap.size());
             int num =0;
-            for (String key : regionMap.keySet()) {
+            for (String key : WeiBoUtil.regionMap.keySet()) {
                 if (rn ==num){
                     bzRegisterTask.setRegionId(key);
-                    bzRegisterTask.setRegionName(regionMap.get(key));
+                    bzRegisterTask.setRegionName(WeiBoUtil.regionMap.get(key));
                 }
                 num++;
             }

@@ -258,6 +258,7 @@ public class BzAccountController extends BaseController {
             String keys = (String) map.get("key");
             String status = (String) map.get("status");
             String tagGroup = (String) map.get("tagGroup");
+            String userSource =(String) map.get("userSource");
             if(StringUtils.isNotBlank(keys)) {
                 accountWapper.and(wrapper ->
                         wrapper.like("account_user", keys));
@@ -267,6 +268,9 @@ public class BzAccountController extends BaseController {
             }
             if(StringUtils.isNotBlank(tagGroup)){
                 accountWapper.eq("tag_group",tagGroup);
+            }
+            if(StringUtils.isNotBlank(userSource)){
+                accountWapper.eq("user_source",userSource);
             }
         }
         return accountWapper;

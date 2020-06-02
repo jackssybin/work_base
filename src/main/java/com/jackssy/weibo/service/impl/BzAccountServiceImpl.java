@@ -14,6 +14,7 @@ import com.jackssy.weibo.service.BzAccountService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.jackssy.weibo.service.BzRegionService;
 import com.jackssy.weibo.service.BzTagsService;
+import com.jackssy.weibo.util.WeiBoUtil;
 import net.bytebuddy.asm.Advice;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authc.Account;
@@ -64,8 +65,26 @@ public class BzAccountServiceImpl extends ServiceImpl<BzAccountMapper, BzAccount
                 BeanUtils.copyProperties(item,bza);
 
                 if(StringUtils.isBlank(bza.getRegionId())){
-                    bza.setRegionId((String)param.get("region_id"));
-                    bza.setRegionName((String)param.get("region_name"));
+
+                    try {
+                        Random random = new Random();
+                        int rn = random.nextInt(WeiBoUtil.regionMap.size());
+                        int num =0;
+                        for (String key : WeiBoUtil.regionMap.keySet()) {
+                            if (rn ==num){
+                                bza.setRegionId(key);
+                                bza.setRegionName(WeiBoUtil.regionMap.get(key));
+                            }
+                            num++;
+                        }
+                    } catch (Exception e) {
+                        bza.setRegionId((String)param.get("region_id"));
+                        bza.setRegionName((String)param.get("region_name"));
+                    }
+
+
+
+
                 }else{
                     String regionName = getRegionNameById(regionList,bza.getRegionId());
                     if(StringUtils.isNotEmpty(regionName)){
